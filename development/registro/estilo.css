@@ -1,0 +1,110 @@
+@CHARSET "UTF-8";
+
+input{
+	padding:10px;
+}
+
+input, textarea {
+	display: block;
+	width:80%;
+	
+}
+
+
+input.seccion{
+	width:100%;
+	display:inline;
+	font-family:Arial;
+}
+
+
+
+label{
+	display: block;
+	color:#555555;
+	font-family:Arial;
+	padding:10px;
+	
+}
+
+button{
+	
+	width:40%;
+	
+}
+
+select{
+	height:25px;
+}
+
+
+
+#marcoPrincipal{
+	
+	margin:0 auto;
+	width:1000px;
+	border:1px solid #AAAAAA;
+	
+	
+	
+}
+
+.marcoBoton{
+	padding:10px;
+	text-align:center;
+}
+
+.marcoFormulario{
+	margin:0 auto;
+	width:60%;
+}
+
+.marcoDisenno{
+	
+	width:90%;
+	margin:0 auto;
+}
+
+div.seccionA{
+	width:100%;	
+	text-align:center;
+	clear:both;
+	padding:50px 0;
+}
+
+div.seccionE{
+	clear:both;
+	width:100%;	
+	text-align:center;
+	padding:50px 0;
+}
+
+#seccionA, #seccionB, #seccionC, #seccionD, #seccionE{
+	width:280px;
+	
+	
+}
+
+
+.seccionB{
+	width:30%;	
+	margin:10px;
+	float:left;
+}
+
+.seccionC{
+	width:30%;
+	margin:10px;
+	float:left;	
+}
+
+.seccionD{
+	width:30%;	
+	margin:10px;
+	float:left;
+}
+
+
+.seccionE{
+	width:100%;	
+}
