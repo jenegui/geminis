@@ -90,7 +90,8 @@ CREATE TABLE IF NOT EXISTS `<nombre>estilo` (
 CREATE TABLE IF NOT EXISTS `<nombre>logger` (
   `id` int(10) NOT NULL auto_increment,
   `evento` char(255) collate utf8_unicode_ci NOT NULL,
-  `fecha` char(50) collate utf8_unicode_ci NOT NULL
+  `fecha` char(50) collate utf8_unicode_ci NOT NULL,
+   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Registro de acceso de los usuarios';
 
 --

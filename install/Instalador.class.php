@@ -328,15 +328,12 @@ class Instalador{
 			$total=count($instruccionesSQL);
 			foreach($instruccionesSQL as $clave=> $cadena_sql)
 			{
-				
-                            
-                            $resultado=$this->recurso->ejecutarAcceso($cadena_sql,"ddl");
+				$resultado=$this->recurso->ejecutarAcceso($cadena_sql,"ddl");
 				if($resultado==TRUE)
 				{
 					$i++;
 				}
 			}
-
 			if($total==$i)
 			{
 				return  true;
