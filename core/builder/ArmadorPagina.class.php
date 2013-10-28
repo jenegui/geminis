@@ -25,7 +25,7 @@ class ArmadorPagina{
 	}
 
 	function armarHTML($registroBloques){
-
+		
 		$this->bloques=$registroBloques;
 
 		if($this->miConfigurador->getVariableConfiguracion("cache")) {
@@ -61,7 +61,7 @@ class ArmadorPagina{
 		$htmlPagina="<head>\n";
 		$htmlPagina.="<title>".$this->miConfigurador->getVariableConfiguracion("nombreAplicativo")."</title>\n";
 		$htmlPagina.="<meta http-equiv='Content-Type' content='text/html; charset=utf-8' >\n";
-		$htmlPagina.="<link rel='shortcut icon' href='".$this->host.$this->sitio."/"."favicon.ico' >\n";
+		$htmlPagina.="<link rel='icon' href='".$this->host.$this->sitio."/"."favicon.ico' type='image/x-icon'>\n";
 		echo $htmlPagina;
 
 		//Incluir estilos
@@ -100,7 +100,8 @@ class ArmadorPagina{
 			$posicion=ord($unBloque["seccion"])-65;
 			$this->seccionesDeclaradas[$posicion]=$unBloque["seccion"];
 		}
-
+		
+		
 		echo "<body>\n";
 		echo "<div id='marcoGeneral'>\n";
 

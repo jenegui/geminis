@@ -88,7 +88,7 @@ class BuilderSql extends Sql{
 				$cadena_sql.=$prefijo."bloque_pagina.id_bloque=".$prefijo."bloque.id_bloque ";
 				$cadena_sql.="AND ";
 				$cadena_sql.=$prefijo."bloque_pagina.id_pagina=".$prefijo."pagina.id_pagina ";
-				$cadena_sql.="ORDER BY ".$prefijo."bloque_pagina.seccion,".$prefijo."bloque_pagina.seccion ";
+				$cadena_sql.="ORDER BY ".$prefijo."bloque_pagina.seccion,".$prefijo."bloque_pagina.posicion ";
 				break;					
 		}
 		if(isset($cadena_sql)){

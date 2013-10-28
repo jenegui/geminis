@@ -133,6 +133,7 @@ class Bootstrap{
 			$this->instalarAplicativo();
 
 		}else{
+			//var_dump($_REQUEST);exit;
 			$this->ingresar();
 		}
 	}

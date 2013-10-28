@@ -561,6 +561,7 @@ class FormularioHtml extends WidgetHtml {
 		if ($tipo == "inicio") {
 			if (isset ( $atributos ["estilo"] )) {
 				$this->cadenaHTML = "<div class='" . $atributos ["estilo"] . "' ";
+				
 			} else {
 				$this->cadenaHTML = "<div ";
 			}
