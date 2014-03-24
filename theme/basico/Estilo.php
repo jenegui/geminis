@@ -9,7 +9,7 @@ $host=$this->miConfigurador->getVariableConfiguracion("host");
 $sitio=$this->miConfigurador->getVariableConfiguracion("site");
 
 if(isset($_REQUEST["jquery-ui"])) {
-	$funcion[$indice++]="jquery-ui.css";
+	$estilo[$indice++]='jquery-ui.css';
 }
 
 foreach ($estilo as $nombre){

@@ -2,13 +2,17 @@
 
 body{
 	width:100%;		
+	background-image: url("images/bd.gif");
+	margin:0;
 }
 
 #marcoGeneral {
-	width: 800px;
-	margin: 0 auto 0 auto;
+	
+	width:95%;
+	margin: 0 auto;
 	border: 1px solid #EEEEEE;
-	padding: 5px;
+	background-color:#FFFFFF;
+	padding: 0px 10px;
 	display: table;
 	
 }
@@ -30,7 +34,8 @@ body{
 
 #seccionCentralAmpliada {
 	width: 80%;
-	float: left;	
+	float: left;
+		
 }
 
 

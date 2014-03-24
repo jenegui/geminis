@@ -12,7 +12,7 @@ form fieldset {
 }
 
 form fieldset legend { 
-	width: 100%; 
+	width: 90%; 
 	}
 	
 form fieldset:hover {
@@ -24,7 +24,7 @@ form fieldset:hover {
 
 
 form div label {
-	font-size: 0.9em;
+	font-size: 15px;
 	font-weight: normal;
 	font-family: Arial, sans-serif;
 	display: block;
@@ -68,7 +68,6 @@ div.margen2 {
 }
 
 div.banner {
-	width: <? echo $ anchoInterno ?>;
 	margin: 0px auto 0px auto;
 	border-collapse: collapse;
 	border-width: 0px 0px 0px 0px;
@@ -367,6 +366,10 @@ div.campoTextoContenido {
 	font-style: italic;
 }
 
+div.campoTextoContenidoSolo {
+	
+}
+
 div.campoMarcador {
 	width: 100%;
 	font-size: 14px;
@@ -583,4 +586,12 @@ div.espacioBlanco {
 
 .anchoColumna3{
 	width: 32% !important;	
+}
+
+.botonEnlace{
+	padding:15px;
+	margin:10px auto;
+}
+.listaEnlace{
+	padding:15px;
 }
