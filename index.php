@@ -42,7 +42,7 @@ class Aplicacion{
 			if(isset($_REQUEST["recargar"])){
 				unset($_REQUEST["recargar"]);
 			}
-			$this->miLanzador->iniciar();			
+                        $this->miLanzador->iniciar();			
 		}while(isset($_REQUEST["recargar"]));
 	}
 
