@@ -1,4 +1,13 @@
-<?
+<?php
+
+/**
+ * IMPORTANTE: La frase de seguridad predeterminada se encuentra en el archivo: aes.class.php, cambiarla afecta
+ * el aplicativo si este depende de variables codificadas con la clave anterior (p.e. si se guardaron datos codificados
+ * en la base de datos).
+ * 
+ */
+
+
 require_once ("aes.class.php");
 require_once ("aesctr.class.php");
 class Encriptador {
@@ -40,8 +49,8 @@ class Encriptador {
 		
 		return true;
 	}
-	function codificar($cadena) { /* reemplaza valores + / */
-		$cadena = rtrim ( strtr ( AesCtr::encrypt ( $cadena, "", 256 ), '+/', '-_' ), '=' );
+	function codificar($cadena,$frase='') { /* reemplaza valores + / */
+		$cadena = rtrim ( strtr ( AesCtr::encrypt ( $cadena, $frase, 256 ), '+/', '-_' ), '=' );
 		return $cadena;
 	}
 	function decodificar($cadena) { /* reemplaza valores + / */

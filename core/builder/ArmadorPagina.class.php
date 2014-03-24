@@ -25,7 +25,7 @@ class ArmadorPagina{
 	}
 
 	function armarHTML($registroBloques){
-		
+
 		$this->bloques=$registroBloques;
 
 		if($this->miConfigurador->getVariableConfiguracion("cache")) {
@@ -49,19 +49,20 @@ class ArmadorPagina{
 		}
 
 		$this->raizDocumento=$this->miConfigurador->getVariableConfiguracion("raizDocumento");
-
+                
+                
 		echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> ';
 		echo "\n<html lang='es'>\n";
 		$this->encabezadoPagina();
-		$this->cuerpoPagina();
-		echo "</html>\n";
+                $this->cuerpoPagina();
+                echo "</html>\n";
 	}
 
 	private function encabezadoPagina(){
 		$htmlPagina="<head>\n";
 		$htmlPagina.="<title>".$this->miConfigurador->getVariableConfiguracion("nombreAplicativo")."</title>\n";
 		$htmlPagina.="<meta http-equiv='Content-Type' content='text/html; charset=utf-8' >\n";
-		$htmlPagina.="<link rel='icon' href='".$this->host.$this->sitio."/"."favicon.ico' type='image/x-icon'>\n";
+		$htmlPagina.="<link rel='shortcut icon' href='".$this->host.$this->sitio."/"."favicon.ico' >\n";
 		echo $htmlPagina;
 
 		//Incluir estilos
@@ -100,18 +101,19 @@ class ArmadorPagina{
 			$posicion=ord($unBloque["seccion"])-65;
 			$this->seccionesDeclaradas[$posicion]=$unBloque["seccion"];
 		}
-		
-		
+                
+                
 		echo "<body>\n";
 		echo "<div id='marcoGeneral'>\n";
 
 		if(in_array("A", $this->seccionesDeclaradas,true)){
 			$this->armarSeccionAmplia("A");
 		};
-
-		if(in_array("B", $this->seccionesDeclaradas,true)){
+                
+                if(in_array("B", $this->seccionesDeclaradas,true)){
 			$this->armarSeccionLateral("B");
-		}
+		}                
+                
 		if(in_array("C", $this->seccionesDeclaradas,true)){
 			$this->armarSeccionCentral();
 		}
@@ -140,33 +142,34 @@ class ArmadorPagina{
 	}
 
 	private function armarSeccionLateral($seccion){
-
-		if($seccion=="B"){
-			$otraSeccion="D";
+            
+            	if($seccion=='B'){
+			$otraSeccion='D';
 		}else{
-			$otraSeccion="B";
+			$otraSeccion='B';
 		}
 
 		//Este tipo de secciones ocupan un ancho variable dependiendo si las otras secciones están declaradas
 
 		//Si ninguna de las otras secciones están declaradas entonces ocupa todo el ancho de la página
-		if(!in_array("C", $this->seccionesDeclaradas) && !in_array($otraSeccion, $this->seccionesDeclaradas)){
+		if(!in_array('C', $this->seccionesDeclaradas) && !in_array($otraSeccion, $this->seccionesDeclaradas)){
 
 			echo "<div id='seccionAmplia'>\n";
 
 		}else{
 			//Si la otra sección está declarada pero la sección central no, entonces ocupa la mitad de la página
 
-			if(!in_array("C", $this->seccionesDeclaradas) && in_array($otraSeccion, $this->seccionesDeclaradas)){
+			if(!in_array('C', $this->seccionesDeclaradas) && in_array($otraSeccion, $this->seccionesDeclaradas)){
 				echo "<div id='seccionMitad'>\n";
 			}else{
 				echo "<div id='seccion".$seccion."'>\n";
 			}
 		}
 
-		foreach($this->bloques as $unBloque){
+                
+                foreach($this->bloques as $unBloque){
 			if($unBloque["seccion"]==$seccion){
-				$this->incluirBloque($unBloque);
+				$this->incluirBloque($unBloque);                                
 			}
 		}
 
@@ -214,12 +217,13 @@ class ArmadorPagina{
 		foreach($unBloque as $clave=>$valor){
 			$unBloque[$clave]=trim($valor);
 		}
-
-		if($unBloque["grupo"]==""){
+                
+                if($unBloque["grupo"]==""){
 			$archivo=$this->raizDocumentos."/blocks/".$unBloque["nombre"]."/bloque.php";
 		}else{
 			$archivo=$this->raizDocumentos."/blocks/".$unBloque["grupo"]."/".$unBloque["nombre"]."/bloque.php";
 		}
+                
 		include($archivo);
 	}
 
@@ -262,7 +266,7 @@ class ArmadorPagina{
 	function incluirFuncionReady($unBloque){
 		
 		/**
-		 * Esta fnción registra funciones javascript para la página. Tales funciones están declartadas en cada bloque
+		 * Esta función registra funciones javascript para la página. Tales funciones están declartadas en cada bloque
 		 * y pueden venir directamente en un archivo ready.js o procesadas a partir de un archivo ready.php. Depende
 		 * del programador decidir cual de las dos opciones (o las dos) implementar. 
 		 */

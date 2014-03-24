@@ -23,7 +23,7 @@ class AesCtr extends Aes {
   public static function encrypt($plaintext, $password, $nBits) {
   	
   	if ($password==""){
-  		$password = "0xel0t1l";  		
+  		$password = '0xel0t1l';  		
   	}
   	
     $blockSize = 16;  // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
@@ -98,7 +98,7 @@ class AesCtr extends Aes {
   public static function decrypt($ciphertext, $password, $nBits) {
   	
   	if ($password==""){
-  		$password = "0xel0t1l";
+               $password = "0xel0t1l";
   	}
   	
     $blockSize = 16;  // block size fixed at 16 bytes / 128 bits (Nb=4) for AES

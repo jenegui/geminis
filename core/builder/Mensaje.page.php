@@ -49,8 +49,16 @@ $(window).load(function() {
 	
 });
 
-	  
-	
+<?php
+if(isset($url)){
+    ?>
+      window.setTimeout(function(){
+        window.location.href ="<?php echo $url?>";
+    }, 3000);
+    
+    <?php
+}
+?>	
 </script>
 <?php include_once $this->miConfigurador->getVariableConfiguracion("raizDocumento")."/theme/".$this->miConfigurador->getVariableConfiguracion("estilo")."/Estilo.php"?>
 

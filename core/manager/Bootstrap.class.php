@@ -18,16 +18,16 @@ require_once("core/builder/Mensaje.class.php");
 
 class Bootstrap{
 
-	
+
 	/**
-	 * Objeto. 
+	 * Objeto.
 	 * Con los atributos y métodos para gestionar la sesión de usuario
 	 * @var Sesion
 	 */
-	
+
 	var $sesionUsuario;
-	
-	
+
+
 	/**
 	 *
 	 * Objeto.
@@ -103,14 +103,14 @@ class Bootstrap{
 		$this->cuadroMensaje=Mensaje::singleton();
 		$this->conectorDB = FabricaDbConexion::singleton();
 		$this->cripto = Encriptador::singleton();
-		
+
 		/**
 		 * Importante conservar el orden de creación de los siguientes objetos porque tienen
 		 * referencias cruzadas.
 		 */
 		$this->miConfigurador=Configurador::singleton();
 		$this->miConfigurador->setConectorDB($this->conectorDB);
-		
+
 		/**
 		 * El objeto del a clase Sesion es el último que se debe crear.
 		 */
@@ -127,13 +127,13 @@ class Bootstrap{
 
 		// Poblar el atributo miConfigurador->configuracion
 		$this->miConfigurador->variable();
-		
+
 		if(!$this->miConfigurador->getVariableConfiguracion("instalado"))
 		{
 			$this->instalarAplicativo();
 
 		}else{
-			//var_dump($_REQUEST);exit;
+
 			$this->ingresar();
 		}
 	}
@@ -161,13 +161,15 @@ class Bootstrap{
 		 * @global boolean $GLOBALS['autorizado']
 		 * @name $autorizado
 		 */
-		$GLOBALS["autorizado"]=TRUE;
+            	$GLOBALS["autorizado"]=TRUE;
+
+
 
 		$pagina=$this->determinarPagina();
-		
-		$this->miConfigurador->setVariableConfiguracion("pagina",$pagina);
-		
-		
+
+                $this->miConfigurador->setVariableConfiguracion("pagina",$pagina);
+
+
 		/**
 		 * Verificar que se tenga una sesión válida
 		*/
@@ -177,30 +179,51 @@ class Bootstrap{
 		$this->autenticador->setPagina($pagina);
 
 		if($this->autenticador->iniciarAutenticacion()){
-			
+
 			/**
 			 * Procesa la página solicitada por el usuario
 			 */
 			require_once($this->miConfigurador->getVariableConfiguracion("raizDocumento")."/core/builder/Pagina.class.php");
 			$this->miPagina=new Pagina();
-			
+
 			if($this->miPagina->inicializarPagina($pagina)){
 				return true;
 			}else{
 				$this->mostrarMensajeError($this->miPagina->getError());
 				return false;
-			}			
-			
+			}
+
 		}else{
+                    if($this->autenticador->getError()=='sesionNoExiste'){
+                        unset($_REQUEST);
+                        $this->redireccionar('indice', 'pagina=index&mostrarMensaje=sesionExpirada');
+                                
+
+                    }else{
 			$this->mostrarMensajeError($this->autenticador->getError());
 			return false;
-		}		
-		
+                    }
+		}
+
 	}
-	
-	private function mostrarMensajeError($mensaje){
+
+	private function mostrarMensajeError($mensaje,$tipoMensaje=''){
+
 		$this->miConfigurador->setVariableConfiguracion("error", true);
-		$this->cuadroMensaje->mostrarMensaje($mensaje, "error");		
+                if($tipoMensaje==''){
+		$this->cuadroMensaje->mostrarMensaje($mensaje, "error");
+                }else{
+                    $this->cuadroMensaje->mostrarMensaje($mensaje, $tipoMensaje);
+                }
+	}
+        
+        private function mostrarMensajeRedireccion($mensaje,$tipoMensaje='',$url){
+
+		if($tipoMensaje==''){
+		$this->cuadroMensaje->mostrarMensajeRedireccion($mensaje, "error",$url);
+                }else{
+                    $this->cuadroMensaje->mostrarMensajeRedireccion($mensaje, $tipoMensaje,$url);
+                }
 	}
 
 
@@ -211,7 +234,7 @@ class Bootstrap{
 
 		if(isset($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")])) {
 			$this->miConfigurador->fabricaConexiones->crypto->decodificar_url($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")]);
-			
+			unset($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")]);
 			if(isset($_REQUEST["redireccionar"])) {
 				$this->redireccionar();
 				return false;
@@ -250,24 +273,37 @@ class Bootstrap{
 	 * @return number
 	 */
 
-	function redireccionar(){
-		
+	function redireccionar($pagina='',$opciones=''){
+            $enlace=$this->miConfigurador->getVariableConfiguracion("enlace");    
+
+            switch($pagina){
+                case '':
 		$variable="";
-		$enlace=$this->miConfigurador->getVariableConfiguracion("enlace");
 
 		foreach($_REQUEST as $clave=> $val) {
 			if($clave !="redireccionar" && $clave!= $enlace) {
 				$variable.="&".$clave."=".$val;
 			}
 		}
-		
-		echo "Redireccionando....";
 
 		$variable=substr($variable,1);
 		$variable=$this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable,$enlace);
 		$indice=$this->miConfigurador->configuracion["host"].$this->miConfigurador->configuracion["site"]."/index.php?";
 		echo "<script>location.replace('".$indice.$variable."')</script>";
-		
+                break;
+
+                case 'indice':
+                    $indice=$this->miConfigurador->configuracion["host"].$this->miConfigurador->configuracion["site"]."/index.php?";
+                    $opciones=$this->miConfigurador->fabricaConexiones->crypto->codificar_url($opciones,$enlace);
+                    echo "<script>location.replace('".$indice.$opciones."')</script>";
+                break;
+
+            default :
+                echo "<script>location.replace('".$pagina."')</script>";
+                break;
+            }
+
+
 	}
 
 };

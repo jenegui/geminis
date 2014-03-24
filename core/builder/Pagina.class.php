@@ -52,8 +52,9 @@ class Pagina
 	}
 
 	function inicializarPagina($pagina){
-
-		$this->recursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB("configuracion");
+            
+            
+                $this->recursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB("configuracion");
 
 		if($this->recursoDB){
 
@@ -68,6 +69,8 @@ class Pagina
 			}
 			
 			
+                
+		
 			if(!isset($_REQUEST['action']))
 			{
 				return $this->mostrar_pagina();
@@ -109,6 +112,7 @@ class Pagina
 					}
 					
 				}
+                                
 				$this->armadorPagina->armarHTML($registro);				
 				return true;
 			}else{

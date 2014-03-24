@@ -77,7 +77,12 @@ class WidgetHtml {
 
         $this->atributos = $atributos;
 
-        $nombre = $this->atributos["id"];
+        if (isset($this->atributos["nombre"]) && $this->atributos["nombre"] != '') {
+            $nombre = $this->atributos["nombre"];
+        } else {
+            $nombre = $this->atributos["id"];
+        }
+
         if (isset($this->atributos["seleccion"])) {
             $seleccion = $this->atributos["seleccion"];
         } else {
@@ -111,8 +116,14 @@ class WidgetHtml {
             } else {
                 if (isset($atributos["deshabilitado"]) && $atributos["deshabilitado"] == true) {
                     $this->cadena_html = "<select disabled id='" . $id . "' ";
-                }else {
-                $this->cadena_html = "<select id='" . $id . "' ";}
+                } else {
+                    $this->cadena_html = "<select id='" . $id . "' ";
+                }
+            }
+
+            //Si se utiliza jQuery-Validation-Engine
+            if (isset($atributos["validar"])) {
+                $this->mi_cuadro.=" validate[" . $atributos["validar"] . "] ";
             }
 
             if (isset($atributos["estilo"]) && $atributos["estilo"] == "jqueryui") {
@@ -128,7 +139,7 @@ class WidgetHtml {
             if (isset($this->atributos["multiple"]) && $this->atributos["multiple"] = true) {
                 $this->cadena_html.=" multiple \n";
             }
-            
+
             $this->cadena_html.="name='" . $nombre . "' size='" . $tamanno . "' " . $mi_evento . " tabindex='" . $tab . "'>\n";
 
             //Si no se especifica una seleccion se agrega un espacio en blanco
@@ -193,10 +204,18 @@ class WidgetHtml {
                 }
             } else {
                 if ($limitar == 1) {
-                    if ($this->cuadro_registro[$j][0] == $seleccion) {
-                        $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "' selected='true'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                    if (is_array($seleccion)) {
+                        if (in_array($this->cuadro_registro[$j][0], $seleccion)) {
+                            $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "' selected='true'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                        } else {
+                            $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                        }
                     } else {
-                        $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                        if ($this->cuadro_registro[$j][0] == $seleccion) {
+                            $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "' selected='true'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                        } else {
+                            $this->cadena_html.="<option value='" . $this->cuadro_registro[$j][0] . "'>" . substr($this->cuadro_registro[$j][1], 0, 20) . "</option>\n";
+                        }
                     }
                 } else {
                     if ($this->cuadro_registro[$j][0] == $seleccion) {
@@ -361,7 +380,7 @@ class WidgetHtml {
 
     function cuadro_texto($configuracion, $atributos) {
 
-        if (!isset($atributos["tipo"]) || $atributos["tipo"] != "hidden") {
+        if (!isset($atributos["tipo"]) || $atributos["tipo"] != 'hidden') {
 
             //--------------Atributo class --------------------------------
             if (isset($atributos["estilo"]) && $atributos["estilo"] != "") {
@@ -435,6 +454,10 @@ class WidgetHtml {
                 $this->mi_cuadro.="data-validate='validate(" . $atributos["data-validate"] . ")' ";
             }
 
+            //Si utiliza algun evento especial
+            if (isset($atributos["evento"])) {
+                $this->mi_cuadro.=" " . $atributos["evento"] . " ";
+            }
 
             $this->mi_cuadro.="tabindex='" . $atributos["tabIndex"] . "' ";
             $this->mi_cuadro.=">\n";
@@ -512,25 +535,21 @@ class WidgetHtml {
         if (!isset($atributos["sinDivision"])) {
             if (isset($atributos["anchoEtiqueta"])) {
 
-                if(is_numeric($atributos['anchoEtiqueta'])){
-                	
-                	$this->mi_etiqueta.="<div style='float:left; width:" . $atributos["anchoEtiqueta"] . "px' ";
-                	
-                }else{
-                	$this->mi_etiqueta.="<div style='float:left; width:" . $atributos["anchoEtiqueta"] . "' ";
-                }
+                $this->mi_etiqueta.="<div style='float:left; width:" . $atributos["anchoEtiqueta"] . "px' ";
             } else {
                 $this->mi_etiqueta.="<div style='float:left; width:120px' ";
             }
 
-            if (isset($atributos["estiloEtiqueta"])) {
-                $this->mi_etiqueta.="class='" . $atributos["estiloEtiqueta"] . "'>";
-            } else {
-                $this->mi_etiqueta.=">";
-            }
+            $this->mi_etiqueta.=">";
         }
 
-        $this->mi_etiqueta.="<label for='" . $atributos["id"] . "' >";
+        $this->mi_etiqueta.='<label ';
+
+        if (isset($atributos["estiloEtiqueta"])) {
+            $this->mi_etiqueta.="class='" . $atributos["estiloEtiqueta"] . "' ";
+        }
+
+        $this->mi_etiqueta.="for='" . $atributos["id"] . "' >";
         $this->mi_etiqueta.=$atributos["etiqueta"] . "</label>\n";
 
         if (isset($atributos["etiquetaObligatorio"]) && $atributos["etiquetaObligatorio"] == true) {
@@ -557,10 +576,20 @@ class WidgetHtml {
             $this->cadenaBoton.="value='" . $atributos["valor"] . "' ";
             $this->cadenaBoton.="id='" . $atributos["id"] . "A' ";
             $this->cadenaBoton.="tabindex='" . $atributos["tabIndex"] . "' ";
-            $this->cadenaBoton.="type='button' ";
+
+            if (isset($atributos['submit']) && $atributos['submit']==true) {
+                $this->cadenaBoton.="type='submit' ";
+            } else {
+                $this->cadenaBoton.="type='button' ";
+            }
 
             if (!isset($atributos["onsubmit"])) {
                 $atributos["onsubmit"] = "";
+            }
+
+            //Poner el estilo en línea definido por el usuario
+            if (isset($atributos ["estiloEnLinea"]) && $atributos ["estiloEnLinea"] != "") {
+                $this->cadenaBoton .= "style='" . $atributos ["estiloEnLinea"] . "' ";
             }
 
 
@@ -571,7 +600,7 @@ class WidgetHtml {
                 } else {
                     $this->cadenaBoton.="document.forms['" . $atributos["nombreFormulario"] . "'].submit()";
                 }
-                $this->cadenaBoton.="}else{this.disabled=false;false}\">" . $atributos["valor"] . "</button>\n";
+                $this->cadenaBoton.="}else{this.disabled=false;false}\">" . $atributos["valor"] . '</button>\n';
                 //El cuadro de Texto asociado
                 $atributos["id"] = $atributos["id"];
                 $atributos["tipo"] = "hidden";
@@ -580,23 +609,24 @@ class WidgetHtml {
                 $atributos["valor"] = "false";
                 $this->cadenaBoton.= $this->cuadro_texto($configuracion, $atributos);
             } else {
-                
+
 
                 if (isset($atributos["tipoSubmit"]) && $atributos["tipoSubmit"] == "jquery") {
                     //Utilizar esto para garantizar que se procesan los controladores de eventos de javascript al momento de enviar el form
                     $this->cadenaBoton.="onclick=\"document.forms['" . $atributos["nombreFormulario"] . "'].elements['" . $atributos["id"] . "'].value='true';";
                     $this->cadenaBoton.=" $(this).closest('form').submit();";
-                } else if(!isset($atributos["onclick"])) {
-                	$this->cadenaBoton.="onclick=\"document.forms['" . $atributos["nombreFormulario"] . "'].elements['" . $atributos["id"] . "'].value='true';";
-                    $this->cadenaBoton.="document.forms['" . $atributos["nombreFormulario"] . "'].submit()";					
+                } else if (!isset($atributos["onclick"])) {
+                    $this->cadenaBoton.="onclick=\"document.forms['" . $atributos["nombreFormulario"] . "'].elements['" . $atributos["id"] . "'].value='true';";
+                    $this->cadenaBoton.="document.forms['" . $atributos["nombreFormulario"] . "'].submit()";
                 }
 
-				if(isset($atributos["onclick"]) && $atributos["onclick"] != '')
-				{
-					$this->cadenaBoton.="onclick=\" " . $atributos["onclick"] . "\" ";
-				}
+                if (isset($atributos["onclick"]) && $atributos["onclick"] != '') {
+                    $this->cadenaBoton.="onclick=\" " . $atributos["onclick"] . "\" ";
+                }
 
                 $this->cadenaBoton.="\">" . $atributos["valor"] . "</button>\n";
+
+
 
                 //El cuadro de Texto asociado
                 $atributos["id"] = $atributos["id"];
@@ -729,19 +759,19 @@ class WidgetHtml {
                     $opcion = explode("&", $valor);
                     if ($opcion[0] != "") {
                         if ($opcion[0] != $atributos["seleccion"]) {
-                        	$this->miOpcion.="<div>";
+                            $this->miOpcion.="<div>";
                             $this->miOpcion.="<input type='radio' id='" . $id . "' name='" . $nombre . "' value='" . $opcion[0] . "' />";
                             $this->miOpcion.="<label for='" . $id . "'>";
                             $this->miOpcion.=$opcion[1] . "";
                             $this->miOpcion.="</label>";
-							$this->miOpcion.="</div>";
+                            $this->miOpcion.="</div>";
                         } else {
-                        	$this->miOpcion.="<div>";
+                            $this->miOpcion.="<div>";
                             $this->miOpcion.="<input type='radio' id='" . $id . "' name='" . $nombre . "' value='" . $opcion[0] . "' checked /> ";
                             $this->miOpcion.="<label for='" . $id . "'>";
                             $this->miOpcion.=$opcion[1] . "";
                             $this->miOpcion.="</label>";
-							$this->miOpcion.="</div>";
+                            $this->miOpcion.="</div>";
                         }
                     }
                 }
@@ -772,8 +802,10 @@ class WidgetHtml {
 
     function checkBox($configuracion, $atributos) {
 
+        $this->miOpcion = "";
         $this->miOpcion.="<label for='" . $atributos["id"] . "'>";
-
+        $this->miOpcion.=$atributos["etiqueta"];
+        $this->miOpcion.="</label>\n";
 
         $this->miOpcion.="<input type='checkbox' ";
 
@@ -799,8 +831,6 @@ class WidgetHtml {
         }
 
         $this->miOpcion.="/>";
-        $this->miOpcion.=$atributos["etiqueta"];
-        $this->miOpcion.="</label>\n";
         return $this->miOpcion;
     }
 

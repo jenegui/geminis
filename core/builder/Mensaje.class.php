@@ -52,6 +52,12 @@ class Mensaje{
 		include_once("Mensaje.page.php");
 
 	}
+        
+        function mostrarMensajeRedireccion($mensaje, $tipoMensaje="warning",$url){
+		
+		include_once("Mensaje.page.php");
+
+	}
 
 
 }
