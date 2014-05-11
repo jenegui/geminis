@@ -252,6 +252,7 @@ class WidgetHtml {
 	 *
 	 *
 	 *
+	 *
 	 * Para cuadros de lista que tienen al inicio un conjunto de los datos "mas populares"; luego de estos datos saldra el listado completo
 	 *
 	 * @name listadoInicialCuadroLista
@@ -313,6 +314,7 @@ class WidgetHtml {
 	 *
 	 *
 	 *
+	 *
 	 * De acuerdo a los atributos, define el tipo de evento asociado al control cuadro de lista.
 	 *
 	 * @name definirEvento
@@ -350,6 +352,7 @@ class WidgetHtml {
 	}
 
 	/**
+	 *
 	 *
 	 *
 	 *
@@ -639,9 +642,12 @@ class WidgetHtml {
 					// Utilizar esto para garantizar que se procesan los controladores de eventos de javascript al momento de enviar el form
 					$this->cadenaBoton .= "onclick=\"document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
 					$this->cadenaBoton .= " $(this).closest('form').submit();";
-				} else if (! isset ( $atributos ["onclick"] )) {
-					$this->cadenaBoton .= "onclick=\"document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
-					$this->cadenaBoton .= "document.forms['" . $atributos ["nombreFormulario"] . "'].submit()";
+				} else {
+					if (! isset ( $atributos ["onclick"] )) {
+						
+						$this->cadenaBoton .= "onclick=\"document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
+						$this->cadenaBoton .= "document.forms['" . $atributos ["nombreFormulario"] . "'].submit()";
+					}
 				}
 				
 				if (isset ( $atributos ["onclick"] ) && $atributos ["onclick"] != '') {

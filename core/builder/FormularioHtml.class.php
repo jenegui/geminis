@@ -199,7 +199,6 @@ class FormularioHtml extends WidgetHtml {
 		if (isset ( $atributos ["etiqueta"] ) && $atributos ["etiqueta"] != "") {
 			$this->cadenaHTML .= $this->etiqueta ( $atributos );
 		}
-		;
 		if (isset ( $atributos ["dobleLinea"] )) {
 			$this->cadenaHTML .= "<br>";
 		}

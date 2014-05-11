@@ -32,13 +32,9 @@ class sesionSql {
 		switch ($indice) {
 			
 			case "seleccionarPagina" :
-				$this->cadena_sql [$indice] = "SELECT ";
-				$this->cadena_sql [$indice] .= "nivel ";
-				$this->cadena_sql [$indice] .= "FROM ";
+				$this->cadena_sql [$indice] = "SELECT  nivel  FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "pagina ";
-				$this->cadena_sql [$indice] .= "WHERE ";
-				$this->cadena_sql [$indice] .= "nombre='" . $parametro . "' ";
-				$this->cadena_sql [$indice] .= "LIMIT 1";
+				$this->cadena_sql [$indice] .= "WHERE  nombre='" . $parametro . "' LIMIT 1";
 				break;
 			
 			case "actualizarSesion" :
@@ -52,8 +48,7 @@ class sesionSql {
 				break;
 			
 			case "borrarVariableSesion" :
-				$this->cadena_sql [$indice] = "DELETE ";
-				$this->cadena_sql [$indice] .= "FROM ";
+				$this->cadena_sql [$indice] = "DELETE FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "valor_sesion ";
 				$this->cadena_sql [$indice] .= "WHERE ";
 				$this->cadena_sql [$indice] .= "sesionid='" . $parametro ["sesionId"] . " ";
@@ -61,27 +56,21 @@ class sesionSql {
 				break;
 			
 			case "borrarSesionesExpiradas" :
-				$this->cadena_sql [$indice] = "DELETE ";
-				$this->cadena_sql [$indice] .= "FROM ";
+				$this->cadena_sql [$indice] = "DELETE FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "valor_sesion ";
 				$this->cadena_sql [$indice] .= "WHERE ";
 				$this->cadena_sql [$indice] .= "expiracion<" . time ();
 				break;
 			
 			case "borrarSesion" :
-				$this->cadena_sql [$indice] = "DELETE ";
-				$this->cadena_sql [$indice] .= "FROM ";
+				$this->cadena_sql [$indice] = "DELETE FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "valor_sesion ";
 				$this->cadena_sql [$indice] .= "WHERE ";
 				$this->cadena_sql [$indice] .= "sesionid='" . $parametro . "' ";
 				break;
 			
 			case "buscarValorSesion" :
-				$this->cadena_sql [$indice] = "SELECT ";
-				$this->cadena_sql [$indice] .= "valor, ";
-				$this->cadena_sql [$indice] .= "sesionid, ";
-				$this->cadena_sql [$indice] .= "variable, ";
-				$this->cadena_sql [$indice] .= "expiracion ";
+				$this->cadena_sql [$indice] = "SELECT valor, sesionid, variable, expiracion ";
 				$this->cadena_sql [$indice] .= "FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "valor_sesion ";
 				$this->cadena_sql [$indice] .= "WHERE ";
@@ -120,31 +109,15 @@ class sesionSql {
 				break;
 			
 			case "verificarNivelUsuario" :
-				$this->cadena_sql [$indice] = "SELECT ";
-				$this->cadena_sql [$indice] .= "tipo ";
-				$this->cadena_sql [$indice] .= "FROM ";
+				$this->cadena_sql [$indice] = "SELECT tipo FROM ";
 				$this->cadena_sql [$indice] .= $this->prefijoTablas . "usuario ";
 				$this->cadena_sql [$indice] .= "WHERE ";
 				$this->cadena_sql [$indice] .= "id_usuario='" . $parametro . "' ";
 				break;
 			
-			case "verificarUsuarioCenso" :
-				$this->cadena_sql [$indice] = 'SELECT ';
-				$this->cadena_sql [$indice] .= 'identificacion as id_usuario, ';
-				$this->cadena_sql [$indice] .= 'ideleccion, ';
-				$this->cadena_sql [$indice] .= 'clave, ';
-				$this->cadena_sql [$indice] .= 'nombre, ';
-				$this->cadena_sql [$indice] .= 'idtipo ';
-				$this->cadena_sql [$indice] .= 'FROM ';
-				$this->cadena_sql [$indice] .= $this->prefijoTablas . 'censo ';
-				$this->cadena_sql [$indice] .= "WHERE ";
-				$this->cadena_sql [$indice] .= "identificacion = '" . trim ( $parametro ) . "' ";
-				
-				break;
 		}
 	
 	}
 
 }
-
 ?>

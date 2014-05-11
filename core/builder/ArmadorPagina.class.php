@@ -38,8 +38,7 @@ class ArmadorPagina {
 			header ( "Cache-Control: cache" );
 			// header("Expires: Sat, 20 Jun 1974 10:00:00 GMT");
 		} else {
-			if (isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'mostrarMensaje') {
-			} else {
+			if (!(isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'mostrarMensaje')) {
 				header ( "Expires: Tue, 03 Jul 2001 06:00:00 GMT" );
 				header ( "Last-Modified: " . gmdate ( "D, d M Y H:i:s" ) . " GMT" );
 				header ( "Cache-Control: no-store, no-cache, must-revalidate" );
@@ -114,7 +113,6 @@ class ArmadorPagina {
 		if (in_array ( "A", $this->seccionesDeclaradas, true )) {
 			$this->armarSeccionAmplia ( "A" );
 		}
-		;
 		
 		if (in_array ( "B", $this->seccionesDeclaradas, true )) {
 			$this->armarSeccionLateral ( "B" );

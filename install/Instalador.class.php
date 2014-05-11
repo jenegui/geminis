@@ -135,9 +135,12 @@ class Instalador {
 		$_REQUEST ["debugMode"] = "false";
 		$_REQUEST ["dbPrincipal"] = $_REQUEST ["dbnombre"];
 		$_REQUEST ["hostSeguro"] = "https://" . substr ( $_REQUEST ["host"], strpos ( $_REQUEST ["host"], "//" ) + 2 );
+				
+		$variables=array("dbsys","dbdns","dbpuerto", "dbnombre", "dbusuario", "dbclave","instalador");		
 		
 		foreach ( $_REQUEST as $clave => $valor ) {
-			if (($clave != "dbsys") && ($clave != "dbdns") && ($clave != "dbpuerto") && ($clave != "dbnombre") && ($clave != "dbusuario") && ($clave != "dbclave") && ($clave != "instalador")) {
+					
+			if (!in_array($clave,$variables)) {
 				if ($clave == "raizDocumento") {
 					$valor .= $_REQUEST ["site"];
 				} else {

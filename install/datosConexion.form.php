@@ -157,7 +157,11 @@ if (isset ( $_REQUEST ["instalador"] )) {
 }
 ?>
 	<div id="formulario" class="miFormulario">
-		<form id="<?php echo $formulario?>" name="<?php echo $formulario?>"
+		<form id="<?php 
+		echo $formulario;
+		?>" name="<?php 
+		echo $formulario;
+		?>"
 			method="post" action="index.php" accept-charset="UTF-8">
 			<h1>Informaci&oacute;n de Conexi&oacute;n</h1>
 			<p>Informaci&oacute;n de conexi&oacute;n a la base de datos principal
@@ -188,7 +192,9 @@ if (isset ( $_REQUEST ["instalador"] )) {
 				?>" /> <label>Nombre <span class="textoPequenno">Nombre de la base
 					de datos principal</span></label> <input type="text"
 				name="dbnombre" id="dbNombre"
-				value="<?php if(isset($_REQUEST["dbnombre"])){ echo $_REQUEST["dbnombre"];}?>" />
+				value="<?php if(isset($_REQUEST["dbnombre"])){
+					echo $_REQUEST["dbnombre"];
+				}?>" />
 
 			<label>Usuario <span class="textoPequenno">Usuario de la base de
 					datos principal</span>

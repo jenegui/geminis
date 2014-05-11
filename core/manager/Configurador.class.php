@@ -89,8 +89,6 @@ class Configurador {
 		if ($this->conexionDB && $this->rescatarVariablesDB ()) {
 			return true;
 		}
-		;
-		
 		return false;
 	
 	}
@@ -209,6 +207,4 @@ class Configurador {
 	}
 
 }
-;
-
 ?>
