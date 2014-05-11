@@ -1,44 +1,45 @@
 <?php
-require( "../xajax_core/xajax.inc.php" );
+require ("../xajax_core/xajax.inc.php");
 
-function callScript( )
-{
-    $response=new xajaxResponse();
-    $value2="this is a string";
-    $response->call( "myJSFunction", "arg1", 9432.12, array
-        (
-        "myKey" => "some value",
-        "key2" => $value2
-        ));
+function callScript() {
 
-    return $response;
+	$response = new xajaxResponse ();
+	$value2 = "this is a string";
+	$response->call ( "myJSFunction", "arg1", 9432.12, array (
+			"myKey" => "some value",
+			"key2" => $value2 
+	) );
+	
+	return $response;
+
 }
 
-function callOtherScript( )
-{
-    $response=new xajaxResponse();
-    $response->call( "myOtherJSFunction" );
-    return $response;
+function callOtherScript() {
+
+	$response = new xajaxResponse ();
+	$response->call ( "myOtherJSFunction" );
+	return $response;
+
 }
 
-$xajax=new xajax();
-//$xajax->configure("debug", true);
-$xajax->register(XAJAX_FUNCTION, "callScript");
-$xajax->register(XAJAX_FUNCTION, "callOtherScript");
-$xajax->processRequest();
-$xajax->configure('javascript URI','../');
+$xajax = new xajax ();
+// $xajax->configure("debug", true);
+$xajax->register ( XAJAX_FUNCTION, "callScript" );
+$xajax->register ( XAJAX_FUNCTION, "callOtherScript" );
+$xajax->processRequest ();
+$xajax->configure ( 'javascript URI', '../' );
 
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns = "http://www.w3.org/1999/xhtml">
-    <head>
-        <title>call Script Test | xajax Tests</title>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>call Script Test | xajax Tests</title>
 
-        <?php $xajax->printJavascript( "../" ) ?>
+        <?php $xajax->printJavascript( "../" )?>
 
-        <script type = "text/javascript">
+        <script type="text/javascript">
             function myJSFunction(firstArg, numberArg, myArrayArg)
                 {
                 var newString = firstArg + " and " + (+numberArg + 100) + "\n";
@@ -54,37 +55,34 @@ $xajax->configure('javascript URI','../');
                 xajax.$('myDiv').innerHTML = newString;
                 }
         </script>
-    </head>
+</head>
 
-    <body>
-        <h2><a href = "index.php">xajax Tests</a></h2>
+<body>
+	<h2>
+		<a href="index.php">xajax Tests</a>
+	</h2>
 
-        <h1>call Script Test</h1>
+	<h1>call Script Test</h1>
 
-        <p>
-            Howdy.
-        </p>
+	<p>Howdy.</p>
 
-        <p>
-            <input type = "button" value = "Click Me" onclick = "xajax_callScript()" />
-        </p>
+	<p>
+		<input type="button" value="Click Me" onclick="xajax_callScript()" />
+	</p>
 
-        <p>
-            <input type = "button" value = "or Click Me" onclick = "xajax_callOtherScript()" />
-        </p>
+	<p>
+		<input type="button" value="or Click Me"
+			onclick="xajax_callOtherScript()" />
+	</p>
 
-        <p>
-            Result:
-        </p>
+	<p>Result:</p>
 
-        <pre id = "myDiv">[blank]</pre>
+	<pre id="myDiv">[blank]</pre>
 
-        <p>
-            Expecting:
-        </p>
+	<p>Expecting:</p>
 
-        <pre>arg1 and 9532.12
+	<pre>arg1 and 9532.12
         some value | this is a string</pre>
-    </body>
+</body>
 </html>
 

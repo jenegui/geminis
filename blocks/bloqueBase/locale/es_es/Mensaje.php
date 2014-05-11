@@ -1,4 +1,4 @@
 <?php
-$this->idioma["parametroEjemplo"]="Cadena";
+$this->idioma ["parametroEjemplo"] = "Cadena";
 
 ?>

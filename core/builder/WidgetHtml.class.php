@@ -23,7 +23,7 @@ class WidgetHtml {
 	
 	/**
 	 * Miembros privados de la clase
-	 * 
+	 *
 	 * @access private
 	 */
 	var $conexion_id;
@@ -251,8 +251,9 @@ class WidgetHtml {
 	/**
 	 *
 	 *
+	 *
 	 * Para cuadros de lista que tienen al inicio un conjunto de los datos "mas populares"; luego de estos datos saldra el listado completo
-	 * 
+	 *
 	 * @name listadoInicialCuadroLista
 	 * @param
 	 *        	none
@@ -311,8 +312,9 @@ class WidgetHtml {
 	/**
 	 *
 	 *
+	 *
 	 * De acuerdo a los atributos, define el tipo de evento asociado al control cuadro de lista.
-	 * 
+	 *
 	 * @name definirEvento
 	 * @param
 	 *        	none
@@ -350,8 +352,9 @@ class WidgetHtml {
 	/**
 	 *
 	 *
+	 *
 	 * Define el registro de datos a partir del cual se construira el cuadro de lista
-	 * 
+	 *
 	 * @name rescatarRegistroCuadroLista
 	 * @param
 	 *        	none

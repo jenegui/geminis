@@ -1,47 +1,42 @@
 /* ----------------Estructura de la página ----------------- */
-
-body{
-	width:100%;		
+body {
+	width: 100%;
 	background-image: url("images/bd.gif");
-	margin:0;
+	margin: 0;
 }
 
 #marcoGeneral {
-	
-	width:95%;
+	width: 95%;
 	margin: 0 auto;
 	border: 1px solid #EEEEEE;
-	background-color:#FFFFFF;
+	background-color: #FFFFFF;
 	padding: 0px 10px;
 	display: table;
-	
 }
 
 #seccionAmplia {
 	width: 100%;
-	float: left;	
+	float: left;
 }
 
 #seccionB {
 	width: 20%;
-	float: left;	
+	float: left;
 }
 
 #seccionCentral {
 	width: 70%;
-	float: left;	
+	float: left;
 }
 
 #seccionCentralAmpliada {
 	width: 80%;
 	float: left;
-		
 }
-
 
 #seccionD {
 	width: 15%;
-	float: left;	
+	float: left;
 }
 
 /* ------Fin Estilos de Estructura de la página ------------ */
@@ -55,7 +50,7 @@ body{
 }
 
 .centrar {
-	margin: 0 auto 0 auto;	
+	margin: 0 auto 0 auto;
 }
 
 .shadow {

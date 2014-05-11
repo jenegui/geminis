@@ -1,74 +1,67 @@
 <?php
-require_once( "../xajax_core/xajax.inc.php" );
+require_once ("../xajax_core/xajax.inc.php");
 
-function testXajaxResponse( )
-{
-    // Return a xajax response object
-    $objResponse=new xajaxResponse();
-    $objResponse->assign( 'DataDiv', 'innerHTML', 'Xajax Response Data' );
-    return $objResponse;
+function testXajaxResponse() {
+	// Return a xajax response object
+	$objResponse = new xajaxResponse ();
+	$objResponse->assign ( 'DataDiv', 'innerHTML', 'Xajax Response Data' );
+	return $objResponse;
+
 }
 
-function testXmlResponse( )
-{
-    $objResponse=new xajaxCustomResponse( 'text/xml' );
-    $objResponse->setCharacterEncoding( 'UTF-8' );
+function testXmlResponse() {
 
-    $objResponse->append( '<?xml version="1.0" encoding="utf-8" ?' . '><root><data>text</data></root>' );
+	$objResponse = new xajaxCustomResponse ( 'text/xml' );
+	$objResponse->setCharacterEncoding ( 'UTF-8' );
+	
+	$objResponse->append ( '<?xml version="1.0" encoding="utf-8" ?' . '><root><data>text</data></root>' );
+	
+	return $objResponse;
 
-    return $objResponse;
 }
 
-function testTextResponse( )
-{
-    $objResponse=new xajaxCustomResponse( 'text/plain' );
-    $objResponse->append( 'text data' );
-    return $objResponse;
+function testTextResponse() {
 
-    // return text data directly to the custom response handler function
-    return 'text data';
+	$objResponse = new xajaxCustomResponse ( 'text/plain' );
+	$objResponse->append ( 'text data' );
+	return $objResponse;
+	
+	// return text data directly to the custom response handler function
+	return 'text data';
+
 }
 
-$xajax=new xajax();
-$xajax->configure( 'debug', true );
-$xajax->configure( 'useUncompressedScripts', true );
-$xajax->configure( 'javascript URI', '../' );
+$xajax = new xajax ();
+$xajax->configure ( 'debug', true );
+$xajax->configure ( 'useUncompressedScripts', true );
+$xajax->configure ( 'javascript URI', '../' );
 
 // Tell xajax to permit registered functions to return data other than xajaxResponse objects
-$xajax->configure( 'allowAllResponseTypes', true );
+$xajax->configure ( 'allowAllResponseTypes', true );
 
-$callXajaxResponse = $xajax->register(
-	XAJAX_FUNCTION,
-	'testXajaxResponse'
-	);
+$callXajaxResponse = $xajax->register ( XAJAX_FUNCTION, 'testXajaxResponse' );
 
-$callXmlResponse = $xajax->register(
-	XAJAX_FUNCTION,
-	'testXmlResponse',
-	array('responseProcessor' => 'xmlResponse')
-	);
+$callXmlResponse = $xajax->register ( XAJAX_FUNCTION, 'testXmlResponse', array (
+		'responseProcessor' => 'xmlResponse' 
+) );
 
-$callTextResponse = $xajax->register(
-	XAJAX_FUNCTION,
-	'testTextResponse',
-	array(
+$callTextResponse = $xajax->register ( XAJAX_FUNCTION, 'testTextResponse', array (
 		'mode' => '"synchronous"',
-		'responseProcessor' => 'textResponse'
-		)
-	);
+		'responseProcessor' => 'textResponse' 
+) );
 
-$xajax->processRequest();
-$xajax->configure('javascript URI','../');
+$xajax->processRequest ();
+$xajax->configure ( 'javascript URI', '../' );
 
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">
-<html xmlns = "http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Non-xajaxResponse XML and Text Responses Test | xajax Tests</title>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Non-xajaxResponse XML and Text Responses Test | xajax Tests</title>
 
-        <?php $xajax->printJavascript() ?>
+        <?php $xajax->printJavascript()?>
 
         <script>
             // function to handle ajax response text data
@@ -86,27 +79,29 @@ $xajax->configure('javascript URI','../');
                 xajax.completeResponse(objRequest);
                 }
         </script>
-    </head>
+</head>
 
-    <body>
-        <h2><a href = "index.php">xajax Tests</a></h2>
+<body>
+	<h2>
+		<a href="index.php">xajax Tests</a>
+	</h2>
 
-        <h1>Non-xajaxResponse XML and Text Responses Test</h1>
+	<h1>Non-xajaxResponse XML and Text Responses Test</h1>
 
-        <form id = "testForm1" onsubmit = "return false;">
-            <p>
-                <input type = "button"
-                    value = "xajax" onclick = "<?php $callXajaxResponse->printScript(); ?>; return false;" />
-                <!-- use xajax.call to call the functions that return data directly and 
+	<form id="testForm1" onsubmit="return false;">
+		<p>
+			<input type="button" value="xajax"
+				onclick="<?php $callXajaxResponse->printScript(); ?>; return false;" />
+			<!-- use xajax.call to call the functions that return data directly and 
                 indicate the javascript function that will handle the response -->
-                <input type = 'button' value = 'xml' onclick = '<?php $callXmlResponse->printScript(); ?>' />
+			<input type='button' value='xml'
+				onclick='<?php $callXmlResponse->printScript(); ?>' /> <input
+				type='button' value='text'
+				onclick='<?php $callTextResponse->printScript(); ?>' />
+		</p>
+	</form>
 
-                <input type = 'button' value = 'text' onclick = '<?php $callTextResponse->printScript(); ?>' />
-            </p>
-        </form>
-
-        <div id = "DataDiv">
-        </div>
-    </body>
+	<div id="DataDiv"></div>
+</body>
 </html>
 

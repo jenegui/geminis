@@ -24,18 +24,18 @@
 		is a php function available at global scope, or a specific function from
 		an instance of an object.
 */
-if (!defined ('XAJAX_FUNCTION')) define ('XAJAX_FUNCTION', 'function');
-
-// require_once is necessary here as the xajaxEvent class will include this also
-//SkipAIO
-require_once dirname(__FILE__) . '/support/xajaxUserFunction.inc.php';
-//EndSkipAIO
+if (! defined ( 'XAJAX_FUNCTION' ))
+	define ( 'XAJAX_FUNCTION', 'function' );
+	
+	// require_once is necessary here as the xajaxEvent class will include this also
+	// SkipAIO
+require_once dirname ( __FILE__ ) . '/support/xajaxUserFunction.inc.php';
+// EndSkipAIO
 
 /*
 	Class: xajaxFunctionPlugin
 */
-class xajaxFunctionPlugin extends xajaxRequestPlugin
-{
+class xajaxFunctionPlugin extends xajaxRequestPlugin {
 	/*
 		Array: aFunctions
 		
@@ -43,7 +43,7 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		available via a <xajax.request> call.
 	*/
 	var $aFunctions;
-
+	
 	/*
 		String: sXajaxPrefix
 		
@@ -59,9 +59,9 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		javascript file is loaded after the page has been fully loaded.
 	*/
 	var $sDefer;
-	
-	var $bDeferScriptGeneration;
 
+	var $bDeferScriptGeneration;
+	
 	/*
 		String: sRequestedFunction
 
@@ -72,7 +72,7 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		data, it is unnecessary to load it again.
 	*/
 	var $sRequestedFunction;
-
+	
 	/*
 		Function: xajaxFunctionPlugin
 		
@@ -81,80 +81,82 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		be used to determine if the request is for a registered function in
 		<xajaxFunctionPlugin->canProcessRequest>
 	*/
-	function xajaxFunctionPlugin()
-	{
-		$this->aFunctions = array();
+	function xajaxFunctionPlugin() {
 
+		$this->aFunctions = array ();
+		
 		$this->sXajaxPrefix = 'xajax_';
 		$this->sDefer = '';
 		$this->bDeferScriptGeneration = false;
-
+		
 		$this->sRequestedFunction = NULL;
 		
-		if (isset($_GET['xjxfun'])) $this->sRequestedFunction = $_GET['xjxfun'];
-		if (isset($_POST['xjxfun'])) $this->sRequestedFunction = $_POST['xjxfun'];
+		if (isset ( $_GET ['xjxfun'] ))
+			$this->sRequestedFunction = $_GET ['xjxfun'];
+		if (isset ( $_POST ['xjxfun'] ))
+			$this->sRequestedFunction = $_POST ['xjxfun'];
+	
 	}
-
+	
 	/*
 		Function: configure
 		
 		Sets/stores configuration options used by this plugin.
 	*/
-	function configure($sName, $mValue)
-	{
+	function configure($sName, $mValue) {
+
 		if ('wrapperPrefix' == $sName) {
 			$this->sXajaxPrefix = $mValue;
 		} else if ('scriptDefferal' == $sName) {
-			if (true === $mValue) $this->sDefer = 'defer ';
-			else $this->sDefer = '';
+			if (true === $mValue)
+				$this->sDefer = 'defer ';
+			else
+				$this->sDefer = '';
 		} else if ('deferScriptGeneration' == $sName) {
 			if (true === $mValue || false === $mValue)
 				$this->bDeferScriptGeneration = $mValue;
 			else if ('deferred' === $mValue)
 				$this->bDeferScriptGeneration = $mValue;
 		}
+	
 	}
-
+	
 	/*
 		Function: register
 		
 		Provides a mechanism for functions to be registered and made available to
 		the page via the javascript <xajax.request> call.
 	*/
-	function register($aArgs)
-	{
-		if (1 < count($aArgs))
-		{
-			$sType = $aArgs[0];
+	function register($aArgs) {
 
-			if (XAJAX_FUNCTION == $sType)
-			{
-				$xuf = $aArgs[1];
-
+		if (1 < count ( $aArgs )) {
+			$sType = $aArgs [0];
+			
+			if (XAJAX_FUNCTION == $sType) {
+				$xuf = $aArgs [1];
+				
 				if (false === ($xuf instanceof xajaxUserFunction))
-					$xuf = new xajaxUserFunction($xuf);
-
-				if (2 < count($aArgs))
-				{
-					if (is_array($aArgs[2]))
-					{
-						foreach ($aArgs[2] as $sName => $sValue)
-						{
-							$xuf->configure($sName, $sValue);
+					$xuf = new xajaxUserFunction ( $xuf );
+				
+				if (2 < count ( $aArgs )) {
+					if (is_array ( $aArgs [2] )) {
+						foreach ( $aArgs [2] as $sName => $sValue ) {
+							$xuf->configure ( $sName, $sValue );
 						}
 					} else {
-						$xuf->configure('include', $aArgs[2]);
+						$xuf->configure ( 'include', $aArgs [2] );
 					}
 				}
-				$this->aFunctions[] = $xuf;
-
-				return $xuf->generateRequest($this->sXajaxPrefix);
+				$this->aFunctions [] = $xuf;
+				
+				return $xuf->generateRequest ( $this->sXajaxPrefix );
 			}
 		}
-
+		
 		return false;
+	
 	}
-
+	
 	/*
 		Function: generateClientScript
 		
@@ -163,24 +165,23 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		contain function declarations that can be used on the browser through
 		javascript to initiate xajax requests.
 	*/
-	function generateClientScript()
-	{
-		if (false === $this->bDeferScriptGeneration || 'deferred' === $this->bDeferScriptGeneration)
-		{
-			if (0 < count($this->aFunctions))
-			{
+	function generateClientScript() {
+
+		if (false === $this->bDeferScriptGeneration || 'deferred' === $this->bDeferScriptGeneration) {
+			if (0 < count ( $this->aFunctions )) {
 				echo "\n<script type='text/javascript' " . $this->sDefer . "charset='UTF-8'>\n";
 				echo "/* <![CDATA[ */\n";
-
-				foreach (array_keys($this->aFunctions) as $sKey)
-					$this->aFunctions[$sKey]->generateClientScript($this->sXajaxPrefix);
-
+				
+				foreach ( array_keys ( $this->aFunctions ) as $sKey )
+					$this->aFunctions [$sKey]->generateClientScript ( $this->sXajaxPrefix );
+				
 				echo "/* ]]> */\n";
 				echo "</script>\n";
 			}
 		}
+	
 	}
-
+	
 	/*
 		Function: canProcessRequest
 		
@@ -192,14 +193,15 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		boolean - True if the current request can be handled by this plugin;
 			false otherwise.
 	*/
-	function canProcessRequest()
-	{
+	function canProcessRequest() {
+
 		if (NULL == $this->sRequestedFunction)
 			return false;
-
+		
 		return true;
+	
 	}
-
+	
 	/*
 		Function: processRequest
 		
@@ -211,28 +213,28 @@ class xajaxFunctionPlugin extends xajaxRequestPlugin
 		mixed - True when the request has been processed successfully.
 			An error message when an error has occurred.
 	*/
-	function processRequest()
-	{
+	function processRequest() {
+
 		if (NULL == $this->sRequestedFunction)
 			return false;
-
-		$objArgumentManager = xajaxArgumentManager::getInstance();
-		$aArgs = $objArgumentManager->process();
-
-		foreach (array_keys($this->aFunctions) as $sKey)
-		{
-			$xuf = $this->aFunctions[$sKey];
-
-			if ($xuf->getName() == $this->sRequestedFunction)
-			{
-				$xuf->call($aArgs);
+		
+		$objArgumentManager = xajaxArgumentManager::getInstance ();
+		$aArgs = $objArgumentManager->process ();
+		
+		foreach ( array_keys ( $this->aFunctions ) as $sKey ) {
+			$xuf = $this->aFunctions [$sKey];
+			
+			if ($xuf->getName () == $this->sRequestedFunction) {
+				$xuf->call ( $aArgs );
 				return true;
 			}
 		}
-
+		
 		return 'Invalid function request received; no request processor found with this name.';
+	
 	}
+
 }
 
-$objPluginManager = xajaxPluginManager::getInstance();
-$objPluginManager->registerPlugin(new xajaxFunctionPlugin(), 100);
+$objPluginManager = xajaxPluginManager::getInstance ();
+$objPluginManager->registerPlugin ( new xajaxFunctionPlugin (), 100 );

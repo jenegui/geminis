@@ -7,16 +7,18 @@ require_once ("Sql.class.php");
 class FabricaDbConexion {
 
 	private $conexiones;
+
 	private $cadenaSql;
-	
-	
+
 	function __construct() {
+
 		$this->conexiones = array ();
 		$this->cadenaSql = new Sql ();
+	
 	}
-	
-	
+
 	function setRecursoDB($nombre, $objeto) {
+
 		if (is_object ( $objeto )) {
 			$clase = $objeto->getMotorDB ();
 			$registro ["dbdns"] = $objeto->getDireccionServidor ();
@@ -26,8 +28,6 @@ class FabricaDbConexion {
 			$registro ["dbclave"] = $objeto->getClave ();
 			$registro ["dbsys"] = $objeto->getMotorDB ();
 			
-		
-			
 			$recurso = new $clase ( $registro );
 			
 			if ($recurso) {
@@ -36,22 +36,26 @@ class FabricaDbConexion {
 			}
 		}
 		return false;
+	
 	}
-	
-	
+
 	function getRecursoDB($nombre) {
+
 		if (isset ( $this->conexiones [$nombre] )) {
 			
 			return $this->conexiones [$nombre];
 		}
 		return false;
+	
 	}
-	
-	
+
 	function getCadenaSql($opcion, $objeto) {
+
 		$this->cadenaSql->sql ( $opcion, $objeto );
-		return $this->cadenaSql->getCadenaSql ($opcion,$objeto);
+		return $this->cadenaSql->getCadenaSql ( $opcion, $objeto );
+	
 	}
+
 }
 
 ?>

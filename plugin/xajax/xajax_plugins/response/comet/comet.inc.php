@@ -1,5 +1,5 @@
 <?php
-		define('FILE_APPEND', 1);
+define ( 'FILE_APPEND', 1 );
 
 /*
 	File: comet.inc.php
@@ -9,23 +9,20 @@
 
 */
 
-if (false == class_exists('xajaxPlugin') || false == class_exists('xajaxPluginManager'))
-{
-	$sBaseFolder = dirname(dirname(dirname(__FILE__)));
+if (false == class_exists ( 'xajaxPlugin' ) || false == class_exists ( 'xajaxPluginManager' )) {
+	$sBaseFolder = dirname ( dirname ( dirname ( __FILE__ ) ) );
 	$sXajaxCore = $sBaseFolder . '/xajax_core';
-
-	if (false == class_exists('xajaxPlugin'))
+	
+	if (false == class_exists ( 'xajaxPlugin' ))
 		require $sXajaxCore . '/xajaxPlugin.inc.php';
-	if (false == class_exists('xajaxPluginManager'))
+	if (false == class_exists ( 'xajaxPluginManager' ))
 		require $sXajaxCore . '/xajaxPluginManager.inc.php';
 }
-
 
 /*
 	Class: clsCometStreaming
 */
-class clsCometStreaming extends xajaxResponsePlugin
-{
+class clsCometStreaming extends xajaxResponsePlugin {
 	/*
 		String: sDefer
 		
@@ -54,19 +51,19 @@ class clsCometStreaming extends xajaxResponsePlugin
 		using the <clsTableUpdater->sJavascriptURI>.
 	*/
 	var $bInlineScript;
-	
-	
-	var  $fTimeOut;
+
+	var $fTimeOut;
 	/*
 		Function: clsTableUpdater
 		
 		Constructs and initializes an instance of the table updater class.
 	*/
-	function clsCometStreaming()
-	{
+	function clsCometStreaming() {
+
 		$this->sDefer = '';
 		$this->sJavascriptURI = '';
 		$this->bInlineScript = false;
+	
 	}
 	/*
 		Function: configure
@@ -77,22 +74,25 @@ class clsCometStreaming extends xajaxResponsePlugin
 		sName - (string):  The name of the configuration option being set.
 		mValue - (mixed):  The value being associated with the configuration option.
 	*/
-	function configure($sName, $mValue)
-	{
+	function configure($sName, $mValue) {
+
 		if ('scriptDeferral' == $sName) {
 			if (true === $mValue || false === $mValue) {
-				if ($mValue) $this->sDefer = 'defer ';
-				else $this->sDefer = '';
+				if ($mValue)
+					$this->sDefer = 'defer ';
+				else
+					$this->sDefer = '';
 			}
 		} else if ('javascript URI' == $sName) {
 			$this->sJavascriptURI = $mValue;
 		} else if ('inlineScript' == $sName) {
 			if (true === $mValue || false === $mValue)
 				$this->bInlineScript = $mValue;
-		} else if ('cometsleeptimout' == strtolower($sName) ) {
-			if ( is_numeric($mValue) )
+		} else if ('cometsleeptimout' == strtolower ( $sName )) {
+			if (is_numeric ( $mValue ))
 				$this->fTimeOut = $mValue;
 		}
+	
 	}
 	
 	/*
@@ -101,196 +101,182 @@ class clsCometStreaming extends xajaxResponsePlugin
 		Called by the <xajaxPluginManager> during the script generation phase.
 		
 	*/
-	function generateClientScript()
-	{
-		if ($this->bInlineScript)
-		{
+	function generateClientScript() {
+
+		if ($this->bInlineScript) {
 			echo "\n<script type='text/javascript' " . $this->sDefer . "charset='UTF-8'>\n";
 			echo "/* <![CDATA[ */\n";
-
-			include(dirname(__FILE__) . 'xajax_plugins/response/comet/comet.js');
-
+			
+			include (dirname ( __FILE__ ) . 'xajax_plugins/response/comet/comet.js');
+			
 			echo "/* ]]> */\n";
 			echo "</script>\n";
 		} else {
 			echo "\n<script type='text/javascript' src='" . $this->sJavascriptURI . "xajax_plugins/response/comet/comet.js' " . $this->sDefer . "charset='UTF-8'></script>\n";
 		}
+	
 	}
-	
-	
+
 }
 
-class xajaxCometResponse extends xajaxResponse 
-{
+class xajaxCometResponse extends xajaxResponse {
+
 	var $bHeaderSent = false;
-	var $fTimeOut=1;
 
-
+	var $fTimeOut = 1;
+	
 	/*
 		Function: xajaxCometResponse
 		
 		calls  parent function xajaxResponse();
 	*/
+	function xajaxCometResponse($fTimeOut = false) {
+
+		if (false != $fTimeOut)
+			$this->fTimeOut = $fTimeOut;
+		
+		parent::__construct ();
 	
-	function xajaxCometResponse($fTimeOut=false)
-	{
-
-		if ( false != $fTimeOut ) $this->fTimeOut=$fTimeOut;
-
-		parent::__construct();		
-		
-		
 	}
-
+	
 	/*
 		Function: printOutput
 		
 		override the original printOutput function. It's no longer needed since the output is already sent.
 	*/
+	function printOutput() {
 
-	function printOutput()
-	{
-		$this->flush();
-		if ( "HTML5DRAFT" == $_REQUEST['xjxstreaming']) {
-
-			$response = "";
-		  $response .= "Event: xjxendstream\n";
-	    $response .=  "data: done\n";
-	    $response .= "\n";
-			print $response;
+		$this->flush ();
+		if ("HTML5DRAFT" == $_REQUEST ['xjxstreaming']) {
 			
+			$response = "";
+			$response .= "Event: xjxendstream\n";
+			$response .= "data: done\n";
+			$response .= "\n";
+			print $response;
 		}
+	
 	}
-
+	
 	/*
 		Function: flush_XHR
 		
 		Flushes the command queue for comet browsers.
 	*/
+	function flush_XHR() {
 
-	function flush_XHR() 
-	{
-		
-		if (!$this->bHeaderSent) 
-		{
-			$this->_sendHeaders();
-			$this->bHeaderSent=true;
+		if (! $this->bHeaderSent) {
+			$this->_sendHeaders ();
+			$this->bHeaderSent = true;
 		}
 		
-		ob_start();
-		$this->_printResponse_XML();
-		$c = ob_get_contents();
-		ob_get_clean();
-		$c = str_replace(chr(1)," ",$c);
-		$c = str_replace(chr(2)," ",$c);
-		$c = str_replace(chr(31)," ",$c);
-		$c = str_replace(""," ",$c);
-		if ($c == "<xjx></xjx>") return false;
+		ob_start ();
+		$this->_printResponse_XML ();
+		$c = ob_get_contents ();
+		ob_get_clean ();
+		$c = str_replace ( chr ( 1 ), " ", $c );
+		$c = str_replace ( chr ( 2 ), " ", $c );
+		$c = str_replace ( chr ( 31 ), " ", $c );
+		$c = str_replace ( "", " ", $c );
+		if ($c == "<xjx></xjx>")
+			return false;
 		print $c;
-		ob_flush();
-		flush();
-		$this->sleep( $this->fTimeOut );
+		ob_flush ();
+		flush ();
+		$this->sleep ( $this->fTimeOut );
+	
 	}
 	
-
 	/*
 		Function: flush_activeX
 		
 		Flushes the command queue for ActiveX browsers.
 	*/
+	function flush_activeX() {
 
-	function flush_activeX() 
-	{
-		ob_start();
-		$this->_printResponse_XML();
-		$c = ob_get_contents();
-		ob_end_clean();
+		ob_start ();
+		$this->_printResponse_XML ();
+		$c = ob_get_contents ();
+		ob_end_clean ();
 		
-		$c = '<?xml version="1.0" ?>'.$c;
-		$c = str_replace('"','\"',$c);
-		$c = str_replace("\n",'\n',$c);
-		$c = str_replace("\r",'\r',$c);
-
+		$c = '<?xml version="1.0" ?>' . $c;
+		$c = str_replace ( '"', '\"', $c );
+		$c = str_replace ( "\n", '\n', $c );
+		$c = str_replace ( "\r", '\r', $c );
+		
 		$response = "";
 		$response .= "<script>top.document.callback(\"";
 		$response .= $c;
 		$response .= "\");</script>";
 		
-		
 		print $response;
-		ob_flush();
-		flush();
-		$this->sleep( $this->fTimeOut-0.1 );
+		ob_flush ();
+		flush ();
+		$this->sleep ( $this->fTimeOut - 0.1 );
+	
 	}
-
+	
 	/*
 		Function: flush_HTML5DRAFT
 		
 		Flushes the command queue for HTML5DRAFT browsers.
 	*/
+	function flush_HTML5DRAFT() {
 
-	function flush_HTML5DRAFT() 
-	{
-
-
-		if (!$this->bHeaderSent) 
-		{
-			header("Content-Type: application/x-dom-event-stream");
-			$this->bHeaderSent=1;
+		if (! $this->bHeaderSent) {
+			header ( "Content-Type: application/x-dom-event-stream" );
+			$this->bHeaderSent = 1;
 		}
 		
-		ob_start();
-		$this->_printResponse_XML();
-		$c = ob_get_contents();
-		ob_end_clean();
-		$c = str_replace("\n",'\n',$c);
-		$c = str_replace("\r",'\r',$c);
+		ob_start ();
+		$this->_printResponse_XML ();
+		$c = ob_get_contents ();
+		ob_end_clean ();
+		$c = str_replace ( "\n", '\n', $c );
+		$c = str_replace ( "\r", '\r', $c );
 		$response = "";
-	  $response .= "Event: xjxstream\n";
-    $response .=  "data: $c\n";
-    $response .= "\n";
+		$response .= "Event: xjxstream\n";
+		$response .= "data: $c\n";
+		$response .= "\n";
 		print $response;
-		ob_flush();
-		flush();
-		$this->sleep( $this->fTimeOut );
-		
+		ob_flush ();
+		flush ();
+		$this->sleep ( $this->fTimeOut );
+	
 	}
-
-
+	
 	/*
 		Function: flush
 		
 		Determines which browser is wating for a response and calls the according flush function.
 	*/
-	function flush() 
-	{
-		if (0 == count($this->aCommands)) return false;
-		if ("xhr" == $_SERVER['HTTP_STREAMING']) 
-		{
-			$this->flush_XHR();
-		} 
-		elseif ( "HTML5DRAFT" == $_REQUEST['xjxstreaming'])
-		{
-			$this->flush_HTML5DRAFT();
+	function flush() {
+
+		if (0 == count ( $this->aCommands ))
+			return false;
+		if ("xhr" == $_SERVER ['HTTP_STREAMING']) {
+			$this->flush_XHR ();
+		} elseif ("HTML5DRAFT" == $_REQUEST ['xjxstreaming']) {
+			$this->flush_HTML5DRAFT ();
+		} else {
+			$this->flush_activeX ();
 		}
-		else
-		{
-			$this->flush_activeX();
-		}
-		$this->aCommands=array();
+		$this->aCommands = array ();
+	
 	}
- 
+	
 	/*
 		Function: sleep
 		
 		Very accurate sleep function.
 	*/
-	function sleep($seconds) 
-	{
-	   usleep(floor($seconds*1000000));
-	}
+	function sleep($seconds) {
+
+		usleep ( floor ( $seconds * 1000000 ) );
 	
+	}
+
 }
 
-$objPluginManager =& xajaxPluginManager::getInstance();
-$objPluginManager->registerPlugin(new clsCometStreaming());
+$objPluginManager = & xajaxPluginManager::getInstance ();
+$objPluginManager->registerPlugin ( new clsCometStreaming () );

@@ -91,7 +91,7 @@ class FabricaDbConexion {
 	 * Método.
 	 * Encargado de crear los recursos de acceso a las bases de datos y
 	 * agregarlos al arreglo de conexiones.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	private function recursoConfiguracion($nombre, $registro = "") {
@@ -164,7 +164,7 @@ class FabricaDbConexion {
 
 	/**
 	 * Método de acceso.
-	 * 
+	 *
 	 * @param unknown $configuracion        	
 	 */
 	public function setConfiguracion($configuracion) {
@@ -176,7 +176,7 @@ class FabricaDbConexion {
 
 	/**
 	 * Método de Acceso
-	 * 
+	 *
 	 * @param string $name        	
 	 * @return NULL
 	 */

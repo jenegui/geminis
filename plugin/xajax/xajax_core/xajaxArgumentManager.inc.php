@@ -18,11 +18,14 @@
 	@license http://www.xajaxproject.org/bsd_license.txt BSD License
 */
 
-if (!defined('XAJAX_METHOD_UNKNOWN')) define('XAJAX_METHOD_UNKNOWN', 0);
-if (!defined('XAJAX_METHOD_GET')) define('XAJAX_METHOD_GET', 1);
-if (!defined('XAJAX_METHOD_POST')) define('XAJAX_METHOD_POST', 2);
-
-/*
+if (! defined ( 'XAJAX_METHOD_UNKNOWN' ))
+	define ( 'XAJAX_METHOD_UNKNOWN', 0 );
+if (! defined ( 'XAJAX_METHOD_GET' ))
+	define ( 'XAJAX_METHOD_GET', 1 );
+if (! defined ( 'XAJAX_METHOD_POST' ))
+	define ( 'XAJAX_METHOD_POST', 2 );
+	
+	/*
 	Class: xajaxArgumentManager
 	
 	This class processes the input arguments from the GET or POST data of 
@@ -30,8 +33,7 @@ if (!defined('XAJAX_METHOD_POST')) define('XAJAX_METHOD_POST', 2);
 	will be processed.  During a xajax request, any arguments found in the
 	GET or POST will be converted to a PHP array.
 */
-final class xajaxArgumentManager
-{
+final class xajaxArgumentManager {
 	/*
 		Array: aArgs
 		
@@ -82,143 +84,142 @@ final class xajaxArgumentManager
 			(bool) : true / false
 	
 	*/
-	
-	private function __convertStringToBool($sValue)
-	{
-		if (0 == strcasecmp($sValue, 'true'))
+	private function __convertStringToBool($sValue) {
+
+		if (0 == strcasecmp ( $sValue, 'true' ))
 			return true;
-		if (0 == strcasecmp($sValue, 'false'))
+		if (0 == strcasecmp ( $sValue, 'false' ))
 			return false;
-		if (is_numeric($sValue))
-		{
+		if (is_numeric ( $sValue )) {
 			if (0 == $sValue)
 				return false;
 			return true;
 		}
 		return false;
-	}
 	
-	private function __argumentStripSlashes($sArg)
-	{
-		if (false == is_string($sArg))
+	}
+
+	private function __argumentStripSlashes($sArg) {
+
+		if (false == is_string ( $sArg ))
 			return;
 		
-		$sArg = stripslashes($sArg);
-	}
+		$sArg = stripslashes ( $sArg );
 	
-	private function __convertValue($value)
-	{
-		$cType = substr($value, 0, 1);
-		$sValue = substr($value, 1);
+	}
+
+	private function __convertValue($value) {
+
+		$cType = substr ( $value, 0, 1 );
+		$sValue = substr ( $value, 1 );
 		switch ($cType) {
-			case 'S': $value = false === $sValue ? '' : $sValue;  break;
-			case 'B': $value = $this->__convertStringToBool($sValue); break;
-			case 'N': $value = $sValue == floor($sValue) ? (int)$sValue : (float)$sValue; break;
-			case '*': $value = null; break;
+			case 'S' :
+				$value = false === $sValue ? '' : $sValue;
+				break;
+			case 'B' :
+				$value = $this->__convertStringToBool ( $sValue );
+				break;
+			case 'N' :
+				$value = $sValue == floor ( $sValue ) ? ( int ) $sValue : ( float ) $sValue;
+				break;
+			case '*' :
+				$value = null;
+				break;
 		}
 		return $value;
+	
 	}
 
-	private function __decodeXML($xml)
-	{
-		$return = array();
+	private function __decodeXML($xml) {
+
+		$return = array ();
 		$nodes = $xml->e;
-		foreach ($nodes as $node) {
-			$key = (string) $node->k;
-			if (isset($node->v->xjxobj)) {
-				$value = $this->__decodeXML($node->v->xjxobj);
+		foreach ( $nodes as $node ) {
+			$key = ( string ) $node->k;
+			if (isset ( $node->v->xjxobj )) {
+				$value = $this->__decodeXML ( $node->v->xjxobj );
 			} else {
-				$value = $this->__convertValue( (string) $node->v );
+				$value = $this->__convertValue ( ( string ) $node->v );
 			}
-			$return[$key] = $value;
+			$return [$key] = $value;
 		}
-	
+		
 		return $return;
+	
 	}
 
+	private function __argumentDecode(&$sArg) {
 
-	private function __argumentDecode( &$sArg )
-	{
-
-		if ('' ==  $sArg ) return;
-
-		$data = json_decode( $sArg , true );
-		if ( null !== $data ) {
+		if ('' == $sArg)
+			return;
+		
+		$data = json_decode ( $sArg, true );
+		if (null !== $data) {
 			$sArg = $data;
-		} else  {
-			$sArg = $this->__convertValue( $sArg );
+		} else {
+			$sArg = $this->__convertValue ( $sArg );
 		}
-	}
-
-	private function __argumentDecodeUTF8_iconv( &$mArg )
-	{
-
-
-		if ( is_array( $mArg ) )
-		{
-			foreach ( array_keys( $mArg ) as $sKey )
-			{
-				$sNewKey = $sKey;
-				$this->__argumentDecodeUTF8_iconv($sNewKey);
-				
-				if ($sNewKey != $sKey)
-				{
-					$mArg[$sNewKey] = $mArg[$sKey];
-					unset($mArg[$sKey]);
-					$sKey = $sNewKey;
-				}
-				
-				$this->__argumentDecodeUTF8_iconv($mArg[$sKey]);
-			}
-		}
-		else if (is_string($mArg))
-			$mArg = iconv("UTF-8", $this->sCharacterEncoding.'//TRANSLIT', $mArg);
-	}
 	
-	private function __argumentDecodeUTF8_mb_convert_encoding(&$mArg)
-	{
-		if (is_array($mArg))
-		{
-			foreach (array_keys($mArg) as $sKey)
-			{
-				$sNewKey = $sKey;
-				$this->__argumentDecodeUTF8_mb_convert_encoding($sNewKey);
-				
-				if ($sNewKey != $sKey)
-				{
-					$mArg[$sNewKey] = $mArg[$sKey];
-					unset($mArg[$sKey]);
-					$sKey = $sNewKey;
-				}
-				
-				$this->__argumentDecodeUTF8_mb_convert_encoding($mArg[$sKey]);
-			}
-		}
-		else if (is_string($mArg))
-			$mArg = mb_convert_encoding($mArg, $this->sCharacterEncoding, "UTF-8");
 	}
-	
-	private function __argumentDecodeUTF8_utf8_decode(&$mArg)
-	{
-		if (is_array($mArg))
-		{
-			foreach (array_keys($mArg) as $sKey)
-			{
+
+	private function __argumentDecodeUTF8_iconv(&$mArg) {
+
+		if (is_array ( $mArg )) {
+			foreach ( array_keys ( $mArg ) as $sKey ) {
 				$sNewKey = $sKey;
-				$this->__argumentDecodeUTF8_utf8_decode($sNewKey);
+				$this->__argumentDecodeUTF8_iconv ( $sNewKey );
 				
-				if ($sNewKey != $sKey)
-				{
-					$mArg[$sNewKey] = $mArg[$sKey];
-					unset($mArg[$sKey]);
+				if ($sNewKey != $sKey) {
+					$mArg [$sNewKey] = $mArg [$sKey];
+					unset ( $mArg [$sKey] );
 					$sKey = $sNewKey;
 				}
 				
-				$this->__argumentDecodeUTF8_utf8_decode($mArg[$sKey]);
+				$this->__argumentDecodeUTF8_iconv ( $mArg [$sKey] );
 			}
-		}
-		else if (is_string($mArg))
-			$mArg = utf8_decode($mArg);
+		} else if (is_string ( $mArg ))
+			$mArg = iconv ( "UTF-8", $this->sCharacterEncoding . '//TRANSLIT', $mArg );
+	
+	}
+
+	private function __argumentDecodeUTF8_mb_convert_encoding(&$mArg) {
+
+		if (is_array ( $mArg )) {
+			foreach ( array_keys ( $mArg ) as $sKey ) {
+				$sNewKey = $sKey;
+				$this->__argumentDecodeUTF8_mb_convert_encoding ( $sNewKey );
+				
+				if ($sNewKey != $sKey) {
+					$mArg [$sNewKey] = $mArg [$sKey];
+					unset ( $mArg [$sKey] );
+					$sKey = $sNewKey;
+				}
+				
+				$this->__argumentDecodeUTF8_mb_convert_encoding ( $mArg [$sKey] );
+			}
+		} else if (is_string ( $mArg ))
+			$mArg = mb_convert_encoding ( $mArg, $this->sCharacterEncoding, "UTF-8" );
+	
+	}
+
+	private function __argumentDecodeUTF8_utf8_decode(&$mArg) {
+
+		if (is_array ( $mArg )) {
+			foreach ( array_keys ( $mArg ) as $sKey ) {
+				$sNewKey = $sKey;
+				$this->__argumentDecodeUTF8_utf8_decode ( $sNewKey );
+				
+				if ($sNewKey != $sKey) {
+					$mArg [$sNewKey] = $mArg [$sKey];
+					unset ( $mArg [$sKey] );
+					$sKey = $sNewKey;
+				}
+				
+				$this->__argumentDecodeUTF8_utf8_decode ( $mArg [$sKey] );
+			}
+		} else if (is_string ( $mArg ))
+			$mArg = utf8_decode ( $mArg );
+	
 	}
 	
 	/*
@@ -227,24 +228,31 @@ final class xajaxArgumentManager
 		Initializes configuration settings to their default values and reads
 		the argument data from the GET or POST data.
 	*/
-	private function __construct()
-	{
-		$this->aArgs = array();
+	private function __construct() {
+
+		$this->aArgs = array ();
 		$this->bDecodeUTF8Input = false;
 		$this->sCharacterEncoding = 'UTF-8';
 		$this->nMethod = XAJAX_METHOD_UNKNOWN;
 		
-		if (isset($_POST['xjxargs'])) {
+		if (isset ( $_POST ['xjxargs'] )) {
 			$this->nMethod = XAJAX_METHOD_POST;
-			$this->aArgs = $_POST['xjxargs'];
-		} else if (isset($_GET['xjxargs'])) {
+			$this->aArgs = $_POST ['xjxargs'];
+		} else if (isset ( $_GET ['xjxargs'] )) {
 			$this->nMethod = XAJAX_METHOD_GET;
-			$this->aArgs = $_GET['xjxargs'];
+			$this->aArgs = $_GET ['xjxargs'];
 		}
-		if (1 == get_magic_quotes_gpc())
-			array_walk($this->aArgs, array(&$this, '__argumentStripSlashes'));
-
-		array_walk($this->aArgs, array(&$this, '__argumentDecode'));
+		if (1 == get_magic_quotes_gpc ())
+			array_walk ( $this->aArgs, array (
+					&$this,
+					'__argumentStripSlashes' 
+			) );
+		
+		array_walk ( $this->aArgs, array (
+				&$this,
+				'__argumentDecode' 
+		) );
+	
 	}
 	
 	/*
@@ -255,13 +263,14 @@ final class xajaxArgumentManager
 		object - A reference to an instance of this class.  This function is
 			used to implement the singleton pattern.
 	*/
-	public static function &getInstance()
-	{
+	public static function &getInstance() {
+
 		static $obj;
-		if (!$obj) {
-			$obj = new xajaxArgumentManager();
+		if (! $obj) {
+			$obj = new xajaxArgumentManager ();
 		}
 		return $obj;
+	
 	}
 	
 	/*
@@ -277,14 +286,15 @@ final class xajaxArgumentManager
 			<decodeUTF8Input> - (boolean): See <xajaxArgumentManager->bDecodeUTF8Input>
 			<characterEncoding> - (string): See <xajaxArgumentManager->sCharacterEncoding>
 	*/
-	public function configure($sName, $mValue)
-	{
+	public function configure($sName, $mValue) {
+
 		if ('decodeUTF8Input' == $sName) {
 			if (true === $mValue || false === $mValue)
 				$this->bDecodeUTF8Input = $mValue;
 		} else if ('characterEncoding' == $sName) {
 			$this->sCharacterEncoding = $mValue;
 		}
+	
 	}
 	
 	/*
@@ -292,9 +302,10 @@ final class xajaxArgumentManager
 		
 		Returns the method that was used to send the arguments from the client.
 	*/
-	public function getRequestMethod()
-	{
+	public function getRequestMethod() {
+
 		return $this->nMethod;
+	
 	}
 	
 	/*
@@ -303,33 +314,34 @@ final class xajaxArgumentManager
 		Returns the array of arguments that were extracted and parsed from 
 		the GET or POST data.
 	*/
- 	public function process()
-	{
-		if ($this->bDecodeUTF8Input)
-		{
+	public function process() {
 
+		if ($this->bDecodeUTF8Input) {
+			
 			$sFunction = '';
 			
-			if (function_exists('iconv'))
+			if (function_exists ( 'iconv' ))
 				$sFunction = "iconv";
-			else if (function_exists('mb_convert_encoding'))
+			else if (function_exists ( 'mb_convert_encoding' ))
 				$sFunction = "mb_convert_encoding";
 			else if ($this->sCharacterEncoding == "ISO-8859-1")
 				$sFunction = "utf8_decode";
 			else {
-				$objLanguageManager = xajaxLanguageManager::getInstance();
-				trigger_error(
-					$objLanguageManager->getText('ARGMGR:ERR:03')
-					, E_USER_NOTICE
-					);
+				$objLanguageManager = xajaxLanguageManager::getInstance ();
+				trigger_error ( $objLanguageManager->getText ( 'ARGMGR:ERR:03' ), E_USER_NOTICE );
 			}
 			
-			$mFunction = array(&$this, '__argumentDecodeUTF8_' . $sFunction);
+			$mFunction = array (
+					&$this,
+					'__argumentDecodeUTF8_' . $sFunction 
+			);
 			
-			array_walk($this->aArgs, $mFunction);
+			array_walk ( $this->aArgs, $mFunction );
 			$this->bDecodeUTF8Input = false;
 		}
 		
 		return $this->aArgs;
+	
 	}
+
 }

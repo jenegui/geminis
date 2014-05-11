@@ -18,7 +18,7 @@ class Bootstrap {
 	/**
 	 * Objeto.
 	 * Con los atributos y métodos para gestionar la sesión de usuario
-	 * 
+	 *
 	 * @var Sesion
 	 */
 	var $sesionUsuario;
@@ -26,10 +26,11 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Objeto.
 	 * Encargado de inicializar las variables globales. Su atributo $configuracion contiene los valores necesarios
 	 * para gestionar la aplicacion.
-	 * 
+	 *
 	 * @var Configurador
 	 */
 	var $miConfigurador;
@@ -37,9 +38,10 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Objeto, con funciones miembro generales que encapsulan funcionalidades
 	 * básicas.
-	 * 
+	 *
 	 * @var FuncionGeneral
 	 */
 	private $miFuncion;
@@ -47,15 +49,16 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Objeto. Gestiona conexiones a bases de datos.
-	 * 
+	 *
 	 * @var FabricaDBConexion
 	 */
 	private $manejadorDB;
 
 	/**
 	 * Objeto de la clase Encriptador se encarga de codificar/decodificar cadenas de texto.
-	 * 
+	 *
 	 * @var Encriptador
 	 */
 	private $cripto;
@@ -63,8 +66,9 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Objeto. Actua como controlador del modulo de instalación del framework/aplicativo
-	 * 
+	 *
 	 * @var Instalador
 	 */
 	var $miInstalador;
@@ -72,13 +76,15 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Objeto. Instancia de la pagina que se está visitando
-	 * 
+	 *
 	 * @var Pagina
 	 */
 	var $miPagina;
 
 	/**
+	 *
 	 *
 	 *
 	 * Arreglo.Ruta de acceso a los archivos, se utilizan porque aún no se ha rescatado las
@@ -90,14 +96,14 @@ class Bootstrap {
 
 	/**
 	 * Objeto que se encarga de mostrar los mensajes de error fatales.
-	 * 
+	 *
 	 * @var Mensaje
 	 */
 	var $cuadroMensaje;
 
 	/**
 	 * Contructor
-	 * 
+	 *
 	 * @param
 	 *        	none
 	 * @return integer
@@ -143,8 +149,9 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Asigna los valores a las variables que indican las rutas predeterminadas.
-	 * 
+	 *
 	 * @param
 	 *        	strting array $variables
 	 */
@@ -158,8 +165,9 @@ class Bootstrap {
 	/**
 	 *
 	 *
+	 *
 	 * Ingresar al aplicativo.
-	 * 
+	 *
 	 * @param
 	 *        	Ninguno
 	 * @return int
@@ -274,7 +282,7 @@ class Bootstrap {
 
 	/**
 	 * Redireccionar a otra página
-	 * 
+	 *
 	 * @return number
 	 */
 	function redireccionar($pagina = '', $opciones = '') {

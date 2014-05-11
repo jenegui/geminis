@@ -26,37 +26,53 @@
 
 	This is called when the page is first loaded.
 */
-final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
-{
+final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin {
+
 	private $sJsURI;
+
 	private $aJsFiles;
+
 	private $sDefer;
+
 	private $sRequestURI;
+
 	private $sStatusMessages;
+
 	private $sWaitCursor;
+
 	private $sVersion;
+
 	private $sDefaultMode;
+
 	private $sDefaultMethod;
+
 	private $bDebug;
+
 	private $bVerboseDebug;
+
 	private $nScriptLoadTimeout;
+
 	private $bUseUncompressedScripts;
+
 	private $bDeferScriptGeneration;
+
 	private $sLanguage;
+
 	private $nResponseQueueSize;
+
 	private $sDebugOutputID;
 
-	public function xajaxIncludeClientScriptPlugin()
-	{
+	public function xajaxIncludeClientScriptPlugin() {
+
 		$this->sJsURI = '';
-		$this->aJsFiles = array();
+		$this->aJsFiles = array ();
 		$this->sDefer = '';
 		$this->sRequestURI = '';
 		$this->sStatusMessages = 'false';
 		$this->sWaitCursor = 'true';
 		$this->sVersion = 'unknown';
 		$this->sDefaultMode = 'asynchronous';
-		$this->sDefaultMethod = 'POST';	// W3C: Method is case sensitive
+		$this->sDefaultMethod = 'POST'; // W3C: Method is case sensitive
 		$this->bDebug = false;
 		$this->bVerboseDebug = false;
 		$this->nScriptLoadTimeout = 2000;
@@ -65,35 +81,42 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		$this->sLanguage = null;
 		$this->nResponseQueueSize = null;
 		$this->sDebugOutputID = null;
+	
 	}
-
+	
 	/*
 		Function: configure
 	*/
-	public function configure($sName, $mValue)
-	{
+	public function configure($sName, $mValue) {
+
 		if ('javascript URI' == $sName) {
 			$this->sJsURI = $mValue;
 		} else if ("javascript files" == $sName) {
 			$this->aJsFiles = $mValue;
 		} else if ("scriptDefferal" == $sName) {
-			if (true === $mValue) $this->sDefer = "defer ";
-			else $this->sDefer = "";
+			if (true === $mValue)
+				$this->sDefer = "defer ";
+			else
+				$this->sDefer = "";
 		} else if ("requestURI" == $sName) {
 			$this->sRequestURI = $mValue;
 		} else if ("statusMessages" == $sName) {
-			if (true === $mValue) $this->sStatusMessages = "true";
-			else $this->sStatusMessages = "false";
+			if (true === $mValue)
+				$this->sStatusMessages = "true";
+			else
+				$this->sStatusMessages = "false";
 		} else if ("waitCursor" == $sName) {
-			if (true === $mValue) $this->sWaitCursor = "true";
-			else $this->sWaitCursor = "false";
+			if (true === $mValue)
+				$this->sWaitCursor = "true";
+			else
+				$this->sWaitCursor = "false";
 		} else if ("version" == $sName) {
 			$this->sVersion = $mValue;
 		} else if ("defaultMode" == $sName) {
 			if ("asynchronous" == $mValue || "synchronous" == $mValue)
 				$this->sDefaultMode = $mValue;
 		} else if ("defaultMethod" == $sName) {
-			if ("POST" == $mValue || "GET" == $mValue)	// W3C: Method is case sensitive
+			if ("POST" == $mValue || "GET" == $mValue) // W3C: Method is case sensitive
 				$this->sDefaultMethod = $mValue;
 		} else if ("debug" == $sName) {
 			if (true === $mValue || false === $mValue)
@@ -118,28 +141,25 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		} else if ('debugOutputID' == $sName) {
 			$this->sDebugOutputID = $mValue;
 		}
+	
 	}
-
+	
 	/*
 		Function: generateClientScript
 	*/
-	public function generateClientScript()
-	{
-		if (false === $this->bDeferScriptGeneration)
-		{
-			$this->printJavascriptConfig();
-			$this->printJavascriptInclude();
-		}
-		else if (true === $this->bDeferScriptGeneration)
-		{
-			$this->printJavascriptInclude();
-		}
-		else if ('deferred' == $this->bDeferScriptGeneration)
-		{
-			$this->printJavascriptConfig();
-		}
-	}
+	public function generateClientScript() {
 
+		if (false === $this->bDeferScriptGeneration) {
+			$this->printJavascriptConfig ();
+			$this->printJavascriptInclude ();
+		} else if (true === $this->bDeferScriptGeneration) {
+			$this->printJavascriptInclude ();
+		} else if ('deferred' == $this->bDeferScriptGeneration) {
+			$this->printJavascriptConfig ();
+		}
+	
+	}
+	
 	/*
 		Function: getJavascriptConfig
 
@@ -151,11 +171,12 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		string - The javascript code necessary to configure the settings on
 			the browser.
 	*/
-	public function getJavascriptConfig()
-	{
-		ob_start();
-		$this->printJavascriptConfig();
-		return ob_get_clean();
+	public function getJavascriptConfig() {
+
+		ob_start ();
+		$this->printJavascriptConfig ();
+		return ob_get_clean ();
+	
 	}
 	
 	/*
@@ -163,15 +184,15 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		
 		See <xajaxIncludeClientScriptPlugin::getJavascriptConfig>
 	*/
-	public function printJavascriptConfig()
-	{
+	public function printJavascriptConfig() {
+
 		$sCrLf = "\n";
 		
 		$sJsURI = $this->sJsURI;
-
-		if ($sJsURI != '' && substr($sJsURI, -1) != '/') 
+		
+		if ($sJsURI != '' && substr ( $sJsURI, - 1 ) != '/')
 			$sJsURI .= '/';
-
+		
 		echo $sCrLf;
 		echo '<';
 		echo 'script type="text/javascript" ';
@@ -210,20 +231,16 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		echo 'xajax.config.JavaScriptURI = "';
 		echo $this->sJsURI;
 		echo '";';
-
 		
-		if (false === (null === $this->nResponseQueueSize))
-		{
+		if (false === (null === $this->nResponseQueueSize)) {
 			echo $sCrLf;
 			echo 'xajax.config.responseQueueSize = ';
 			echo $this->nResponseQueueSize;
 			echo ';';
 		}
 		
-		if (true === $this->bDebug)
-		{
-			if (false === (null === $this->sDebugOutputID))
-			{
+		if (true === $this->bDebug) {
+			if (false === (null === $this->sDebugOutputID)) {
 				echo $sCrLf;
 				echo 'xajax.debug = {};';
 				echo $sCrLf;
@@ -239,8 +256,9 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		echo '<';
 		echo '/script>';
 		echo $sCrLf;
+	
 	}
-
+	
 	/*
 		Function: getJavascriptInclude
 
@@ -256,11 +274,12 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		string - The SCRIPT tags that will cause the browser to load the
 			specified files.
 	*/
-	public function getJavascriptInclude()
-	{
-		ob_start();
-		$this->printJavascriptInclude();
-		return ob_get_clean();
+	public function getJavascriptInclude() {
+
+		ob_start ();
+		$this->printJavascriptInclude ();
+		return ob_get_clean ();
+	
 	}
 	
 	/*
@@ -268,43 +287,55 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		
 		See <xajaxIncludeClientScriptPlugin::getJavascriptInclude>
 	*/
-	public function printJavascriptInclude()
-	{
+	public function printJavascriptInclude() {
+
 		$aJsFiles = $this->aJsFiles;
 		$sJsURI = $this->sJsURI;
-
-		if (0 == count($aJsFiles)) {
-			$aJsFiles[] = array($this->_getScriptFilename('xajax_js/xajax_core.js'), 'xajax');
+		
+		if (0 == count ( $aJsFiles )) {
+			$aJsFiles [] = array (
+					$this->_getScriptFilename ( 'xajax_js/xajax_core.js' ),
+					'xajax' 
+			);
 			
 			if (true === $this->bDebug)
-				$aJsFiles[] = array($this->_getScriptFilename('xajax_js/xajax_debug.js'), 'xajax.debug');
+				$aJsFiles [] = array (
+						$this->_getScriptFilename ( 'xajax_js/xajax_debug.js' ),
+						'xajax.debug' 
+				);
 			
 			if (true === $this->bVerboseDebug)
-				$aJsFiles[] = array($this->_getScriptFilename('xajax_js/xajax_verbose.js'), 'xajax.debug.verbose');
+				$aJsFiles [] = array (
+						$this->_getScriptFilename ( 'xajax_js/xajax_verbose.js' ),
+						'xajax.debug.verbose' 
+				);
 			
 			if (null !== $this->sLanguage)
-				$aJsFiles[] = array($this->_getScriptFilename('xajax_js/xajax_lang_' . $this->sLanguage . '.js'), 'xajax');
+				$aJsFiles [] = array (
+						$this->_getScriptFilename ( 'xajax_js/xajax_lang_' . $this->sLanguage . '.js' ),
+						'xajax' 
+				);
 		}
 		
-		if ($sJsURI != '' && substr($sJsURI, -1) != '/') 
+		if ($sJsURI != '' && substr ( $sJsURI, - 1 ) != '/')
 			$sJsURI .= '/';
-			
+		
 		$sCrLf = "\n";
 		
-		foreach ($aJsFiles as $aJsFile) {
+		foreach ( $aJsFiles as $aJsFile ) {
 			echo '<';
 			echo 'script type="text/javascript" src="';
 			echo $sJsURI;
-			echo $aJsFile[0];
+			echo $aJsFile [0];
 			echo '" ';
 			echo $this->sDefer;
 			echo 'charset="UTF-8"><';
 			echo '/script>';
 			echo $sCrLf;
 		}
-			
+		
 		if (0 < $this->nScriptLoadTimeout) {
-			foreach ($aJsFiles as $aJsFile) {
+			foreach ( $aJsFiles as $aJsFile ) {
 				echo '<';
 				echo 'script type="text/javascript" ';
 				echo $this->sDefer;
@@ -320,7 +351,7 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 				echo '  var scriptExists = false;';
 				echo $sCrLf;
 				echo '  try { if (';
-				echo $aJsFile[1];
+				echo $aJsFile [1];
 				echo '.isLoaded) scriptExists = true; }';
 				echo $sCrLf;
 				echo '  catch (e) {}';
@@ -328,10 +359,10 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 				echo '  if (!scriptExists) {';
 				echo $sCrLf;
 				echo '   alert("Error: the ';
-				echo $aJsFile[1];
+				echo $aJsFile [1];
 				echo ' Javascript component could not be included. Perhaps the URL is incorrect?\nURL: ';
 				echo $sJsURI;
-				echo $aJsFile[0];
+				echo $aJsFile [0];
 				echo '");';
 				echo $sCrLf;
 				echo '  }';
@@ -347,6 +378,7 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 				echo $sCrLf;
 			}
 		}
+	
 	}
 	
 	/*
@@ -361,17 +393,19 @@ final class xajaxIncludeClientScriptPlugin extends xajaxRequestPlugin
 		string - The filename as it should be specified in the script tags
 		on the browser.
 	*/
-	private function _getScriptFilename($sFilename)
-	{
+	private function _getScriptFilename($sFilename) {
+
 		if ($this->bUseUncompressedScripts) {
-			return str_replace('.js', '_uncompressed.js', $sFilename);  
+			return str_replace ( '.js', '_uncompressed.js', $sFilename );
 		}
 		return $sFilename;
+	
 	}
+
 }
 
 /*
 	Register the xajaxIncludeClientScriptPlugin object with the xajaxPluginManager.
 */
-$objPluginManager = xajaxPluginManager::getInstance();
-$objPluginManager->registerPlugin(new xajaxIncludeClientScriptPlugin(), 99);
+$objPluginManager = xajaxPluginManager::getInstance ();
+$objPluginManager->registerPlugin ( new xajaxIncludeClientScriptPlugin (), 99 );

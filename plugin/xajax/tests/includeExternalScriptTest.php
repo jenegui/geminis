@@ -1,19 +1,19 @@
 <?php
+require_once ("../xajax_core/xajax.inc.php");
 
-require_once("../xajax_core/xajax.inc.php");
+function includeScript($sFilename) {
 
-function includeScript($sFilename)
-{
-	$objResponse = new xajaxResponse();
-	$objResponse->includeScript($sFilename);
+	$objResponse = new xajaxResponse ();
+	$objResponse->includeScript ( $sFilename );
 	return $objResponse;
+
 }
 
-$xajax = new xajax();
-//$xajax->configure("debug", true);
-$xajax->register(XAJAX_FUNCTION, "includeScript");
-$xajax->processRequest();
-$xajax->configure('javascript URI','../');
+$xajax = new xajax ();
+// $xajax->configure("debug", true);
+$xajax->register ( XAJAX_FUNCTION, "includeScript" );
+$xajax->processRequest ();
+$xajax->configure ( 'javascript URI', '../' );
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -21,7 +21,7 @@ $xajax->configure('javascript URI','../');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Include External Javascript Test | xajax Tests</title>
-<?php $xajax->printJavascript("../") ?>
+<?php $xajax->printJavascript("../")?>
 <script type="text/javascript">
 function externalFunction()
 {
@@ -38,12 +38,18 @@ function externalFunction()
 </head>
 <body>
 
-<h2><a href="index.php">xajax Tests</a></h2>
-<h1>Include External Javascript Test</h1>
+	<h2>
+		<a href="index.php">xajax Tests</a>
+	</h2>
+	<h1>Include External Javascript Test</h1>
 
-<div id="myDiv"" style="padding: 3px; display: table; border: 1px outset black; font-size: large; margin-bottom: 10px;" onclick="externalFunction()">Click Me</div>
+	<div id="myDiv"
+		" style="padding: 3px; display: table; border: 1px outset black; font-size: large; margin-bottom: 10px;"
+		onclick="externalFunction()">Click Me</div>
 
-<form id="testForm1" onsubmit="return false;">
-<input type="submit" value="Include myFunction.js" onclick="xajax_includeScript('myExternalFunction.js'); return false;" />
+	<form id="testForm1" onsubmit="return false;">
+		<input type="submit" value="Include myFunction.js"
+			onclick="xajax_includeScript('myExternalFunction.js'); return false;" />
+
 </body>
 </html>

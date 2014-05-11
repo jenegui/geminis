@@ -23,8 +23,8 @@
 	
 	The base class for all xajax plugins.
 */
-class xajaxPlugin
-{
+class xajaxPlugin {
+
 }
 
 /*
@@ -41,8 +41,7 @@ class xajaxPlugin
 	plugin will detect the signature generated previously and process the request
 	accordingly.
 */
-class xajaxRequestPlugin extends xajaxPlugin
-{
+class xajaxRequestPlugin extends xajaxPlugin {
 	/*
 		Function: configure
 		
@@ -50,8 +49,9 @@ class xajaxRequestPlugin extends xajaxPlugin
 		Plugins should store a local copy of the settings they wish to use during 
 		registration, client script generation or request processing.
 	*/
-	function configure($sName, $mValue)
-	{
+	function configure($sName, $mValue) {
+
+	
 	}
 	
 	/*
@@ -61,9 +61,10 @@ class xajaxRequestPlugin extends xajaxPlugin
 		or callable object is to be registered.  Additional plugins may support other 
 		registration types.
 	*/
-	function register($aArgs)
-	{
+	function register($aArgs) {
+
 		return false;
+	
 	}
 	
 	/*
@@ -74,8 +75,9 @@ class xajaxRequestPlugin extends xajaxPlugin
 		into the HEAD of the document.  Each block must be appropriately enclosed, meaning
 		javascript code must be enclosed in SCRIPT and /SCRIPT tags.
 	*/
-	function generateClientScript()
-	{
+	function generateClientScript() {
+
+	
 	}
 	
 	/*
@@ -84,9 +86,10 @@ class xajaxRequestPlugin extends xajaxPlugin
 		Called by the <xajaxPluginManager> when a request has been received to determine
 		if the request is for a xajax enabled function or for the initial page load.
 	*/
-	function canProcessRequest()
-	{
+	function canProcessRequest() {
+
 		return false;
+	
 	}
 	
 	/*
@@ -99,10 +102,12 @@ class xajaxRequestPlugin extends xajaxPlugin
 		Returns:
 			false
 	*/
-	function processRequest()
-	{
+	function processRequest() {
+
 		return false;
+	
 	}
+
 }
 
 /*
@@ -115,8 +120,7 @@ class xajaxRequestPlugin extends xajaxPlugin
 	client.  In addition, a response command may send javascript to the browser
 	at page load to aid in the processing of it's response commands.
 */
-class xajaxResponsePlugin extends xajaxPlugin
-{
+class xajaxResponsePlugin extends xajaxPlugin {
 	/*
 		Object: objResponse
 		
@@ -135,9 +139,10 @@ class xajaxResponsePlugin extends xajaxPlugin
 		
 		objResponse - (object):  A reference to the <xajaxResponse> object
 	*/
-	function setResponse($objResponse)
-	{
+	function setResponse($objResponse) {
+
 		$this->objResponse = $objResponse;
+	
 	}
 	
 	/*
@@ -147,10 +152,11 @@ class xajaxResponsePlugin extends xajaxPlugin
 		will call <xajaxResponse->addPluginCommand> using the reference provided
 		in <xajaxResponsePlugin->setResponse>.
 	*/
- 	function addCommand($aAttributes, $sData)
- 	{
- 		$this->objResponse->addPluginCommand($this, $aAttributes, $sData);
- 	}
+	function addCommand($aAttributes, $sData) {
+
+		$this->objResponse->addPluginCommand ( $this, $aAttributes, $sData );
+	
+	}
 	
 	/*
 		Function: getName
@@ -159,15 +165,11 @@ class xajaxResponsePlugin extends xajaxPlugin
 		This name must match the plugin name requested in the called to 
 		<xajaxResponse->plugin>.
 	*/
-	function getName()
-	{
-//SkipDebug
-		$objLanguageManager = xajaxLanguageManager::getInstance();
-		trigger_error(
-			$objLanguageManager->getText('XJXPLG:GNERR:01')
-			, E_USER_ERROR
-			);
-//EndSkipDebug
+	function getName() {
+		// SkipDebug
+		$objLanguageManager = xajaxLanguageManager::getInstance ();
+		trigger_error ( $objLanguageManager->getText ( 'XJXPLG:GNERR:01' ), E_USER_ERROR );
+		// EndSkipDebug
 	}
 	
 	/*
@@ -178,14 +180,11 @@ class xajaxResponsePlugin extends xajaxPlugin
 		determine which response command and parameters will be sent to the
 		client upon completion of the xajax request process.
 	*/
-	function process()
-	{
-//SkipDebug
-		$objLanguageManager = xajaxLanguageManager::getInstance();
-		trigger_error(
-			$objLanguageManager->getText('XJXPLG:PERR:01')
-			, E_USER_ERROR
-			);
-//EndSkipDebug
+	function process() {
+		// SkipDebug
+		$objLanguageManager = xajaxLanguageManager::getInstance ();
+		trigger_error ( $objLanguageManager->getText ( 'XJXPLG:PERR:01' ), E_USER_ERROR );
+		// EndSkipDebug
 	}
+
 }

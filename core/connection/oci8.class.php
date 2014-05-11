@@ -243,6 +243,7 @@ class oci8 implements Conector {
 	 * @access public
 	 */
 	function conectar_db() {
+
 		$this->enlace = oci_connect ( $this->usuario, $this->clave, $this->db );
 		
 		if ($this->enlace) {

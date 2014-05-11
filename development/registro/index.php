@@ -1,10 +1,12 @@
 <?php
 require_once ('Registrador.class.php');
+
 class Disparador {
-	
+
 	var $miRegistrador;
-	
+
 	function iniciarRegistro() {
+
 		$pagina = "<html>";
 		$pagina .= "<head>";
 		$pagina .= "<meta charset='utf-8'>";
@@ -31,20 +33,26 @@ class Disparador {
 		$pagina .= "</html>";
 		
 		echo $pagina;
-	}
 	
-	function procesarFormulario(){
-		$this->miRegistrador->procesarFormulario($_REQUEST["action"]);
 	}
-	function __construct() {
-		
-		$this->miRegistrador= new RegistradorElemento ();
-		if ( isset ( $_REQUEST ["action"] )) {
-			$this->procesarFormulario();
-		}
 
-		$this->iniciarRegistro ();
+	function procesarFormulario() {
+
+		$this->miRegistrador->procesarFormulario ( $_REQUEST ["action"] );
+	
 	}
+
+	function __construct() {
+
+		$this->miRegistrador = new RegistradorElemento ();
+		if (isset ( $_REQUEST ["action"] )) {
+			$this->procesarFormulario ();
+		}
+		
+		$this->iniciarRegistro ();
+	
+	}
+
 }
 
 $miIniciador = new Disparador ();

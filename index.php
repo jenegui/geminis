@@ -16,18 +16,20 @@
  * @
  *
  */
+require_once ("core/manager/Bootstrap.class.php");
 
-require_once("core/manager/Bootstrap.class.php");
-
-class Aplicacion{
+class Aplicacion {
 
 	/**
-	 * Arreglo. Contiene las rutas donde se encuentran los archivos del aplicativo.
+	 * Arreglo.
+	 * Contiene las rutas donde se encuentran los archivos del aplicativo.
+	 * 
 	 * @var string
 	 */
-
+	
 	/**
-	 * Objeto. Se encarga de las tareas preliminares que se requieren para lanzar la aplicación.
+	 * Objeto.
+	 * Se encarga de las tareas preliminares que se requieren para lanzar la aplicación.
 	 *
 	 * @var Inicializador
 	 */
@@ -35,22 +37,24 @@ class Aplicacion{
 
 	function __construct() {
 
-		$GLOBALS["configuracion"] = TRUE;
-		$this->miLanzador = new Bootstrap();
+		$GLOBALS ["configuracion"] = TRUE;
+		$this->miLanzador = new Bootstrap ();
 		
-		do{
-			if(isset($_REQUEST["recargar"])){
-				unset($_REQUEST["recargar"]);
+		do {
+			if (isset ( $_REQUEST ["recargar"] )) {
+				unset ( $_REQUEST ["recargar"] );
 			}
-                        $this->miLanzador->iniciar();			
-		}while(isset($_REQUEST["recargar"]));
+			$this->miLanzador->iniciar ();
+		} while ( isset ( $_REQUEST ["recargar"] ) );
+	
 	}
 
-};
+}
+;
 
 /**
  * Iniciar la aplicacion.
  */
-$miAplicacion = new Aplicacion();
+$miAplicacion = new Aplicacion ();
 
 ?>

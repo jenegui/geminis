@@ -2,12 +2,19 @@
 require_once ('configDesenlace.class.php');
 require_once ("../connection/FabricaDbConexion.class.php");
 require_once ('DatoConexion.php');
+
 class RegistradorElemento {
+
 	var $miSql;
+
 	var $miConfigurador;
+
 	var $misDatosConexion;
+
 	var $miFabricaConexiones;
+
 	function __construct() {
+
 		$this->miSql = new Sql ();
 		$this->miConfigurador = ConfiguracionDesenlace::singleton ();
 		$this->miConfigurador->variable ();
@@ -18,8 +25,11 @@ class RegistradorElemento {
 		$this->miFabricaConexiones = new FabricaDbConexion ();
 		
 		$this->miFabricaConexiones->setRecursoDB ( "principal", $this->misDatosConexion );
+	
 	}
+
 	function formRegistrarPagina() {
+
 		$cadenaHTML = "<div id='registrarPagina' class='marcoFormulario'>";
 		$cadenaHTML .= "<form method='post'>";
 		$cadenaHTML .= "<label for='nombrePagina' >Nombre de la página:</label>";
@@ -40,8 +50,11 @@ class RegistradorElemento {
 		$cadenaHTML .= "</div>";
 		
 		return $cadenaHTML;
+	
 	}
+
 	function formRegistrarBloque() {
+
 		$cadenaHTML = "<div id='registrarBloque'  class='marcoFormulario'>";
 		$cadenaHTML .= "<form  method='post'>";
 		$cadenaHTML .= "<label for='nombreBloque' >Nombre del Bloque:</label>";
@@ -58,8 +71,11 @@ class RegistradorElemento {
 		$cadenaHTML .= "</div>";
 		
 		return $cadenaHTML;
+	
 	}
+
 	function formAsociarBloque() {
+
 		$cadenaHTML = "<div id='seleccionarPagina' class='marcoDisenno'>";
 		
 		$cadenaHTML .= "</div>";
@@ -86,8 +102,11 @@ class RegistradorElemento {
 		$cadenaHTML .= "</div>";
 		
 		return $cadenaHTML;
+	
 	}
+
 	function formSeleccionarAccion() {
+
 		$cadenaHTML = "<div class='marcoBoton'>";
 		$cadenaHTML .= "<form  method='post'>";
 		$cadenaHTML .= "<select id='seleccionador'>";
@@ -101,8 +120,11 @@ class RegistradorElemento {
 		$cadenaHTML .= "</div>";
 		
 		return $cadenaHTML;
+	
 	}
+
 	function procesarFormulario($opcion) {
+
 		$conexion = $this->miFabricaConexiones->getRecursoDB ( 'principal' );
 		
 		if (! $conexion) {
@@ -122,9 +144,14 @@ class RegistradorElemento {
 				$conexion->ejecutarAcceso ( $cadenaSql, "insertar" );
 				break;
 		}
+	
 	}
+
 	function buscarDatos() {
+
+	
 	}
+
 }
 
 ?>

@@ -20,6 +20,7 @@ class Configurador {
 	/**
 	 *
 	 *
+	 *
 	 * Arreglo que contiene las variables de configuración globales para el aplicativo.
 	 * Las variables se extraen de la base de datos de acuerdo a los datos de acceso declarados
 	 * en config.inc.php.
@@ -31,8 +32,9 @@ class Configurador {
 	/**
 	 *
 	 *
+	 *
 	 * Fabrica de Conexiones a la base de datos de estructura
-	 * 
+	 *
 	 * @var ConectorBasicoDB
 	 */
 	public $fabricaConexiones;
@@ -67,7 +69,7 @@ class Configurador {
 	 * en la base de datos principal cuyos datos de conexión los retorna la función
 	 * de acceso de config.class.php.
 	 * Los datos son cargados en el arreglo $configuracion
-	 * 
+	 *
 	 * @param
 	 *        	Ninguno
 	 * @return number
@@ -120,7 +122,7 @@ class Configurador {
 	 * Método.
 	 * Accede a la base de datos de estructura y rescata los valores
 	 * almacenados en la tabla de configuración.
-	 * 
+	 *
 	 * @return number
 	 */
 	private function rescatarVariablesDB() {
@@ -157,7 +159,7 @@ class Configurador {
 
 	/**
 	 * Método de acceso que retorna el arreglo con todos los datos de configuración
-	 * 
+	 *
 	 * @return string[]
 	 */
 	function getConfiguracion() {
@@ -169,7 +171,7 @@ class Configurador {
 	/**
 	 * Método de acceso, retorna una variable específica desde el arreglo de
 	 * configuración.
-	 * 
+	 *
 	 * @param string $cadena        	
 	 * @return string boolean
 	 */
@@ -188,7 +190,7 @@ class Configurador {
 	 * Método de acceso.
 	 * Permite que se agreguen variables al arreglo de
 	 * configuración.
-	 * 
+	 *
 	 * @param string $variable        	
 	 * @param string $cadena        	
 	 * @return boolean

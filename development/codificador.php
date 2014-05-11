@@ -1,10 +1,9 @@
 <?
-include_once("../core/crypto/Encriptador.class.php");
+include_once ("../core/crypto/Encriptador.class.php");
 
-$miCodificador=Encriptador::singleton();
-echo $miCodificador->codificar("gearbox")."<br>";
-echo $miCodificador->decodificar("Rf1+VGKFIFHx8XzQsBW5cVcccpE1TvetRsi2kQ==")."<br>";
-
+$miCodificador = Encriptador::singleton ();
+echo $miCodificador->codificar ( "gearbox" ) . "<br>";
+echo $miCodificador->decodificar ( "Rf1+VGKFIFHx8XzQsBW5cVcccpE1TvetRsi2kQ==" ) . "<br>";
 
 /*
 
@@ -20,6 +19,5 @@ foreach ($parametro as $valor){
 	echo $miCodificador->decodificar($valor)."<br>";
 }
 */
-
 
 ?>

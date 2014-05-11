@@ -1,5 +1,5 @@
 <?
-include_once("core/manager/Configurador.class.php");
+include_once ("core/manager/Configurador.class.php");
 
 class Frontera<nombreBloque>{
 
@@ -9,13 +9,14 @@ class Frontera<nombreBloque>{
 	var $lenguaje;
 	var $formulario;
 	
-	var $miConfigurador;
-	
-	function __construct()
-	{
-	
-		$this->miConfigurador=Configurador::singleton();		
-	}
+	var 
+$miConfigurador;
+
+function __construct() {
+
+	$this->miConfigurador = Configurador::singleton ();
+
+}
 
 	public function setRuta($unaRuta){
 		$this->ruta=$unaRuta;

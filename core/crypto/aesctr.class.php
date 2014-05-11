@@ -31,19 +31,19 @@ class AesCtr extends Aes {
 		$blockSize = 16; // block size fixed at 16 bytes / 128 bits (Nb=4) for AES
 		if (! ($nBits == 128 || $nBits == 192 || $nBits == 256))
 			return ''; // standard allows 128/192/256 bit keys
-				                                                             // note PHP (5) gives us plaintext and password in UTF8 encoding!
-				                                                             
+				           // note PHP (5) gives us plaintext and password in UTF8 encoding!
+				           
 		// use AES itself to encrypt password to get cipher key (using plain password as source for
-				                                                             // key expansion) - gives us well encrypted key
+				           // key expansion) - gives us well encrypted key
 		$nBytes = $nBits / 8; // no bytes in key
 		$pwBytes = array ();
 		for($i = 0; $i < $nBytes; $i ++)
 			$pwBytes [$i] = ord ( substr ( $password, $i, 1 ) ) & 0xff;
 		$key = Aes::cipher ( $pwBytes, Aes::keyExpansion ( $pwBytes ) );
 		$key = array_merge ( $key, array_slice ( $key, 0, $nBytes - 16 ) ); // expand key to 16/24/32 bytes long
-		                                                            
+		                                                                    
 		// initialise 1st 8 bytes of counter block with nonce (NIST SP800-38A §B.2): [0-1] = millisec,
-		                                                            // [2-3] = random, [4-7] = seconds, giving guaranteed sub-ms uniqueness up to Feb 2106
+		                                                                    // [2-3] = random, [4-7] = seconds, giving guaranteed sub-ms uniqueness up to Feb 2106
 		$counterBlock = array ();
 		$nonce = floor ( microtime ( true ) * 1000 ); // timestamp: milliseconds since 1-Jan-1970
 		$nonceMs = $nonce % 1000;
@@ -78,7 +78,7 @@ class AesCtr extends Aes {
 				$counterBlock [15 - $c - 4] = self::urs ( $b / 0x100000000, $c * 8 );
 			
 			$cipherCntr = Aes::cipher ( $counterBlock, $keySchedule ); // -- encrypt counter block --
-			                                                        
+			                                                           
 			// block size is reduced on final block
 			$blockLength = $b < $blockCount - 1 ? $blockSize : (strlen ( $plaintext ) - 1) % $blockSize + 1;
 			$cipherByte = array ();
@@ -126,7 +126,7 @@ class AesCtr extends Aes {
 			$pwBytes [$i] = ord ( substr ( $password, $i, 1 ) ) & 0xff;
 		$key = Aes::cipher ( $pwBytes, Aes::keyExpansion ( $pwBytes ) );
 		$key = array_merge ( $key, array_slice ( $key, 0, $nBytes - 16 ) ); // expand key to 16/24/32 bytes long
-		                                                            
+		                                                                    
 		// recover nonce from 1st element of ciphertext
 		$counterBlock = array ();
 		$ctrTxt = substr ( $ciphertext, 0, 8 );

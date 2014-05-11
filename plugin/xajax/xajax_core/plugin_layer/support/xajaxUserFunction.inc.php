@@ -28,8 +28,7 @@
 	convert to using this class when you wish to register external functions or 
 	to specify call options as well.
 */
-final class xajaxUserFunction
-{
+final class xajaxUserFunction {
 	/*
 		String: sAlias
 		
@@ -106,30 +105,27 @@ final class xajaxUserFunction
 				
 			$xajax->register(XAJAX_FUNCTION, $myUserFunction);				
 	*/
-	public function xajaxUserFunction($uf) // /*deprecated parameters */ $sInclude=NULL, $aConfiguration=array())
+	public function xajaxUserFunction($uf) 	// /*deprecated parameters */ $sInclude=NULL, $aConfiguration=array())
 	{
+
 		$this->sAlias = '';
 		$this->uf = $uf;
-		$this->aConfiguration = array();
-
-/*deprecated parameters */
-//		$this->sInclude = $sInclude;
-//		foreach ($aConfiguration as $sKey => $sValue)
-//			$this->configure($sKey, $sValue);
+		$this->aConfiguration = array ();
 		
-		if (is_array($this->uf) && 2 < count($this->uf))
-		{
-			$this->sAlias = $this->uf[0];
-			$this->uf = array_slice($this->uf, 1);
+		/*deprecated parameters */
+		// $this->sInclude = $sInclude;
+		// foreach ($aConfiguration as $sKey => $sValue)
+		// $this->configure($sKey, $sValue);
+		
+		if (is_array ( $this->uf ) && 2 < count ( $this->uf )) {
+			$this->sAlias = $this->uf [0];
+			$this->uf = array_slice ( $this->uf, 1 );
 		}
-
-//SkipDebug
-		if (is_array($this->uf) && 2 != count($this->uf))
-			trigger_error(
-				'Invalid function declaration for xajaxUserFunction.',
-				E_USER_ERROR
-				);
-//EndSkipDebug
+		
+		// SkipDebug
+		if (is_array ( $this->uf ) && 2 != count ( $this->uf ))
+			trigger_error ( 'Invalid function declaration for xajaxUserFunction.', E_USER_ERROR );
+		// EndSkipDebug
 	}
 	
 	/*
@@ -141,12 +137,12 @@ final class xajaxUserFunction
 		
 		string - the name of the function contained within this object.
 	*/
-	public function getName()
-	{
+	public function getName() {
 		// Do not use sAlias here!
-		if (is_array($this->uf))
-			return $this->uf[1];
+		if (is_array ( $this->uf ))
+			return $this->uf [1];
 		return $this->uf;
+	
 	}
 	
 	/*
@@ -154,14 +150,15 @@ final class xajaxUserFunction
 		
 		Call this to set call options for this instance.
 	*/
-	public function configure($sName, $sValue)
-	{
+	public function configure($sName, $sValue) {
+
 		if ('alias' == $sName)
 			$this->sAlias = $sValue;
 		if ('include' == $sName)
 			$this->sInclude = $sValue;
 		else
-			$this->aConfiguration[$sName] = $sValue;
+			$this->aConfiguration [$sName] = $sValue;
+	
 	}
 	
 	/*
@@ -171,12 +168,13 @@ final class xajaxUserFunction
 		of generating the javascript call to invoke this xajax enabled
 		function.
 	*/
-	public function generateRequest($sXajaxPrefix)
-	{
-		$sAlias = $this->getName();
-		if (0 < strlen($this->sAlias))
+	public function generateRequest($sXajaxPrefix) {
+
+		$sAlias = $this->getName ();
+		if (0 < strlen ( $this->sAlias ))
 			$sAlias = $this->sAlias;
-		return new xajaxRequest("{$sXajaxPrefix}{$sAlias}");
+		return new xajaxRequest ( "{$sXajaxPrefix}{$sAlias}" );
+	
 	}
 	
 	/*
@@ -187,25 +185,26 @@ final class xajaxUserFunction
 		will generate the javascript function stub that is sent to the
 		browser on initial page load.
 	*/
-	public function generateClientScript($sXajaxPrefix)
-	{
-		$sFunction = $this->getName();
+	public function generateClientScript($sXajaxPrefix) {
+
+		$sFunction = $this->getName ();
 		$sAlias = $sFunction;
-		if (0 < strlen($this->sAlias))
+		if (0 < strlen ( $this->sAlias ))
 			$sAlias = $this->sAlias;
 		echo "{$sXajaxPrefix}{$sAlias} = function() { ";
 		echo "return xajax.request( ";
 		echo "{ xjxfun: '{$sFunction}' }, ";
 		echo "{ parameters: arguments";
-
+		
 		$sSeparator = ", ";
-		foreach ($this->aConfiguration as $sKey => $sValue)
+		foreach ( $this->aConfiguration as $sKey => $sValue )
 			echo "{$sSeparator}{$sKey}: {$sValue}";
-
+		
 		echo " } ); ";
 		echo "};\n";
+	
 	}
-
+	
 	/*
 		Function: call
 		
@@ -214,27 +213,27 @@ final class xajaxUserFunction
 		function, including an external file if needed and passing along 
 		the specified arguments.
 	*/
-	public function call($aArgs=array())
-	{
-		$objResponseManager = xajaxResponseManager::getInstance();
+	public function call($aArgs = array()) {
+
+		$objResponseManager = xajaxResponseManager::getInstance ();
 		
-		if (NULL != $this->sInclude)
-		{
-			ob_start();
+		if (NULL != $this->sInclude) {
+			ob_start ();
 			require_once $this->sInclude;
-			$sOutput = ob_get_clean();
+			$sOutput = ob_get_clean ();
 			
-//SkipDebug
-			if (0 < strlen($sOutput))
-			{
+			// SkipDebug
+			if (0 < strlen ( $sOutput )) {
 				$sOutput = 'From include file: ' . $this->sInclude . ' => ' . $sOutput;
-				$objResponseManager->debug($sOutput);
+				$objResponseManager->debug ( $sOutput );
 			}
-//EndSkipDebug
+			// EndSkipDebug
 		}
 		
 		$mFunction = $this->uf;
-		$objResponseManager->append(call_user_func_array($mFunction, $aArgs));
+		$objResponseManager->append ( call_user_func_array ( $mFunction, $aArgs ) );
+	
 	}
+
 }
 ?>

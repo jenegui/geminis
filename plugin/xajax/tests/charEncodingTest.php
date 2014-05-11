@@ -1,67 +1,68 @@
 <?php
-require_once("../xajax_core/xajax.inc.php");
+require_once ("../xajax_core/xajax.inc.php");
 
-function setOptions($formData)
-{
-	$_SESSION['useEncoding'] = $formData['useEncoding'];
-	$_SESSION['htmlEntities'] = (boolean)$formData['htmlEntities'];
-	$_SESSION['decodeUTF8'] = (boolean)$formData['decodeUTF8'];
-	$objResponse = new xajaxResponse();
-	$objResponse->alert("Your options have been saved.");
+function setOptions($formData) {
+
+	$_SESSION ['useEncoding'] = $formData ['useEncoding'];
+	$_SESSION ['htmlEntities'] = ( boolean ) $formData ['htmlEntities'];
+	$_SESSION ['decodeUTF8'] = ( boolean ) $formData ['decodeUTF8'];
+	$objResponse = new xajaxResponse ();
+	$objResponse->alert ( "Your options have been saved." );
 	return $objResponse;
+
 }
 
-function testForm($strText, $formData, $arrArray)
-{
-	//global $useEncoding, $htmlEntities;
-	//$objResponse = new xajaxResponse($useEncoding, $htmlEntities);
+function testForm($strText, $formData, $arrArray) {
+	// global $useEncoding, $htmlEntities;
+	// $objResponse = new xajaxResponse($useEncoding, $htmlEntities);
 	// encoding parameters are not retreived automatically from the xajax object
-	$objResponse = new xajaxResponse();
+	$objResponse = new xajaxResponse ();
 	$data = "Text:\n" . $strText;
-	$data .= "\n\nFormData:\n" . print_r($formData, true);
-	$data .= "\n\nArray:\n" .print_r($arrArray, true); 
-	$objResponse->alert($data);
-	$objResponse->assign("submittedDiv", "innerHTML", "<pre>".$data."</pre>");
+	$data .= "\n\nFormData:\n" . print_r ( $formData, true );
+	$data .= "\n\nArray:\n" . print_r ( $arrArray, true );
+	$objResponse->alert ( $data );
+	$objResponse->assign ( "submittedDiv", "innerHTML", "<pre>" . $data . "</pre>" );
 	return $objResponse;
+
 }
 
 $useEncoding = "UTF-8";
 $htmlEntities = false;
 $decodeUTF8 = false;
 
-session_start();
-session_name("xajaxCharEncodingTest");
+session_start ();
+session_name ( "xajaxCharEncodingTest" );
 
-if (@$_GET['refresh'] == "yes") {
-	session_destroy();
-	header("location: charEncodingTest.php");
-	exit();
-}
-
-if (isset($_SESSION['useEncoding'])) {
-	$useEncoding = $_SESSION['useEncoding'];	
-}
-if (isset($_SESSION['htmlEntities'])) {
-	$htmlEntities = $_SESSION['htmlEntities'];	
-}
-if (isset($_SESSION['decodeUTF8'])) {
-	$decodeUTF8 = $_SESSION['decodeUTF8'];	
+if (@$_GET ['refresh'] == "yes") {
+	session_destroy ();
+	header ( "location: charEncodingTest.php" );
+	exit ();
 }
 
-$xajax = new xajax();
-$xajax->configure('javascript URI', '../');
-$xajax->configure('characterEncoding', $useEncoding);
+if (isset ( $_SESSION ['useEncoding'] )) {
+	$useEncoding = $_SESSION ['useEncoding'];
+}
+if (isset ( $_SESSION ['htmlEntities'] )) {
+	$htmlEntities = $_SESSION ['htmlEntities'];
+}
+if (isset ( $_SESSION ['decodeUTF8'] )) {
+	$decodeUTF8 = $_SESSION ['decodeUTF8'];
+}
+
+$xajax = new xajax ();
+$xajax->configure ( 'javascript URI', '../' );
+$xajax->configure ( 'characterEncoding', $useEncoding );
 if ($htmlEntities) {
-	$xajax->configure("outputEntities", true);	
+	$xajax->configure ( "outputEntities", true );
 }
 if ($decodeUTF8) {
-	$xajax->configure("decodeUTF8Input", true);
+	$xajax->configure ( "decodeUTF8Input", true );
 }
-$xajax->configure('debug', true);
-$xajax->register(XAJAX_FUNCTION, 'setOptions');
-$xajax->register(XAJAX_FUNCTION, 'testForm');
-$xajax->processRequest();
-$xajax->configure('javascript URI','../');
+$xajax->configure ( 'debug', true );
+$xajax->register ( XAJAX_FUNCTION, 'setOptions' );
+$xajax->register ( XAJAX_FUNCTION, 'testForm' );
+$xajax->processRequest ();
+$xajax->configure ( 'javascript URI', '../' );
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -70,8 +71,7 @@ $xajax->configure('javascript URI','../');
 <head>
 <title>Character Encoding Test | xajax Tests</title>
 <?php
-	$xajax->printJavascript()
-?>
+$xajax->printJavascript ()?>
 <script type="text/javascript">
 function getTestArray()
 {
@@ -103,35 +103,65 @@ function callXajax()
 </head>
 <body>
 
-<h2><a href="index.php">xajax Tests</a></h2>
-<h1>Character Encoding Test</h1>
+	<h2>
+		<a href="index.php">xajax Tests</a>
+	</h2>
+	<h1>Character Encoding Test</h1>
 
-<h2>Options Form</h2>
+	<h2>Options Form</h2>
 
-<p><strong>NOTE:</strong> if you change these options, make sure you click the Save Options button or the options won't be used.</p>
+	<p>
+		<strong>NOTE:</strong> if you change these options, make sure you
+		click the Save Options button or the options won't be used.
+	</p>
 
-<form id="optionsForm" onsubmit="return false;">
-<p>Encoding: <input type="text" value="<?php echo $useEncoding ?>" name="useEncoding" /><br />
-Output HTML Entities? <input type="radio" name="htmlEntities" value="1" <?php if ($htmlEntities) echo ' checked="checked"' ?>/> Yes
- <input type="radio" name="htmlEntities" value="0" <?php if (!$htmlEntities) echo ' checked="checked"' ?>/> No<br />
-Decode UTF-8 Input? <input type="radio" name="decodeUTF8" value="1" <?php if ($decodeUTF8) echo ' checked="checked"' ?>/> Yes
- <input type="radio" name="decodeUTF8" value="0" <?php if (!$decodeUTF8) echo ' checked="checked"' ?>/> No<br />
-<p><input type="submit" value="Save Options" onclick="xajax_setOptions(xajax.getFormValues('optionsForm')); return false;" /></p>
-</form>
+	<form id="optionsForm" onsubmit="return false;">
+		<p>
+			Encoding: <input type="text" value="<?php echo $useEncoding ?>"
+				name="useEncoding" /><br /> Output HTML Entities? <input
+				type="radio" name="htmlEntities" value="1"
+				<?php if ($htmlEntities) echo ' checked="checked"' ?> /> Yes <input
+				type="radio" name="htmlEntities" value="0"
+				<?php if (!$htmlEntities) echo ' checked="checked"' ?> /> No<br />
+			Decode UTF-8 Input? <input type="radio" name="decodeUTF8" value="1"
+				<?php if ($decodeUTF8) echo ' checked="checked"' ?> /> Yes <input
+				type="radio" name="decodeUTF8" value="0"
+				<?php if (!$decodeUTF8) echo ' checked="checked"' ?> /> No<br />
+		
+		
+		<p>
+			<input type="submit" value="Save Options"
+				onclick="xajax_setOptions(xajax.getFormValues('optionsForm')); return false;" />
+		</p>
+	</form>
 
-<p><a href="charEncodingTest.php?refresh=yes">Clear and Refresh</a></p>
+	<p>
+		<a href="charEncodingTest.php?refresh=yes">Clear and Refresh</a>
+	</p>
 
-<h2>Text Test Form</h2>
+	<h2>Text Test Form</h2>
 
-<p><a href="http://www.i18nguy.com/unicode-example.html" target="_blank">Here are some Unicode examples</a> you can paste into the text box below. You can see <a href="http://www.unicode.org/iuc/iuc10/languages.html" target="_blank">more examples and a list of standard encoding schemes here</a>.</p>
+	<p>
+		<a href="http://www.i18nguy.com/unicode-example.html" target="_blank">Here
+			are some Unicode examples</a> you can paste into the text box below.
+		You can see <a href="http://www.unicode.org/iuc/iuc10/languages.html"
+			target="_blank">more examples and a list of standard encoding schemes
+			here</a>.
+	</p>
 
-<form id="testForm1" onsubmit="return false;">
-<p><input type="text" value="Enter test text here" id="textField1" name="textField1" size="60" /></p>
-<p><input type="submit" value="Submit Text" onclick="callXajax(); return false;" /></p>
-</form>
+	<form id="testForm1" onsubmit="return false;">
+		<p>
+			<input type="text" value="Enter test text here" id="textField1"
+				name="textField1" size="60" />
+		</p>
+		<p>
+			<input type="submit" value="Submit Text"
+				onclick="callXajax(); return false;" />
+		</p>
+	</form>
 
-<div id="submittedDiv"></div>
-<div id="debugDiv"></div>
+	<div id="submittedDiv"></div>
+	<div id="debugDiv"></div>
 
 </body>
 </html>

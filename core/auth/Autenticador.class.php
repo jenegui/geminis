@@ -20,6 +20,7 @@ class Autenticador {
 	 *
 	 *
 	 *
+	 *
 	 * Arreglo que contiene los datos de la página que se va revisar
 	 *
 	 * @var String[]
