@@ -4,7 +4,7 @@ class sesionSql {
 
 	private $prefijoTablas;
 
-	var $cadena_sql;
+	var $cadenaSql;
 
 	function __construct() {
 

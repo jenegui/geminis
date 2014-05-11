@@ -36,7 +36,7 @@
  * Identificador del enlace a la base de datos
  * @param $dbms
  * Nombre del DBMS oci8
- * @param $cadena_sql
+ * @param $cadenaSql
  * Clausula SQL a ejecutar
  * @param $error
  * Mensaje de error devuelto por el DBMS
@@ -110,7 +110,7 @@ class oci8 implements Conector {
 
 	var $dbsys;
 
-	var $cadena_sql;
+	var $cadenaSql;
 
 	var $error;
 
@@ -132,9 +132,9 @@ class oci8 implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_db($nombre_db) {
+	function especificar_db($nombreDb) {
 
-		$this->db = $nombre_db;
+		$this->db = $nombreDb;
 	
 	}
 	
@@ -148,9 +148,9 @@ class oci8 implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_usuario($usuario_db) {
+	function especificar_usuario($usuarioDb) {
 
-		$this->usuario = $usuario_db;
+		$this->usuario = $usuarioDb;
 	
 	}
 	
@@ -164,9 +164,9 @@ class oci8 implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_clave($clave_db) {
+	function especificar_clave($claveDb) {
 
-		$this->clave = $clave_db;
+		$this->clave = $claveDb;
 	
 	}
 	
@@ -180,9 +180,9 @@ class oci8 implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_servidor($servidor_db) {
+	function especificar_servidor($servidorDb) {
 
-		$this->servidor = $servidor_db;
+		$this->servidor = $servidorDb;
 	
 	}
 	
@@ -243,9 +243,6 @@ class oci8 implements Conector {
 	 * @access public
 	 */
 	function conectar_db() {
-		// echo "<br>Usuario:".$this->usuario;
-		// echo "<br>Clave:".$this->clave;
-		// echo "<br>Db:".$this->db;
 		$this->enlace = oci_connect ( $this->usuario, $this->clave, $this->db );
 		
 		if ($this->enlace) {
@@ -302,9 +299,9 @@ class oci8 implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	private function ejecutar_acceso_db($cadena_sql) {
+	private function ejecutar_acceso_db($cadenaSql) {
 
-		$cadenaParser = oci_parse ( $this->enlace, $cadena_sql );
+		$cadenaParser = oci_parse ( $this->enlace, $cadenaSql );
 		$busqueda = oci_execute ( $cadenaParser );
 		return $busqueda;
 	
@@ -338,14 +335,14 @@ class oci8 implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadena_sql, $numero = 0) {
+	function registro_db($cadenaSql, $numero = 0) {
 
 		unset ( $this->registro );
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
 		}
 		
-		$cadenaParser = oci_parse ( $this->enlace, $cadena_sql );
+		$cadenaParser = oci_parse ( $this->enlace, $cadenaSql );
 		
 		if (oci_execute ( $cadenaParser )) {
 			
@@ -471,9 +468,9 @@ class oci8 implements Conector {
 	}
 	
 	// Fin del método db_admin
-	function ejecutar_busqueda($cadena_sql, $numeroRegistros = 0) {
+	function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadena_sql, $numeroRegistros );
+		$this->registro_db ( $cadenaSql, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
@@ -486,7 +483,7 @@ class oci8 implements Conector {
 	}
 	
 	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadena_sql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
@@ -494,17 +491,17 @@ class oci8 implements Conector {
 		
 		if ($tipo == "busqueda") {
 			
-			$this->ejecutar_busqueda ( $cadena_sql, $numeroRegistros );
+			$this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
 			$esteRegistro = $this->getRegistroDb ();
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadena_sql );
+			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
 			return $resultado;
 		}
 	
 	}
 
-	function logger($configuracion, $id_usuario, $evento) {
+	function logger($configuracion, $idUsuario, $evento) {
 
 	
 	}

@@ -127,13 +127,13 @@ class Configurador {
 
 		if ($this->conexionDB->getEnlace ()) {
 			
-			$cadena_sql = "SELECT ";
-			$cadena_sql .= " parametro,  ";
-			$cadena_sql .= " valor  ";
-			$cadena_sql .= "FROM ";
-			$cadena_sql .= $this->configuracion ["dbprefijo"] . "configuracion ";
+			$cadenaSql = "SELECT ";
+			$cadenaSql .= " parametro,  ";
+			$cadenaSql .= " valor  ";
+			$cadenaSql .= "FROM ";
+			$cadenaSql .= $this->configuracion ["dbprefijo"] . "configuracion ";
 			
-			$this->total = $this->conexionDB->registro_db ( $cadena_sql, 0 );
+			$this->total = $this->conexionDB->registro_db ( $cadenaSql, 0 );
 			
 			if ($this->total > 0) {
 				$this->registro = $this->conexionDB->getRegistroDb ();

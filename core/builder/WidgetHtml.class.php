@@ -34,7 +34,7 @@ class WidgetHtml {
 
 	var $cuadro_miniRegistro;
 
-	var $cadena_html;
+	var $cadenaHTML;
 
 	var $configuracion;
 
@@ -53,10 +53,10 @@ class WidgetHtml {
 	}
 	
 	// Fin del método session
-	function enlace_wiki($cadena, $titulo = "", $configuracion, $el_enlace = "") {
+	function enlace_wiki($cadena, $titulo = "", $configuracion, $elEnlace = "") {
 
-		if ($el_enlace != "") {
-			$enlace_wiki = "<a class='wiki' href='" . $configuracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $el_enlace . "</a>";
+		if ($elEnlace != "") {
+			$enlace_wiki = "<a class='wiki' href='" . $configuracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $elEnlace . "</a>";
 		} else {
 			$enlace_wiki = "<a class='wiki' href='" . $configuracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $cadena . "</a>";
 		}
@@ -212,7 +212,6 @@ class WidgetHtml {
 					if (is_string ( $valor )) {
 						$this->columnas ++;
 					}
-					// echo $clave."->".$valor."<br>";
 				}
 			}
 			
@@ -274,7 +273,6 @@ class WidgetHtml {
 						if (is_string ( $valor )) {
 							$columnas ++;
 						}
-						// echo $clave."->".$valor."<br>";
 					}
 				}
 				

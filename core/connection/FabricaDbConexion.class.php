@@ -140,22 +140,22 @@ class FabricaDbConexion {
 			switch ($opcion) {
 				
 				default :
-					$cadena_sql = "SELECT ";
-					$cadena_sql .= "nombre, ";
-					$cadena_sql .= "servidor as dbdns, ";
-					$cadena_sql .= "puerto as dbpuerto, ";
-					$cadena_sql .= "conexionssh as dbssl, ";
-					$cadena_sql .= "db as dbnombre, ";
-					$cadena_sql .= "usuario as dbusuario, ";
-					$cadena_sql .= "password as dbclave, ";
-					$cadena_sql .= "dbms as dbsys ";
-					$cadena_sql .= "FROM ";
-					$cadena_sql .= $prefijo . "dbms ";
-					$cadena_sql .= "WHERE ";
-					$cadena_sql .= "nombre='" . $variable . "'";
+					$cadenaSql = "SELECT ";
+					$cadenaSql .= "nombre, ";
+					$cadenaSql .= "servidor as dbdns, ";
+					$cadenaSql .= "puerto as dbpuerto, ";
+					$cadenaSql .= "conexionssh as dbssl, ";
+					$cadenaSql .= "db as dbnombre, ";
+					$cadenaSql .= "usuario as dbusuario, ";
+					$cadenaSql .= "password as dbclave, ";
+					$cadenaSql .= "dbms as dbsys ";
+					$cadenaSql .= "FROM ";
+					$cadenaSql .= $prefijo . "dbms ";
+					$cadenaSql .= "WHERE ";
+					$cadenaSql .= "nombre='" . $variable . "'";
 					break;
 			}
-			return $cadena_sql;
+			return $cadenaSql;
 		}
 		
 		return false;

@@ -25,26 +25,26 @@ if (isset($_REQUEST["aceptarA"])) {
     echo "<hr>";
     $pagina = $_REQUEST["pagina"];
     echo "<b>P&aacute;gina</b><br><b>" . $pagina . "</b><br>";
-    $cadena_sql = "SELECT id_pagina,parametro FROM ".$configuracion["prefijo"]."pagina WHERE nombre='" . $pagina . "' LIMIT 1";
-    $registro = $recurso->ejecutarAcceso($cadena_sql, "busqueda");
+    $cadenaSql = "SELECT id_pagina,parametro FROM ".$configuracion["prefijo"]."pagina WHERE nombre='" . $pagina . "' LIMIT 1";
+    $registro = $recurso->ejecutarAcceso($cadenaSql, "busqueda");
     if ($registro) {
         echo "id_pagina: " . $registro[0][0] . "<br>";
         echo "parametros: " . $registro[0][1] . "<br><hr>";
         echo "Bloques que componen esta p&aacute;gina:<br>";
-        $cadena_sql = "SELECT ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina.id_bloque, ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina.seccion, ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina.posicion, ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque.nombre ";
-        $cadena_sql.="FROM ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina,";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque ";
-        $cadena_sql.="WHERE ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina.id_pagina='" . $registro[0][0] . "' ";
-        $cadena_sql.="AND ";
-        $cadena_sql.="" . $configuracion["prefijo"] . "bloque_pagina.id_bloque=" . $configuracion["prefijo"] . "bloque.id_bloque";
-        //echo $cadena_sql."<br>";
-        $registro = $recurso->ejecutarAcceso($cadena_sql, "busqueda");
+        $cadenaSql = "SELECT ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina.id_bloque, ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina.seccion, ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina.posicion, ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque.nombre ";
+        $cadenaSql.="FROM ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina,";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque ";
+        $cadenaSql.="WHERE ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina.id_pagina='" . $registro[0][0] . "' ";
+        $cadenaSql.="AND ";
+        $cadenaSql.="" . $configuracion["prefijo"] . "bloque_pagina.id_bloque=" . $configuracion["prefijo"] . "bloque.id_bloque";
+        
+        $registro = $recurso->ejecutarAcceso($cadenaSql, "busqueda");
         if ($registro) {
             ?>
             <table border="0" align="center" cellpadding="5" cellspacing="1">

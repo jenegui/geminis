@@ -94,30 +94,30 @@ class Instalador {
 		
 		$clave = $this->encriptador->codificar ( $_REQUEST ["dbclave"] );
 		
-		$cadena_sql = "INSERT INTO ";
-		$cadena_sql .= $_REQUEST ["prefijo"] . "dbms ";
-		$cadena_sql .= "(";
-		$cadena_sql .= "nombre , ";
-		$cadena_sql .= "dbms , ";
-		$cadena_sql .= "servidor, ";
-		$cadena_sql .= "puerto, ";
-		$cadena_sql .= "conexionssh, ";
-		$cadena_sql .= "db, ";
-		$cadena_sql .= "usuario, ";
-		$cadena_sql .= "password ";
-		$cadena_sql .= ") ";
-		$cadena_sql .= "VALUES ";
-		$cadena_sql .= "( ";
-		$cadena_sql .= "'estructura', ";
-		$cadena_sql .= "'" . $_REQUEST ['dbsys'] . "',";
-		$cadena_sql .= "'" . $_REQUEST ['dbdns'] . "',";
-		$cadena_sql .= "'" . $_REQUEST ['dbpuerto'] . "',";
-		$cadena_sql .= "'',";
-		$cadena_sql .= "'" . $_REQUEST ['dbnombre'] . "',";
-		$cadena_sql .= "'" . $_REQUEST ['dbusuario'] . "',";
-		$cadena_sql .= "'" . $clave . "' ";
-		$cadena_sql .= ")";
-		$resultado &= $this->recurso->ejecutarAcceso ( $cadena_sql, "accion" );
+		$cadenaSql = "INSERT INTO ";
+		$cadenaSql .= $_REQUEST ["prefijo"] . "dbms ";
+		$cadenaSql .= "(";
+		$cadenaSql .= "nombre , ";
+		$cadenaSql .= "dbms , ";
+		$cadenaSql .= "servidor, ";
+		$cadenaSql .= "puerto, ";
+		$cadenaSql .= "conexionssh, ";
+		$cadenaSql .= "db, ";
+		$cadenaSql .= "usuario, ";
+		$cadenaSql .= "password ";
+		$cadenaSql .= ") ";
+		$cadenaSql .= "VALUES ";
+		$cadenaSql .= "( ";
+		$cadenaSql .= "'estructura', ";
+		$cadenaSql .= "'" . $_REQUEST ['dbsys'] . "',";
+		$cadenaSql .= "'" . $_REQUEST ['dbdns'] . "',";
+		$cadenaSql .= "'" . $_REQUEST ['dbpuerto'] . "',";
+		$cadenaSql .= "'',";
+		$cadenaSql .= "'" . $_REQUEST ['dbnombre'] . "',";
+		$cadenaSql .= "'" . $_REQUEST ['dbusuario'] . "',";
+		$cadenaSql .= "'" . $clave . "' ";
+		$cadenaSql .= ")";
+		$resultado &= $this->recurso->ejecutarAcceso ( $cadenaSql, "accion" );
 		
 		if ($resultado != TRUE) {
 			return false;
@@ -145,23 +145,20 @@ class Instalador {
 						$valor = $this->encriptador->codificar ( $valor );
 					}
 				}
-				$cadena_sql = "INSERT INTO ";
-				$cadena_sql .= $_REQUEST ["prefijo"] . "configuracion ";
-				$cadena_sql .= "(";
-				$cadena_sql .= "id_parametro, ";
-				$cadena_sql .= "parametro, ";
-				$cadena_sql .= "valor ";
-				$cadena_sql .= ") ";
-				$cadena_sql .= "VALUES ";
-				$cadena_sql .= "( ";
-				$cadena_sql .= "<AUTOINCREMENT>, ";
-				$cadena_sql .= "'" . $clave . "',";
-				$cadena_sql .= "'" . $valor . "' ";
-				$cadena_sql .= ")";
-				
-				// echo $cadena_sql;
-				
-				$resultado &= $this->recurso->ejecutarAcceso ( $cadena_sql, "accion" );
+				$cadenaSql = "INSERT INTO ";
+				$cadenaSql .= $_REQUEST ["prefijo"] . "configuracion ";
+				$cadenaSql .= "(";
+				$cadenaSql .= "id_parametro, ";
+				$cadenaSql .= "parametro, ";
+				$cadenaSql .= "valor ";
+				$cadenaSql .= ") ";
+				$cadenaSql .= "VALUES ";
+				$cadenaSql .= "( ";
+				$cadenaSql .= "<AUTOINCREMENT>, ";
+				$cadenaSql .= "'" . $clave . "',";
+				$cadenaSql .= "'" . $valor . "' ";
+				$cadenaSql .= ")";
+				$resultado &= $this->recurso->ejecutarAcceso ( $cadenaSql, "accion" );
 			}
 		}
 		
@@ -283,8 +280,8 @@ class Instalador {
 			$instruccionesSQL = $this->instruccion_sql ( $arquitecturap );
 			$i = 0;
 			$total = count ( $instruccionesSQL );
-			foreach ( $instruccionesSQL as $clave => $cadena_sql ) {
-				$resultado = $this->recurso->ejecutarAcceso ( $cadena_sql, "ddl" );
+			foreach ( $instruccionesSQL as $clave => $cadenaSql ) {
+				$resultado = $this->recurso->ejecutarAcceso ( $cadenaSql, "ddl" );
 				if ($resultado == TRUE) {
 					$i ++;
 				}
@@ -344,9 +341,9 @@ class Instalador {
 
 	private function limpiarDB() {
 
-		$cadena_sql = $this->recurso->obtenerCadenaListadoTablas ( $_REQUEST ["dbnombre"] );
+		$cadenaSql = $this->recurso->obtenerCadenaListadoTablas ( $_REQUEST ["dbnombre"] );
 		
-		$resultado = $this->recurso->ejecutarAcceso ( $cadena_sql, "busqueda" );
+		$resultado = $this->recurso->ejecutarAcceso ( $cadenaSql, "busqueda" );
 		
 		if ($resultado) {
 			

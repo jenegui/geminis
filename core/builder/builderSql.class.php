@@ -3,7 +3,7 @@ include_once ($this->miConfigurador->getVariableConfiguracion ( "raizDocumento" 
 
 class BuilderSql extends Sql {
 
-	var $cadena_sql;
+	var $cadenaSql;
 
 	var $miConfigurador;
 
@@ -43,55 +43,55 @@ class BuilderSql extends Sql {
 		switch ($indice) {
 			
 			case "usuario" :
-				$cadena_sql = "SELECT  ";
-				$cadena_sql .= "usuario, ";
-				$cadena_sql .= "estilo ";
-				$cadena_sql .= "FROM ";
-				$cadena_sql .= $prefijo . "estilo ";
-				$cadena_sql .= "WHERE ";
-				$cadena_sql .= "usuario='" . $this->id_usuario . "'";
+				$cadenaSql = "SELECT  ";
+				$cadenaSql .= "usuario, ";
+				$cadenaSql .= "estilo ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= $prefijo . "estilo ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= "usuario='" . $this->id_usuario . "'";
 				
 				break;
 			
 			case "pagina" :
-				$cadena_sql = "SELECT  ";
-				$cadena_sql .= $prefijo . "bloque_pagina.*,";
-				$cadena_sql .= $prefijo . "bloque.nombre, ";
-				$cadena_sql .= $prefijo . "pagina.parametro ";
-				$cadena_sql .= "FROM ";
-				$cadena_sql .= $prefijo . "pagina, ";
-				$cadena_sql .= $prefijo . "bloque_pagina, ";
-				$cadena_sql .= $prefijo . "bloque ";
-				$cadena_sql .= "WHERE ";
-				$cadena_sql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
-				$cadena_sql .= "AND ";
-				$cadena_sql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
-				$cadena_sql .= "AND ";
-				$cadena_sql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina";
+				$cadenaSql = "SELECT  ";
+				$cadenaSql .= $prefijo . "bloque_pagina.*,";
+				$cadenaSql .= $prefijo . "bloque.nombre, ";
+				$cadenaSql .= $prefijo . "pagina.parametro ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= $prefijo . "pagina, ";
+				$cadenaSql .= $prefijo . "bloque_pagina, ";
+				$cadenaSql .= $prefijo . "bloque ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
+				$cadenaSql .= "AND ";
+				$cadenaSql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
+				$cadenaSql .= "AND ";
+				$cadenaSql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina";
 				break;
 			
 			case "bloquesPagina" :
 				
-				$cadena_sql = "SELECT  ";
-				$cadena_sql .= $prefijo . "bloque_pagina.*,";
-				$cadena_sql .= $prefijo . "bloque.nombre ,";
-				$cadena_sql .= $prefijo . "pagina.parametro, ";
-				$cadena_sql .= $prefijo . "bloque.grupo ";
-				$cadena_sql .= "FROM ";
-				$cadena_sql .= $prefijo . "pagina, ";
-				$cadena_sql .= $prefijo . "bloque_pagina, ";
-				$cadena_sql .= $prefijo . "bloque ";
-				$cadena_sql .= "WHERE ";
-				$cadena_sql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
-				$cadena_sql .= "AND ";
-				$cadena_sql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
-				$cadena_sql .= "AND ";
-				$cadena_sql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina ";
-				$cadena_sql .= "ORDER BY " . $prefijo . "bloque_pagina.seccion," . $prefijo . "bloque_pagina.posicion ";
+				$cadenaSql = "SELECT  ";
+				$cadenaSql .= $prefijo . "bloque_pagina.*,";
+				$cadenaSql .= $prefijo . "bloque.nombre ,";
+				$cadenaSql .= $prefijo . "pagina.parametro, ";
+				$cadenaSql .= $prefijo . "bloque.grupo ";
+				$cadenaSql .= "FROM ";
+				$cadenaSql .= $prefijo . "pagina, ";
+				$cadenaSql .= $prefijo . "bloque_pagina, ";
+				$cadenaSql .= $prefijo . "bloque ";
+				$cadenaSql .= "WHERE ";
+				$cadenaSql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
+				$cadenaSql .= "AND ";
+				$cadenaSql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
+				$cadenaSql .= "AND ";
+				$cadenaSql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina ";
+				$cadenaSql .= "ORDER BY " . $prefijo . "bloque_pagina.seccion," . $prefijo . "bloque_pagina.posicion ";
 				break;
 		}
-		if (isset ( $cadena_sql )) {
-			$this->cadena_sql [$indice] = $cadena_sql;
+		if (isset ( $cadenaSql )) {
+			$this->cadena_sql [$indice] = $cadenaSql;
 		}
 	
 	}

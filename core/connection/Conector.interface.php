@@ -26,7 +26,7 @@ interface Conector {
 	 */
 	function probar_conexion();
 
-	function logger($configuracion, $id_usuario, $evento);
+	function logger($configuracion, $idUsuario, $evento);
 
 	/**
 	 *
@@ -50,7 +50,7 @@ interface Conector {
 	 * @return Array boolean NULL en caso de éxito, false en caso de no tener resultados, NULL en caso de error de acceso.
 	 * @access public
 	 */
-	function ejecutarAcceso($cadena_sql, $tipo = "", $numeroRegistros = 0);
+	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0);
 
 	/**
 	 *
@@ -74,7 +74,7 @@ interface Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadena_sql, $numero = 0);
+	function registro_db($cadenaSql, $numero = 0);
 
 	/**
 	 *
@@ -118,41 +118,41 @@ interface Conector {
 	 *
 	 * @name especificar_db
 	 * @param
-	 *        	string nombre_db
+	 *        	string nombreDb
 	 * @return void
 	 * @access public
 	 */
-	function especificar_db($nombre_db);
+	function especificar_db($nombreDb);
 
 	/**
 	 *
 	 * @name especificar_usuario
 	 * @param
-	 *        	string usuario_db
+	 *        	string usuarioDb
 	 * @return void
 	 * @access public
 	 */
-	function especificar_usuario($usuario_db);
+	function especificar_usuario($usuarioDb);
 
 	/**
 	 *
 	 * @name especificar_clave
 	 * @param
-	 *        	string nombre_db
+	 *        	string nombreDb
 	 * @return void
 	 * @access public
 	 */
-	function especificar_clave($clave_db);
+	function especificar_clave($claveDb);
 
 	/**
 	 *
 	 * @name especificar_servidor
 	 * @param
-	 *        	string servidor_db
+	 *        	string servidorDb
 	 * @return void
 	 * @access public
 	 */
-	function especificar_servidor($servidor_db);
+	function especificar_servidor($servidorDb);
 
 	/**
 	 *

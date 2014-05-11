@@ -19,7 +19,7 @@ class dbms {
 
 	private $dbsys;
 
-	private $cadena_sql;
+	private $cadenaSql;
 
 	private $error;
 
@@ -54,33 +54,33 @@ class dbms {
 	
 	}
 
-	function setDbNombre($nombre_db) {
+	function setDbNombre($nombreDb) {
 
-		$this->db = $nombre_db;
+		$this->db = $nombreDb;
 	
 	}
 
-	function setDbUsuario($usuario_db) {
+	function setDbUsuario($usuarioDb) {
 
-		$this->usuario = $usuario_db;
+		$this->usuario = $usuarioDb;
 	
 	}
 
-	function setDbclave($clave_db) {
+	function setDbclave($claveDb) {
 
-		$this->clave = $clave_db;
+		$this->clave = $claveDb;
 	
 	}
 
-	function setDbServidor($servidor_db) {
+	function setDbServidor($servidorDb) {
 
-		$this->servidor = $servidor_db;
+		$this->servidor = $servidorDb;
 	
 	}
 
-	function setDbPuerto($servidor_db) {
+	function setDbPuerto($servidorDb) {
 
-		$this->servidor = $servidor_db;
+		$this->servidor = $servidorDb;
 	
 	}
 
@@ -128,7 +128,7 @@ class dbms {
 		}
 	
 	} // Fin del método probar_conexion
-	function logger($configuracion, $id_usuario, $evento) {
+	function logger($configuracion, $idUsuario, $evento) {
 
 		$this->cadena_sql = "INSERT INTO ";
 		$this->cadena_sql .= "" . $configuracion ["prefijo"] . "logger ";
@@ -138,11 +138,11 @@ class dbms {
 		$this->cadena_sql .= "`fecha`  ";
 		$this->cadena_sql .= ") ";
 		$this->cadena_sql .= "VALUES (";
-		$this->cadena_sql .= $id_usuario . ",";
+		$this->cadena_sql .= $idUsuario . ",";
 		$this->cadena_sql .= "'" . $evento . "',";
 		$this->cadena_sql .= "'" . time () . "'";
 		$this->cadena_sql .= ")";
-		// echo $this->cadena_sql;
+		
 		$this->ejecutar_acceso_db ( $this->cadena_sql );
 		unset ( $this->db_sel );
 		return TRUE;

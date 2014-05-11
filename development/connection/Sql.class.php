@@ -7,56 +7,56 @@ class Sql {
 		switch ($opcion) {
 			
 			case 'buscarPagina' :
-				$cadena_sql = 'SELECT ';
-				$cadena_sql .= 'id_pagina, ';
-				$cadena_sql .= 'nombre,';
-				$cadena_sql .= 'descripcion,';
-				$cadena_sql .= 'modulo,';
-				$cadena_sql .= 'nivel,';
-				$cadena_sql .= 'parametro';
-				$cadena_sql .= 'FROM ';
-				$cadena_sql .= $parametro ["prefijo"] . 'pagina';
-				$cadena_sql .= 'ORDER BY nombre ASC';
+				$cadenaSql = 'SELECT ';
+				$cadenaSql .= 'id_pagina, ';
+				$cadenaSql .= 'nombre,';
+				$cadenaSql .= 'descripcion,';
+				$cadenaSql .= 'modulo,';
+				$cadenaSql .= 'nivel,';
+				$cadenaSql .= 'parametro';
+				$cadenaSql .= 'FROM ';
+				$cadenaSql .= $parametro ["prefijo"] . 'pagina';
+				$cadenaSql .= 'ORDER BY nombre ASC';
 				break;
 			
 			case 'insertarPagina' :
-				$cadena_sql = 'INSERT INTO ';
-				$cadena_sql .= $parametro.'pagina ';
-				$cadena_sql .= '( ';
-				$cadena_sql .= 'nombre,';
-				$cadena_sql .= 'descripcion,';
-				$cadena_sql .= 'modulo,';
-				$cadena_sql .= 'nivel,';
-				$cadena_sql .= 'parametro';
-				$cadena_sql .= ') ';
-				$cadena_sql .= 'VALUES ';
-				$cadena_sql .= '( ';
-				$cadena_sql .= '\''.$_REQUEST['nombrePagina'].'\', ';
-				$cadena_sql .= '\''.$_REQUEST['descripcionPagina'].'\', ';
-				$cadena_sql .= '\''.$_REQUEST['moduloPagina'].'\', ';
-				$cadena_sql .= $_REQUEST['nivelPagina'].', ';
-				$cadena_sql .= '\''.$_REQUEST['parametroPagina'].'\'';
-				$cadena_sql .= ') ';
+				$cadenaSql = 'INSERT INTO ';
+				$cadenaSql .= $parametro.'pagina ';
+				$cadenaSql .= '( ';
+				$cadenaSql .= 'nombre,';
+				$cadenaSql .= 'descripcion,';
+				$cadenaSql .= 'modulo,';
+				$cadenaSql .= 'nivel,';
+				$cadenaSql .= 'parametro';
+				$cadenaSql .= ') ';
+				$cadenaSql .= 'VALUES ';
+				$cadenaSql .= '( ';
+				$cadenaSql .= '\''.$_REQUEST['nombrePagina'].'\', ';
+				$cadenaSql .= '\''.$_REQUEST['descripcionPagina'].'\', ';
+				$cadenaSql .= '\''.$_REQUEST['moduloPagina'].'\', ';
+				$cadenaSql .= $_REQUEST['nivelPagina'].', ';
+				$cadenaSql .= '\''.$_REQUEST['parametroPagina'].'\'';
+				$cadenaSql .= ') ';
 				break;
 			
 				case 'insertarBloque' :
-					$cadena_sql = 'INSERT INTO ';
-					$cadena_sql .= $parametro.'bloque ';
-					$cadena_sql .= '( ';
-					$cadena_sql .= 'nombre,';
-					$cadena_sql .= 'descripcion,';
-					$cadena_sql .= 'grupo';
-					$cadena_sql .= ') ';
-					$cadena_sql .= 'VALUES ';
-					$cadena_sql .= '( ';
-					$cadena_sql .= '\''.$_REQUEST['nombreBloque'].'\', ';
-					$cadena_sql .= '\''.$_REQUEST['descripcionBloque'].'\', ';
-					$cadena_sql .= '\''.$_REQUEST['grupoBloque'].'\'';
-					$cadena_sql .= ') ';
+					$cadenaSql = 'INSERT INTO ';
+					$cadenaSql .= $parametro.'bloque ';
+					$cadenaSql .= '( ';
+					$cadenaSql .= 'nombre,';
+					$cadenaSql .= 'descripcion,';
+					$cadenaSql .= 'grupo';
+					$cadenaSql .= ') ';
+					$cadenaSql .= 'VALUES ';
+					$cadenaSql .= '( ';
+					$cadenaSql .= '\''.$_REQUEST['nombreBloque'].'\', ';
+					$cadenaSql .= '\''.$_REQUEST['descripcionBloque'].'\', ';
+					$cadenaSql .= '\''.$_REQUEST['grupoBloque'].'\'';
+					$cadenaSql .= ') ';
 					break;
 		}
 		
-		return $cadena_sql;
+		return $cadenaSql;
 	}
 	function getCadenaSql($opcion, $parametros) {
 		

@@ -69,31 +69,31 @@ if(isset($_REQUEST["aceptar"]))
 				}
 				if($contador==($cantidad_campos-1))
 				{
-					$insertar.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."` \";\n";
+					$insertar.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."` \";\n";
 					if($tipo["control"]["tipo"]!="int")
 					{
-						$valor_insertar.="\$cadena_sql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
-						$valor_update.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
+						$valor_insertar.="\$cadenaSql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
+						$valor_update.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
 					}
 					else
 					{
-						$valor_insertar.="\$cadena_sql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
-						$valor_update.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
+						$valor_insertar.="\$cadenaSql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
+						$valor_update.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"' \";\n";
 					}	
 				}
 				else
 				{
-					$insertar.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."`, \";\n";
+					$insertar.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."`, \";\n";
 					
 					if($tipo["control"]["tipo"]!="int")
 					{
-						$valor_insertar.="\$cadena_sql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
-						$valor_update.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
+						$valor_insertar.="\$cadenaSql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
+						$valor_update.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
 					}
 					else
 					{
-						$valor_insertar.="\$cadena_sql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
-						$valor_update.="\$cadena_sql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
+						$valor_insertar.="\$cadenaSql.=\"'\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
+						$valor_update.="\$cadenaSql.=\"`".$tipo["control"]["nombre"]."`='\".\$_REQUEST['".$tipo["control"]["nombre"]."'].\"', \";\n";
 					}	
 				}
 				$tipo["control"]["max_tamanno"]=$tamanno;				
@@ -191,23 +191,23 @@ if(isset($_REQUEST["aceptar"]))
 			
 			
 			
-			$cadena_insertar="\$cadena_sql=\"INSERT INTO ";
+			$cadena_insertar="\$cadenaSql=\"INSERT INTO ";
                         $cadena_insertar.=$_REQUEST["tabla"]." \"; \n";
-			$cadena_insertar.="\$cadena_sql.=\"( \";\n";
+			$cadena_insertar.="\$cadenaSql.=\"( \";\n";
 			$cadena_insertar.=$insertar;
-			$cadena_insertar.="\$cadena_sql.=\") \";\n";
-			$cadena_insertar.="\$cadena_sql.=\"VALUES \";\n";
-			$cadena_insertar.="\$cadena_sql.=\"( \";\n";
+			$cadena_insertar.="\$cadenaSql.=\") \";\n";
+			$cadena_insertar.="\$cadenaSql.=\"VALUES \";\n";
+			$cadena_insertar.="\$cadenaSql.=\"( \";\n";
 			$cadena_insertar.=$valor_insertar;
-			$cadena_insertar.="\$cadena_sql.=\")\";\n";
+			$cadena_insertar.="\$cadenaSql.=\")\";\n";
 			
-			$cadena_seleccionar="\$cadena_sql=\"SELECT \";\n";
+			$cadena_seleccionar="\$cadenaSql=\"SELECT \";\n";
 			$cadena_seleccionar.=$insertar;
-			$cadena_seleccionar.="\$cadena_sql.=\"FROM \";\n";
-			$cadena_seleccionar.="\$cadena_sql.=\"".$_REQUEST["tabla"]." \"; \n";
+			$cadena_seleccionar.="\$cadenaSql.=\"FROM \";\n";
+			$cadena_seleccionar.="\$cadenaSql.=\"".$_REQUEST["tabla"]." \"; \n";
 			
-			$cadena_update="\$cadena_sql=\"UPDATE ".$_REQUEST["tabla"]." \"; \n";
-			$cadena_update.="\$cadena_sql=\"SET ; \n";
+			$cadena_update="\$cadenaSql=\"UPDATE ".$_REQUEST["tabla"]." \"; \n";
+			$cadena_update.="\$cadenaSql=\"SET ; \n";
 			$cadena_update.=$valor_update;
 			
 			$estado="CERRADO";
@@ -474,7 +474,6 @@ function escribir_linea($linea,$fp,$estado)
 
 {
 
-	//echo $estado;
 	if($estado!="ABIERTO")
 
 	{

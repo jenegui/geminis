@@ -487,9 +487,9 @@ class Sesion {
 	 * @return valor
 	 * @access public
 	 */
-	function setIdUsuario($id_usuario) {
+	function setIdUsuario($idUsuario) {
 
-		$this->setSesionUsuarioId = $id_usuario;
+		$this->setSesionUsuarioId = $idUsuario;
 	
 	} // Fin del mètodo especificar_usuario
 	function setSesionUsuario($valor) {

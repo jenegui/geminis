@@ -38,7 +38,7 @@
 *		Identificador del enlace a la base de datos
 *@param  $dbms
 *		Nombre del DBMS POSTGRES
-*@param  $cadena_sql
+*@param  $cadenaSql
 *		Clausula SQL a ejecutar
 *@param  $error
 *		Mensaje de error devuelto por el DBMS
@@ -107,7 +107,7 @@ class pgsql
 	private $clave;
 	private $enlace;
 	private $dbsys;
-	private $cadena_sql;
+	private $cadenaSql;
 	private $error;
 	private $numero;
 	private $conteo;
@@ -124,9 +124,9 @@ class pgsql
 	 * @access public
 	 */
 
-	function especificar_db( $nombre_db )
+	function especificar_db( $nombreDb )
 	{
-		$this->db = $nombre_db;
+		$this->db = $nombreDb;
 	} // Fin del método especificar_db
 
 	/**
@@ -135,9 +135,9 @@ class pgsql
 	 * @return void
 	 * @access public
 	 */
-	function especificar_usuario( $usuario_db )
+	function especificar_usuario( $usuarioDb )
 	{
-		$this->usuario = $usuario_db;
+		$this->usuario = $usuarioDb;
 	} // Fin del método especificar_usuario
 
 
@@ -147,9 +147,9 @@ class pgsql
 	 * @return void
 	 * @access public
 	 */
-	function especificar_clave( $clave_db )
+	function especificar_clave( $claveDb )
 	{
-		$this->clave = $clave_db;
+		$this->clave = $claveDb;
 	} // Fin del método especificar_clave
 
 	/**
@@ -159,9 +159,9 @@ class pgsql
 	 * @return void
 	 * @access public
 	 */
-	function especificar_servidor( $servidor_db )
+	function especificar_servidor( $servidorDb )
 	{
-		$this->servidor = $servidor_db;
+		$this->servidor = $servidorDb;
 	} // Fin del método especificar_servidor
 
 	/**
@@ -257,7 +257,7 @@ class pgsql
 
 	} // Fin del método probar_conexion
 
-	function logger($configuracion,$id_usuario,$evento)
+	function logger($configuracion,$idUsuario,$evento)
 	{
 		$this->cadena_sql = "INSERT INTO ";
 		$this->cadena_sql.= "".$configuracion["prefijo"]."logger ";
@@ -267,11 +267,10 @@ class pgsql
 		$this->cadena_sql.= "`fecha`  ";
 		$this->cadena_sql.= ") ";
 		$this->cadena_sql.= "VALUES (";
-		$this->cadena_sql.= $id_usuario."," ;
+		$this->cadena_sql.= $idUsuario."," ;
 		$this->cadena_sql.= "'".$evento."'," ;
 		$this->cadena_sql.= "'".time()."'" ;
 		$this->cadena_sql.=")";
-		//echo $this->cadena_sql;
 		$this->ejecutar_acceso_db($this->cadena_sql);
 		unset($this->db_sel);
 		return TRUE;
@@ -301,10 +300,10 @@ class pgsql
 	 * @access private
 	 */
 
-	private function ejecutar_acceso_db($cadena_sql)
+	private function ejecutar_acceso_db($cadenaSql)
 	{
 
-		if(!pg_query($this->enlace,$cadena_sql))
+		if(!pg_query($this->enlace,$cadenaSql))
 		{
 			$this->error= pg_last_error($this->enlace);
 			return FALSE;
@@ -337,14 +336,14 @@ class pgsql
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadena_sql,$numero=0)
+	function registro_db($cadenaSql,$numero=0)
 	{
 		if(!is_resource($this->enlace))
 		{
 			return FALSE;
 		}
 
-		@$busqueda=pg_query($this->enlace,$cadena_sql);
+		@$busqueda=pg_query($this->enlace,$cadenaSql);
 		if($busqueda)
 		{
 			unset($this->registro);
@@ -383,7 +382,6 @@ class pgsql
 		else
 		{
 			unset($this->registro);
-			//echo "<br/>".$cadena_sql;
 			$this->error =pg_last_error($this->enlace);
 			return 0;
 		}
@@ -486,9 +484,9 @@ class pgsql
 
 	//F
 
-	private function ejecutar_busqueda($cadena_sql, $numeroRegistros=0)
+	private function ejecutar_busqueda($cadenaSql, $numeroRegistros=0)
 	{
-		$this->registro_db($cadena_sql,$numeroRegistros);
+		$this->registro_db($cadenaSql,$numeroRegistros);
 		$registro=$this->getRegistroDb();
 		return $registro;
 	}
@@ -547,26 +545,26 @@ class pgsql
 
 
 
-	function ejecutarAcceso($cadena_sql,$tipo="", $numeroRegistros=0)
+	function ejecutarAcceso($cadenaSql,$tipo="", $numeroRegistros=0)
 	{
 		if(!is_resource($this->enlace) && $this->enlace==""){
 			error_log("NO HAY ACCESO A LA BASE DE DATOS!!!");
 			return FALSE;
 		}
 
-		$cadena_sql=$this->tratarCadena($cadena_sql);
+		$cadenaSql=$this->tratarCadena($cadenaSql);
 
 		if($tipo=="busqueda"){
-			$esteRegistro=$this->ejecutar_busqueda($cadena_sql,$numeroRegistros);
+			$esteRegistro=$this->ejecutar_busqueda($cadenaSql,$numeroRegistros);
 			if(isset($this->configuracion["debugMode"])
 					&&$this->configuracion["debugMode"]==1
 					&&$esteRegistro==false){
-				error_log ("El registro esta vacio!!! ".$cadena_sql);
+				error_log ("El registro esta vacio!!! ".$cadenaSql);
 			}
 
 			return $esteRegistro;
 		}else{
-			$resultado=$this->ejecutar_acceso_db($cadena_sql);
+			$resultado=$this->ejecutar_acceso_db($cadenaSql);
 			return $resultado;
 		}
 	}

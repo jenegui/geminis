@@ -39,7 +39,7 @@
  * Identificador del enlace a la base de datos
  * @param $dbms
  * Nombre del DBMS oci8
- * @param $cadena_sql
+ * @param $cadenaSql
  * Clausula SQL a ejecutar
  * @param $error
  * Mensaje de error devuelto por el DBMS
@@ -107,7 +107,7 @@ class oci8{
     var $clave;
     var $enlace;
     var $dbsys;
-    var $cadena_sql;
+    var $cadenaSql;
     var $error;
     var $numero;
     var $conteo;
@@ -122,8 +122,8 @@ class oci8{
      * @return void
      * @access public
      */
-    function especificar_db($nombre_db) {
-        $this->db = $nombre_db;
+    function especificar_db($nombreDb) {
+        $this->db = $nombreDb;
     }
 
 // Fin del método especificar_db
@@ -134,8 +134,8 @@ class oci8{
      * @return void
      * @access public
      */
-    function especificar_usuario($usuario_db) {
-        $this->usuario = $usuario_db;
+    function especificar_usuario($usuarioDb) {
+        $this->usuario = $usuarioDb;
     }
 
 // Fin del método especificar_usuario
@@ -146,8 +146,8 @@ class oci8{
      * @return void
      * @access public
      */
-    function especificar_clave($clave_db) {
-        $this->clave = $clave_db;
+    function especificar_clave($claveDb) {
+        $this->clave = $claveDb;
     }
 
 // Fin del método especificar_clave
@@ -159,8 +159,8 @@ class oci8{
      * @return void
      * @access public
      */
-    function especificar_servidor($servidor_db) {
-        $this->servidor = $servidor_db;
+    function especificar_servidor($servidorDb) {
+        $this->servidor = $servidorDb;
     }
 
 // Fin del método especificar_servidor
@@ -212,11 +212,6 @@ class oci8{
      * @access public
      */
     function conectar_db() {
-        // echo "<br>Usuario:".$this->usuario;
-        // echo "<br>Clave:".$this->clave;
-        // echo "<br>Db:".$this->db;
-
-
         $this->enlace = oci_connect($this->usuario, $this->clave, $this->db);
 
         if ($this->enlace) {
@@ -265,8 +260,8 @@ class oci8{
      * @return boolean
      * @access public
      */
-    private function ejecutar_acceso_db($cadena_sql) {
-        $cadenaParser = OCIParse($this->enlace, $cadena_sql);
+    private function ejecutar_acceso_db($cadenaSql) {
+        $cadenaParser = OCIParse($this->enlace, $cadenaSql);
         $busqueda = OCIExecute($cadenaParser);
         if ($busqueda) {
             return FALSE;
@@ -296,14 +291,14 @@ class oci8{
      * @return boolean
      * @access public
      */
-    function registro_db($cadena_sql, $numero = 0) {
+    function registro_db($cadenaSql, $numero = 0) {
 
         unset($this->registro);
         if (!is_resource($this->enlace)) {
             return FALSE;
         }
 
-        $cadenaParser = oci_parse($this->enlace, $cadena_sql);
+        $cadenaParser = oci_parse($this->enlace, $cadenaSql);
 
         if (oci_execute($cadenaParser)) {
 
@@ -424,8 +419,8 @@ class oci8{
 
 //Fin del método db_admin
 
-    function ejecutar_busqueda($cadena_sql, $numeroRegistros = 0) {
-        $this->registro_db($cadena_sql, $numeroRegistros);
+    function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+        $this->registro_db($cadenaSql, $numeroRegistros);
         $registro = $this->getRegistroDb();
         return $registro;
     }
@@ -437,7 +432,7 @@ class oci8{
 
     //Funcion para el acceso a las bases de datos
 
-    function ejecutarAcceso($cadena_sql, $tipo = "", $numeroRegistros = 0) {
+    function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
 
         if (!is_resource($this->enlace)) {
             return FALSE;
@@ -445,16 +440,16 @@ class oci8{
 
         if ($tipo == "busqueda") {
 
-            $this->ejecutar_busqueda($cadena_sql, $numeroRegistros);
+            $this->ejecutar_busqueda($cadenaSql, $numeroRegistros);
             $esteRegistro = $this->getRegistroDb();
             return $esteRegistro;
         } else {
-            $resultado = $this->ejecutar_acceso_db($cadena_sql);
+            $resultado = $this->ejecutar_acceso_db($cadenaSql);
             return $resultado;
         }
     }
 
-    function logger($configuracion, $id_usuario, $evento) {
+    function logger($configuracion, $idUsuario, $evento) {
         
     }
 

@@ -67,7 +67,6 @@ class Sql {
 				$comparacion = TRUE;
 			}
 			if (! $comparacion) {
-				// echo $this->cadena.'<br>';
 				$archivo_sql .= $this->cadena . "\n";
 			}
 		}
@@ -98,7 +97,6 @@ class Sql {
 			if (strlen ( $instruccion [$contador] ) > 5) {
 				$sql [$contador_2] = trim ( $instruccion [$contador] ) . "\n";
 				$contador_2 ++;
-				// echo $sql[$contador_2];
 			}
 		}
 		

@@ -39,53 +39,53 @@ class Sql<nombreBloque> extends sql {
 			 */
 			 
 			case "buscarUsuario":
-				$cadena_sql="SELECT ";
-				$cadena_sql.="FECHA_CREACION, ";
-				$cadena_sql.="PRIMER_NOMBRE ";				 
-				$cadena_sql.="FROM ";
-				$cadena_sql.="USUARIOS ";
-				$cadena_sql.="WHERE ";
-				$cadena_sql.="`PRIMER_NOMBRE` ='".$variable."' ";
+				$cadenaSql="SELECT ";
+				$cadenaSql.="FECHA_CREACION, ";
+				$cadenaSql.="PRIMER_NOMBRE ";				 
+				$cadenaSql.="FROM ";
+				$cadenaSql.="USUARIOS ";
+				$cadenaSql.="WHERE ";
+				$cadenaSql.="`PRIMER_NOMBRE` ='".$variable."' ";
 				break;
 
 
 			case "insertarRegistro":
-				$cadena_sql="INSERT INTO ";
-				$cadena_sql.=$prefijo."registradoConferencia ";
-				$cadena_sql.="( ";
-				$cadena_sql.="`idRegistrado`, ";
-				$cadena_sql.="`nombre`, ";
-				$cadena_sql.="`apellido`, ";
-				$cadena_sql.="`identificacion`, ";
-				$cadena_sql.="`codigo`, ";
-				$cadena_sql.="`correo`, ";
-				$cadena_sql.="`tipo`, ";
-				$cadena_sql.="`fecha` ";
-				$cadena_sql.=") ";
-				$cadena_sql.="VALUES ";
-				$cadena_sql.="( ";
-				$cadena_sql.="NULL, ";
-				$cadena_sql.="'".$variable['nombre']."', ";
-				$cadena_sql.="'".$variable['apellido']."', ";
-				$cadena_sql.="'".$variable['identificacion']."', ";
-				$cadena_sql.="'".$variable['codigo']."', ";
-				$cadena_sql.="'".$variable['correo']."', ";
-				$cadena_sql.="'0', ";
-				$cadena_sql.="'".time()."' ";
-				$cadena_sql.=")";
+				$cadenaSql="INSERT INTO ";
+				$cadenaSql.=$prefijo."registradoConferencia ";
+				$cadenaSql.="( ";
+				$cadenaSql.="`idRegistrado`, ";
+				$cadenaSql.="`nombre`, ";
+				$cadenaSql.="`apellido`, ";
+				$cadenaSql.="`identificacion`, ";
+				$cadenaSql.="`codigo`, ";
+				$cadenaSql.="`correo`, ";
+				$cadenaSql.="`tipo`, ";
+				$cadenaSql.="`fecha` ";
+				$cadenaSql.=") ";
+				$cadenaSql.="VALUES ";
+				$cadenaSql.="( ";
+				$cadenaSql.="NULL, ";
+				$cadenaSql.="'".$variable['nombre']."', ";
+				$cadenaSql.="'".$variable['apellido']."', ";
+				$cadenaSql.="'".$variable['identificacion']."', ";
+				$cadenaSql.="'".$variable['codigo']."', ";
+				$cadenaSql.="'".$variable['correo']."', ";
+				$cadenaSql.="'0', ";
+				$cadenaSql.="'".time()."' ";
+				$cadenaSql.=")";
 				break;
 
 
 			case "actualizarRegistro":
-				$cadena_sql="UPDATE ";
-				$cadena_sql.=$prefijo."conductor ";
-				$cadena_sql.="SET ";
-				$cadena_sql.="`nombre` = '".$variable["nombre"]."', ";
-				$cadena_sql.="`apellido` = '".$variable["apellido"]."', ";
-				$cadena_sql.="`identificacion` = '".$variable["identificacion"]."', ";
-				$cadena_sql.="`telefono` = '".$variable["telefono"]."' ";
-				$cadena_sql.="WHERE ";
-				$cadena_sql.="`idConductor` =".$_REQUEST["registro"]." ";
+				$cadenaSql="UPDATE ";
+				$cadenaSql.=$prefijo."conductor ";
+				$cadenaSql.="SET ";
+				$cadenaSql.="`nombre` = '".$variable["nombre"]."', ";
+				$cadenaSql.="`apellido` = '".$variable["apellido"]."', ";
+				$cadenaSql.="`identificacion` = '".$variable["identificacion"]."', ";
+				$cadenaSql.="`telefono` = '".$variable["telefono"]."' ";
+				$cadenaSql.="WHERE ";
+				$cadenaSql.="`idConductor` =".$_REQUEST["registro"]." ";
 				break;
 				 
 
@@ -95,70 +95,70 @@ class Sql<nombreBloque> extends sql {
 				 */
 
 			case "iniciarTransaccion":
-				$cadena_sql="START TRANSACTION";
+				$cadenaSql="START TRANSACTION";
 				break;
 
 			case "finalizarTransaccion":
-				$cadena_sql="COMMIT";
+				$cadenaSql="COMMIT";
 				break;
 
 			case "cancelarTransaccion":
-				$cadena_sql="ROLLBACK";
+				$cadenaSql="ROLLBACK";
 				break;
 
 
 			case "eliminarTemp":
 
-				$cadena_sql="DELETE ";
-				$cadena_sql.="FROM ";
-				$cadena_sql.=$prefijo."tempFormulario ";
-				$cadena_sql.="WHERE ";
-				$cadena_sql.="id_sesion = '".$variable."' ";
+				$cadenaSql="DELETE ";
+				$cadenaSql.="FROM ";
+				$cadenaSql.=$prefijo."tempFormulario ";
+				$cadenaSql.="WHERE ";
+				$cadenaSql.="id_sesion = '".$variable."' ";
 				break;
 
 			case "insertarTemp":
-				$cadena_sql="INSERT INTO ";
-				$cadena_sql.=$prefijo."tempFormulario ";
-				$cadena_sql.="( ";
-				$cadena_sql.="id_sesion, ";
-				$cadena_sql.="formulario, ";
-				$cadena_sql.="campo, ";
-				$cadena_sql.="valor, ";
-				$cadena_sql.="fecha ";
-				$cadena_sql.=") ";
-				$cadena_sql.="VALUES ";
+				$cadenaSql="INSERT INTO ";
+				$cadenaSql.=$prefijo."tempFormulario ";
+				$cadenaSql.="( ";
+				$cadenaSql.="id_sesion, ";
+				$cadenaSql.="formulario, ";
+				$cadenaSql.="campo, ";
+				$cadenaSql.="valor, ";
+				$cadenaSql.="fecha ";
+				$cadenaSql.=") ";
+				$cadenaSql.="VALUES ";
 
 				foreach($_REQUEST as $clave => $valor) {
-					$cadena_sql.="( ";
-					$cadena_sql.="'".$idSesion."', ";
-					$cadena_sql.="'".$variable['formulario']."', ";
-					$cadena_sql.="'".$clave."', ";
-					$cadena_sql.="'".$valor."', ";
-					$cadena_sql.="'".$variable['fecha']."' ";
-					$cadena_sql.="),";
+					$cadenaSql.="( ";
+					$cadenaSql.="'".$idSesion."', ";
+					$cadenaSql.="'".$variable['formulario']."', ";
+					$cadenaSql.="'".$clave."', ";
+					$cadenaSql.="'".$valor."', ";
+					$cadenaSql.="'".$variable['fecha']."' ";
+					$cadenaSql.="),";
 				}
 
-				$cadena_sql=substr($cadena_sql,0,(strlen($cadena_sql)-1));
+				$cadenaSql=substr($cadenaSql,0,(strlen($cadenaSql)-1));
 				break;
 
 			case "rescatarTemp":
-				$cadena_sql="SELECT ";
-				$cadena_sql.="id_sesion, ";
-				$cadena_sql.="formulario, ";
-				$cadena_sql.="campo, ";
-				$cadena_sql.="valor, ";
-				$cadena_sql.="fecha ";
-				$cadena_sql.="FROM ";
-				$cadena_sql.=$prefijo."tempFormulario ";
-				$cadena_sql.="WHERE ";
-				$cadena_sql.="id_sesion='".$idSesion."'";
+				$cadenaSql="SELECT ";
+				$cadenaSql.="id_sesion, ";
+				$cadenaSql.="formulario, ";
+				$cadenaSql.="campo, ";
+				$cadenaSql.="valor, ";
+				$cadenaSql.="fecha ";
+				$cadenaSql.="FROM ";
+				$cadenaSql.=$prefijo."tempFormulario ";
+				$cadenaSql.="WHERE ";
+				$cadenaSql.="id_sesion='".$idSesion."'";
 				break;
 
 
 
 		}
 
-		return $cadena_sql;
+		return $cadenaSql;
 
 	}
 }

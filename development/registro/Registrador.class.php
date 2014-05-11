@@ -20,87 +20,87 @@ class RegistradorElemento {
 		$this->miFabricaConexiones->setRecursoDB ( "principal", $this->misDatosConexion );
 	}
 	function formRegistrarPagina() {
-		$cadena_html = "<div id='registrarPagina' class='marcoFormulario'>";
-		$cadena_html .= "<form method='post'>";
-		$cadena_html .= "<label for='nombrePagina' >Nombre de la página:</label>";
-		$cadena_html .= "<input type='text' name='nombrePagina' id='nombrePagina' /><br>";
-		$cadena_html .= "<label for='descripcionPagina'>Descripción:</label>";
-		$cadena_html .= "<textarea rows='4' cols='50'name='descripcionPagina' id='descripcionPagina'></textarea><br>";
-		$cadena_html .= "<label for='moduloPagina'>Módulo al que pertenece:</label>";
-		$cadena_html .= "<input type='text' name='moduloPagina' id='moduloPagina' />";
-		$cadena_html .= "<label for='nivelPagina'>Nivel de acceso:</label>";
-		$cadena_html .= "<input type='text' name='nivelPagina' id='nivelPagina' />";
-		$cadena_html .= "<label for='parametroPagina'>Parámetros predeterminados:</label>";
-		$cadena_html .= "<input type='text' name='parametroPagina' id='parametroPagina' />";
-		$cadena_html .= "<div class='marcoBoton'>";
-		$cadena_html .= "<button type='submit'>Guardar</button>";
-		$cadena_html .= "<input type='hidden' name='action' id='action' value='pagina'>";
-		$cadena_html .= "</div>";
-		$cadena_html .= "</form>";
-		$cadena_html .= "</div>";
+		$cadenaHTML = "<div id='registrarPagina' class='marcoFormulario'>";
+		$cadenaHTML .= "<form method='post'>";
+		$cadenaHTML .= "<label for='nombrePagina' >Nombre de la página:</label>";
+		$cadenaHTML .= "<input type='text' name='nombrePagina' id='nombrePagina' /><br>";
+		$cadenaHTML .= "<label for='descripcionPagina'>Descripción:</label>";
+		$cadenaHTML .= "<textarea rows='4' cols='50'name='descripcionPagina' id='descripcionPagina'></textarea><br>";
+		$cadenaHTML .= "<label for='moduloPagina'>Módulo al que pertenece:</label>";
+		$cadenaHTML .= "<input type='text' name='moduloPagina' id='moduloPagina' />";
+		$cadenaHTML .= "<label for='nivelPagina'>Nivel de acceso:</label>";
+		$cadenaHTML .= "<input type='text' name='nivelPagina' id='nivelPagina' />";
+		$cadenaHTML .= "<label for='parametroPagina'>Parámetros predeterminados:</label>";
+		$cadenaHTML .= "<input type='text' name='parametroPagina' id='parametroPagina' />";
+		$cadenaHTML .= "<div class='marcoBoton'>";
+		$cadenaHTML .= "<button type='submit'>Guardar</button>";
+		$cadenaHTML .= "<input type='hidden' name='action' id='action' value='pagina'>";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "</form>";
+		$cadenaHTML .= "</div>";
 		
-		return $cadena_html;
+		return $cadenaHTML;
 	}
 	function formRegistrarBloque() {
-		$cadena_html = "<div id='registrarBloque'  class='marcoFormulario'>";
-		$cadena_html .= "<form  method='post'>";
-		$cadena_html .= "<label for='nombreBloque' >Nombre del Bloque:</label>";
-		$cadena_html .= "<input type='text' name='nombreBloque' id='nombreBloque' /><br>";
-		$cadena_html .= "<label for='descripcionBloque'>Descripción:</label>";
-		$cadena_html .= "<textarea rows='4' cols='50'name='descripcionBloque' id='descripcionBloque'></textarea><br>";
-		$cadena_html .= "<label for='grupoBloque'>Grupo del Bloque:</label>";
-		$cadena_html .= "<input type='text' name='grupoBloque' id='grupoBloque' />";
-		$cadena_html .= "<div class='marcoBoton'>";
-		$cadena_html .= "<button type='submit'>Guardar</button>";
-		$cadena_html .= "<input type='hidden' name='action' id='action' value='bloque'>";
-		$cadena_html .= "</div>";
-		$cadena_html .= "</form>";
-		$cadena_html .= "</div>";
+		$cadenaHTML = "<div id='registrarBloque'  class='marcoFormulario'>";
+		$cadenaHTML .= "<form  method='post'>";
+		$cadenaHTML .= "<label for='nombreBloque' >Nombre del Bloque:</label>";
+		$cadenaHTML .= "<input type='text' name='nombreBloque' id='nombreBloque' /><br>";
+		$cadenaHTML .= "<label for='descripcionBloque'>Descripción:</label>";
+		$cadenaHTML .= "<textarea rows='4' cols='50'name='descripcionBloque' id='descripcionBloque'></textarea><br>";
+		$cadenaHTML .= "<label for='grupoBloque'>Grupo del Bloque:</label>";
+		$cadenaHTML .= "<input type='text' name='grupoBloque' id='grupoBloque' />";
+		$cadenaHTML .= "<div class='marcoBoton'>";
+		$cadenaHTML .= "<button type='submit'>Guardar</button>";
+		$cadenaHTML .= "<input type='hidden' name='action' id='action' value='bloque'>";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "</form>";
+		$cadenaHTML .= "</div>";
 		
-		return $cadena_html;
+		return $cadenaHTML;
 	}
 	function formAsociarBloque() {
-		$cadena_html = "<div id='seleccionarPagina' class='marcoDisenno'>";
+		$cadenaHTML = "<div id='seleccionarPagina' class='marcoDisenno'>";
 		
-		$cadena_html .= "</div>";
+		$cadenaHTML .= "</div>";
 		
-		$cadena_html .= "<div id='disennarPagina' class='marcoDisenno'>";
-		$cadena_html .= "<form  method='post'>";
-		$cadena_html .= "<div class='seccionA'>";
-		$cadena_html .= "<input class='seccion' type='text' name='seccionA' id='seccionA' />";
-		$cadena_html .= "</div>";
-		$cadena_html .= "<div class='seccionB'>";
-		$cadena_html .= "<input class='seccion' type='text' name='seccionB' id='seccionB' />";
-		$cadena_html .= "</div>";
-		$cadena_html .= "<div class='seccionC'>";
-		$cadena_html .= "<input class='seccion' type='text' name='seccionC' id='seccionC' />";
-		$cadena_html .= "</div>";
-		$cadena_html .= "<div class='seccionD'>";
-		$cadena_html .= "<input class='seccion' type='text' name='seccionD' id='seccionD' />";
-		$cadena_html .= "</div>";
-		$cadena_html .= "<div class='seccionE'>";
-		$cadena_html .= "<input class='seccion' type='text' name='seccionE' id='seccionE' />";
-		$cadena_html .= "<input type='hidden' name='action' id='action' value='disenno'>";
-		$cadena_html .= "</div>";
-		$cadena_html .= "</form>";
-		$cadena_html .= "</div>";
+		$cadenaHTML .= "<div id='disennarPagina' class='marcoDisenno'>";
+		$cadenaHTML .= "<form  method='post'>";
+		$cadenaHTML .= "<div class='seccionA'>";
+		$cadenaHTML .= "<input class='seccion' type='text' name='seccionA' id='seccionA' />";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "<div class='seccionB'>";
+		$cadenaHTML .= "<input class='seccion' type='text' name='seccionB' id='seccionB' />";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "<div class='seccionC'>";
+		$cadenaHTML .= "<input class='seccion' type='text' name='seccionC' id='seccionC' />";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "<div class='seccionD'>";
+		$cadenaHTML .= "<input class='seccion' type='text' name='seccionD' id='seccionD' />";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "<div class='seccionE'>";
+		$cadenaHTML .= "<input class='seccion' type='text' name='seccionE' id='seccionE' />";
+		$cadenaHTML .= "<input type='hidden' name='action' id='action' value='disenno'>";
+		$cadenaHTML .= "</div>";
+		$cadenaHTML .= "</form>";
+		$cadenaHTML .= "</div>";
 		
-		return $cadena_html;
+		return $cadenaHTML;
 	}
 	function formSeleccionarAccion() {
-		$cadena_html = "<div class='marcoBoton'>";
-		$cadena_html .= "<form  method='post'>";
-		$cadena_html .= "<select id='seleccionador'>";
-		$cadena_html .= "<option>Seleccionar actividad...</option>";
-		$cadena_html .= "<option value='pagina'>Registrar Página</option>";
-		$cadena_html .= "<option value='bloque'>Registrar Bloque</option>";
-		$cadena_html .= "<option value='disennarPagina'>Diseñar Página</option>";
-		$cadena_html .= "</select>";
-		$cadena_html .= "<input type='hidden' name='action' id='action' value='true'>";
-		$cadena_html .= "</form>";
-		$cadena_html .= "</div>";
+		$cadenaHTML = "<div class='marcoBoton'>";
+		$cadenaHTML .= "<form  method='post'>";
+		$cadenaHTML .= "<select id='seleccionador'>";
+		$cadenaHTML .= "<option>Seleccionar actividad...</option>";
+		$cadenaHTML .= "<option value='pagina'>Registrar Página</option>";
+		$cadenaHTML .= "<option value='bloque'>Registrar Bloque</option>";
+		$cadenaHTML .= "<option value='disennarPagina'>Diseñar Página</option>";
+		$cadenaHTML .= "</select>";
+		$cadenaHTML .= "<input type='hidden' name='action' id='action' value='true'>";
+		$cadenaHTML .= "</form>";
+		$cadenaHTML .= "</div>";
 		
-		return $cadena_html;
+		return $cadenaHTML;
 	}
 	function procesarFormulario($opcion) {
 		$conexion = $this->miFabricaConexiones->getRecursoDB ( 'principal' );

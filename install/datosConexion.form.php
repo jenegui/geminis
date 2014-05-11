@@ -9,36 +9,32 @@
  * @license	GPL Version 3.0 o posterior
  *
  */
+$indice = strpos ( $_SERVER ["REQUEST_URI"], "/index.php" );
 
-$indice=strpos($_SERVER["REQUEST_URI"], "/index.php");
-
-if($indice===false){
-	$indice=strpos($_SERVER["REQUEST_URI"], "/",1);
-	
+if ($indice === false) {
+	$indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
 }
-$sitio=substr($_SERVER["REQUEST_URI"],0,$indice);
+$sitio = substr ( $_SERVER ["REQUEST_URI"], 0, $indice );
 
+// Validacion
+$formulario = "variables";
+$validar = "control_vacio(" . $formulario . ",'dbdns','Direcci&oacute;n Servidor de Bases de Datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'dbnombre','Nombre de la base de datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'dbusuario','Usuario de la base de datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'dbclave','Clave de acceso a la base de datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'dbsys','Sistema de Gesti&oacute;n de la Base de Datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'dbpuerto','Puerto de acceso al servidor de Bases de Datos')";
+$validar .= "&&control_vacio(" . $formulario . ",'nombreAplicativo','Nombre del Aplicativo')";
+$validar .= "&&control_vacio(" . $formulario . ",'raizDocumento','Directorio raiz de los documentos')";
+$validar .= "&&control_vacio(" . $formulario . ",'host','Direcci&oacute;n (URL) ra&iacute;z del servidor')";
+$validar .= "&&control_vacio(" . $formulario . ",'site','Carpeta del sitio en el servidor')";
+$validar .= "&&control_vacio(" . $formulario . ",'nombreAdministrador','Usuario administrador del aplicativo')";
+$validar .= "&&control_vacio(" . $formulario . ",'claveAdministrador','Clave del administrador')";
+$validar .= "&&control_vacio(" . $formulario . ",'correoAdministrador','Correo del administrador')";
+$validar .= "&&control_vacio(" . $formulario . ",'enlace','Nombre del par&aacute;metro GET')";
+$validar .= "&&verificar_correo(" . $formulario . ",'correoAdministrador')";
 
-
-//Validacion
-$formulario="variables";
-$validar="control_vacio(".$formulario.",'dbdns','Direcci&oacute;n Servidor de Bases de Datos')";
-$validar.="&&control_vacio(".$formulario.",'dbnombre','Nombre de la base de datos')";
-$validar.="&&control_vacio(".$formulario.",'dbusuario','Usuario de la base de datos')";
-$validar.="&&control_vacio(".$formulario.",'dbclave','Clave de acceso a la base de datos')";
-$validar.="&&control_vacio(".$formulario.",'dbsys','Sistema de Gesti&oacute;n de la Base de Datos')";
-$validar.="&&control_vacio(".$formulario.",'dbpuerto','Puerto de acceso al servidor de Bases de Datos')";
-$validar.="&&control_vacio(".$formulario.",'nombreAplicativo','Nombre del Aplicativo')";
-$validar.="&&control_vacio(".$formulario.",'raizDocumento','Directorio raiz de los documentos')";
-$validar.="&&control_vacio(".$formulario.",'host','Direcci&oacute;n (URL) ra&iacute;z del servidor')";
-$validar.="&&control_vacio(".$formulario.",'site','Carpeta del sitio en el servidor')";
-$validar.="&&control_vacio(".$formulario.",'nombreAdministrador','Usuario administrador del aplicativo')";
-$validar.="&&control_vacio(".$formulario.",'claveAdministrador','Clave del administrador')";
-$validar.="&&control_vacio(".$formulario.",'correoAdministrador','Correo del administrador')";
-$validar.="&&control_vacio(".$formulario.",'enlace','Nombre del par&aacute;metro GET')";
-$validar.="&&verificar_correo(".$formulario.",'correoAdministrador')";
-
-$tab=0;
+$tab = 0;
 ?>
 <html>
 <head>
@@ -154,118 +150,162 @@ p,h1,form,button {
 
 
 <?php
-if(isset($_REQUEST["instalador"])){
+if (isset ( $_REQUEST ["instalador"] )) {
 	?>
 	<div class="clean-red"><?php echo $mensajeError?></div>	
 	<?php
-	} 
-	?>
+}
+?>
 	<div id="formulario" class="miFormulario">
-		<form id="<?php echo $formulario?>" name="<?php echo $formulario?>" method="post" action="index.php" accept-charset="UTF-8">
+		<form id="<?php echo $formulario?>" name="<?php echo $formulario?>"
+			method="post" action="index.php" accept-charset="UTF-8">
 			<h1>Informaci&oacute;n de Conexi&oacute;n</h1>
-			<p>Informaci&oacute;n de conexi&oacute;n a la base de datos principal del aplicativo.</p>
+			<p>Informaci&oacute;n de conexi&oacute;n a la base de datos principal
+				del aplicativo.</p>
 			<label>Tipo: <span class="textoPequenno">Motor de DB a utilizar</span></label>
 			<select id="dbsys" name="dbsys">
-					<option value="mysql">Mysql</option>
-					<option value="pgsql">PostgreSQL</option>
-					<option value="oracle">Oracle</option>
-			</select>
-			
-			<label>Servidor <span class="textoPequenno">DNS del servidor de base de datos</span></label>
-			<input type="text" name="dbdns" id="dbDns" value="<?php 
-			if(isset($_REQUEST["dbdns"])) echo $_REQUEST["dbdns"]; else echo "localhost"; ?>"/>
-			
-			<label>Puerto <span class="textoPequenno">Puerto de acceso al servidor de base de datos</span></label>
-			<input type="text" name="dbpuerto" id="dbPuerto" value="<?php 
-			if(isset($_REQUEST["dbpuerto"])) echo $_REQUEST["dbpuerto"]; else echo "0"; ?>"/>
-			
-			<label>Nombre <span class="textoPequenno">Nombre de la base de datos principal</span></label>
-			<input type="text" name="dbnombre" id="dbNombre" value="<?php if(isset($_REQUEST["dbnombre"])) echo $_REQUEST["dbnombre"]?>"/>
-						
-			<label>Usuario <span class="textoPequenno">Usuario de la base de datos principal</span> </label>
-			<input type="text" name="dbusuario" id="dbUsuario" value="<?php 
-			if(isset($_REQUEST["dbusuario"])) echo$_REQUEST["dbusuario"]; else echo ""?>"/>
-			
-			<label>Clave <span class="textoPequenno">Clave de acceso a la base de datos.</span> </label>
-			<input type="password" name="dbclave" id="dbClave"/>
-			
-			<label>Prefijo <span class="textoPequenno">Prefijo para las tablas de la base de datos</span></label>
-			<input type="text" name="prefijo" id="prefijo" value="<?php 
-			if(isset($_REQUEST["prefijo"])) echo$_REQUEST["prefijo"]; else echo "aplicativo_"?>"/>
-			
+				<option value="mysql">Mysql</option>
+				<option value="pgsql">PostgreSQL</option>
+				<option value="oracle">Oracle</option>
+			</select> <label>Servidor <span class="textoPequenno">DNS del
+					servidor de base de datos</span></label> <input type="text"
+				name="dbdns" id="dbDns"
+				value="<?php
+				if (isset ( $_REQUEST ["dbdns"] )) {
+					echo $_REQUEST ["dbdns"];
+				} else {
+					echo "localhost";
+				}
+				?>" /> <label>Puerto <span class="textoPequenno">Puerto de acceso al
+					servidor de base de datos</span></label> <input type="text"
+				name="dbpuerto" id="dbPuerto"
+				value="<?php
+				if (isset ( $_REQUEST ["dbpuerto"] )) {
+					echo $_REQUEST ["dbpuerto"];
+				} else {
+					echo "0";
+				}
+				?>" /> <label>Nombre <span class="textoPequenno">Nombre de la base
+					de datos principal</span></label> <input type="text"
+				name="dbnombre" id="dbNombre"
+				value="<?php if(isset($_REQUEST["dbnombre"])){ echo $_REQUEST["dbnombre"];}?>" />
+
+			<label>Usuario <span class="textoPequenno">Usuario de la base de
+					datos principal</span>
+			</label> <input type="text" name="dbusuario" id="dbUsuario"
+				value="<?php
+				if (isset ( $_REQUEST ["dbusuario"] )) {
+					echo $_REQUEST ["dbusuario"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Clave <span class="textoPequenno">Clave de acceso a la
+					base de datos.</span>
+			</label> <input type="password" name="dbclave" id="dbClave" /> <label>Prefijo
+				<span class="textoPequenno">Prefijo para las tablas de la base de
+					datos</span>
+			</label> <input type="text" name="prefijo" id="prefijo"
+				value="<?php
+				if (isset ( $_REQUEST ["prefijo"] )) {
+					echo $_REQUEST ["prefijo"];
+				} else {
+					echo "aplicativo_";
+				}
+				?>" />
+
+			<div class="spacer"></div>
 			<div class="spacer">
+				<input type="hidden" name="instalador" id="instalador" />
 			</div>
-			<div class="spacer">
-			<input type="hidden" name="instalador" id="instalador" />
-			</div>
-			<div class="spacer">
-			</div>
-			
+			<div class="spacer"></div>
+
 			<h1>Configuraci&oacute;n del Aplicativo</h1>
 			<p>Datos de configuraci&oacute;n del aplicativo.</p>
-			
-			<label>Nombre del Aplicativo <span class="textoPequenno">M&aacute;ximo 255 letras</span></label>
-			<input type="text" name="nombreAplicativo" id="nombreAplicativo" value="<?php 
-			if(isset($_REQUEST["nombreAplicativo"])) echo$_REQUEST["nombreAplicativo"]; else echo ""?>"/>
-			
-			<label>Directorio ra&iacute;z en el servidor <span class="textoPequenno">En caso de duda preguntar al administrador de su servidor.</span> </label>
-			<input type="text" name="raizDocumento" id="raizDocumento" value="<? echo $_SERVER["DOCUMENT_ROOT"]?>" />
-			
-			<label>Direcci&oacute;n (URL) ra&iacute;z del servidor <span class="textoPequenno">Ej: http://mi_servidor, sin subdirectorios</span> </label>
-			<input type="text" name="host" id="host" value="<? echo "http://".$_SERVER["HTTP_HOST"]?>" />
-			
-			<label>Carpeta del aplicativo <span class="textoPequenno">Ej: /aplicativo</span> </label>
-			<input type="text" name="site" id="site" value="<? echo $sitio?>" />
-			
-			<label>Usuario Administrador <span class="textoPequenno">Con privilegios generales sobre el aplicativo.</span></label>
-			<input type="text" name="nombreAdministrador" id="nombreAdministrador" value="<?php 
-			if(isset($_REQUEST["nombreAdministrador"])) echo$_REQUEST["nombreAdministrador"]; else echo "administrador"?>" />
-			
-			<label>Clave Administrador <span class="textoPequenno">Clave de acceso del administrador.</span> </label>
-			<input type="password" name="claveAdministrador" id="claveAdministrador"/>
-			
-			<label>Correo Administrador <span class="textoPequenno">e-mail del administrador.</span> </label>
-			<input type="text" name="correoAdministrador" id="correoAdministrador" value="<?php 
-			if(isset($_REQUEST["correoAdministrador"])) echo$_REQUEST["correoAdministrador"]; else echo ""?>"/>
-			
-			<label>Indice de Parámetros <span class="textoPequenno">Nombre del parámetro GET.</span> </label>
-			<input type="text" name="enlace" id="enlace" value="<?php 
-			if(isset($_REQUEST["enlace"])) echo$_REQUEST["enlace"]; else echo "data"?>"/>
-			
-			<div class="spacer">
-			</div>
-			<div class="spacer">
-			</div>			
+
+			<label>Nombre del Aplicativo <span class="textoPequenno">M&aacute;ximo
+					255 letras</span></label> <input type="text"
+				name="nombreAplicativo" id="nombreAplicativo"
+				value="<?php
+				if (isset ( $_REQUEST ["nombreAplicativo"] )) {
+					echo $_REQUEST ["nombreAplicativo"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Directorio ra&iacute;z en el servidor <span
+				class="textoPequenno">En caso de duda preguntar al administrador de
+					su servidor.</span>
+			</label> <input type="text" name="raizDocumento" id="raizDocumento"
+				value="<?php echo $_SERVER["DOCUMENT_ROOT"]?>" /> <label>Direcci&oacute;n
+				(URL) ra&iacute;z del servidor <span class="textoPequenno">Ej:
+					http://mi_servidor, sin subdirectorios</span>
+			</label> <input type="text" name="host" id="host"
+				value="<?php echo "http://".$_SERVER["HTTP_HOST"]?>" /> <label>Carpeta
+				del aplicativo <span class="textoPequenno">Ej: /aplicativo</span>
+			</label> <input type="text" name="site" id="site"
+				value="<?php echo $sitio?>" /> <label>Usuario Administrador <span
+				class="textoPequenno">Con privilegios generales sobre el aplicativo.</span></label>
+			<input type="text" name="nombreAdministrador"
+				id="nombreAdministrador"
+				value="<?php
+				if (isset ( $_REQUEST ["nombreAdministrador"] )) {
+					echo $_REQUEST ["nombreAdministrador"];
+				} else {
+					echo "administrador";
+				}
+				?>" /> <label>Clave Administrador <span class="textoPequenno">Clave
+					de acceso del administrador.</span>
+			</label> <input type="password" name="claveAdministrador"
+				id="claveAdministrador" /> <label>Correo Administrador <span
+				class="textoPequenno">e-mail del administrador.</span>
+			</label> <input type="text" name="correoAdministrador"
+				id="correoAdministrador"
+				value="<?php
+				if (isset ( $_REQUEST ["correoAdministrador"] )) {
+					echo $_REQUEST ["correoAdministrador"];
+				} else {
+					echo "";
+				}
+				?>" /> <label>Indice de Parámetros <span class="textoPequenno">Nombre
+					del parámetro GET.</span>
+			</label> <input type="text" name="enlace" id="enlace"
+				value="<?php
+				if (isset ( $_REQUEST ["enlace"] )) {
+					echo $_REQUEST ["enlace"];
+				} else {
+					echo "data";
+				}
+				?>" />
+
+			<div class="spacer"></div>
+			<div class="spacer"></div>
 			<h1>Servicios Web</h1>
 			<p>Llaves para algunos servicios Web.</p>
-						
-			<label>Googlemaps <span class="textoPequenno">Llave p&uacute;blica para el servicio de GoogleMaps</span></label>
-			<input type="text" name="googlemaps" id="googlemaps" />
-			
-			<label>ReCatcha P&uacute;blica <span class="textoPequenno">Llave p&uacute;blica para el servicio de recatcha</span></label>
-			<input type="text" name="recatchapublica" id="recatchapublica" />
-			
-			<label>ReCatcha Privada<span class="textoPequenno">Llave privada para el servicio de recatcha</span></label>
-			<input type="text" name="recatchaprivada" id="recatchaprivada" />				
-			
-			<div class="spacer">
-			</div>
-			<div class="spacer">
-			</div>
-			
+
+			<label>Googlemaps <span class="textoPequenno">Llave p&uacute;blica
+					para el servicio de GoogleMaps</span></label> <input type="text"
+				name="googlemaps" id="googlemaps" /> <label>ReCatcha P&uacute;blica
+				<span class="textoPequenno">Llave p&uacute;blica para el servicio de
+					recatcha</span>
+			</label> <input type="text" name="recatchapublica"
+				id="recatchapublica" /> <label>ReCatcha Privada<span
+				class="textoPequenno">Llave privada para el servicio de recatcha</span></label>
+			<input type="text" name="recatchaprivada" id="recatchaprivada" />
+
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+
 			<h1>Sesiones</h1>
 			<p>Datos de configuraci&oacute;n para las sesiones de usuario.</p>
-			
-			<label>Expiraci&oacute;n <span class="textoPequenno">Tiempo de espera si no se detecta actividad. (En minutos)</span></label>
-			<input type="text" name="expiracion" id="expiracion" value="5"/>			
-			<div class="spacer">
-			</div>
-			<div class="spacer">
-			</div>
-			
-			<input class="button" name='aceptar' value='Aceptar' type='button' onclick="return(<?php  echo $validar; ?>)?this.form.submit():false"><br>
-			<div class="spacer">
-			</div>
+
+			<label>Expiraci&oacute;n <span class="textoPequenno">Tiempo de espera
+					si no se detecta actividad. (En minutos)</span></label> <input
+				type="text" name="expiracion" id="expiracion" value="5" />
+			<div class="spacer"></div>
+			<div class="spacer"></div>
+
+			<input class="button" name='aceptar' value='Aceptar' type='button'
+				onclick="return(<?php  echo $validar; ?>)?this.form.submit():false"><br>
+			<div class="spacer"></div>
 		</form>
 	</div>
 </body>
