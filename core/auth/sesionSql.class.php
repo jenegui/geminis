@@ -136,9 +136,9 @@ class sesionSql {
 				$this->cadena_sql [$indice] .= 'nombre, ';
 				$this->cadena_sql [$indice] .= 'idtipo ';
 				$this->cadena_sql [$indice] .= 'FROM ';
-				$this->cadena_sql [$indice] .= $this->prefijoTablas. 'censo ';
+				$this->cadena_sql [$indice] .= $this->prefijoTablas . 'censo ';
 				$this->cadena_sql [$indice] .= "WHERE ";
-				$this->cadena_sql [$indice] .= "identificacion = '" . trim ( $parametro) . "' ";
+				$this->cadena_sql [$indice] .= "identificacion = '" . trim ( $parametro ) . "' ";
 				
 				break;
 		}

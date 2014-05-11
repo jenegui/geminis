@@ -7,74 +7,79 @@
  * @author 	Paulo Cesar Coronado - Karen Palacios
  *
  */
+require_once ("core/manager/Configurador.class.php");
+require_once ("core/auth/Sesion.class.php");
+require_once ("core/connection/FabricaDbConexion.class.php");
+require_once ("core/crypto/Encriptador.class.php");
+require_once ("core/builder/Mensaje.class.php");
 
-require_once("core/manager/Configurador.class.php");
-require_once("core/auth/Sesion.class.php");
-require_once("core/connection/FabricaDbConexion.class.php");
-require_once("core/crypto/Encriptador.class.php");
-require_once("core/builder/Mensaje.class.php");
-
-
-
-class Bootstrap{
-
+class Bootstrap {
 
 	/**
 	 * Objeto.
 	 * Con los atributos y métodos para gestionar la sesión de usuario
+	 * 
 	 * @var Sesion
 	 */
-
 	var $sesionUsuario;
 
-
 	/**
+	 *
 	 *
 	 * Objeto.
 	 * Encargado de inicializar las variables globales. Su atributo $configuracion contiene los valores necesarios
 	 * para gestionar la aplicacion.
+	 * 
 	 * @var Configurador
 	 */
 	var $miConfigurador;
 
-
 	/**
+	 *
 	 *
 	 * Objeto, con funciones miembro generales que encapsulan funcionalidades
 	 * básicas.
+	 * 
 	 * @var FuncionGeneral
 	 */
 	private $miFuncion;
 
 	/**
 	 *
+	 *
 	 * Objeto. Gestiona conexiones a bases de datos.
+	 * 
 	 * @var FabricaDBConexion
 	 */
 	private $manejadorDB;
 
 	/**
 	 * Objeto de la clase Encriptador se encarga de codificar/decodificar cadenas de texto.
+	 * 
 	 * @var Encriptador
 	 */
 	private $cripto;
 
-
 	/**
 	 *
+	 *
 	 * Objeto. Actua como controlador del modulo de instalación del framework/aplicativo
+	 * 
 	 * @var Instalador
 	 */
 	var $miInstalador;
 
 	/**
 	 *
+	 *
 	 * Objeto. Instancia de la pagina que se está visitando
+	 * 
 	 * @var Pagina
 	 */
 	var $miPagina;
 
 	/**
+	 *
 	 *
 	 * Arreglo.Ruta de acceso a los archivos, se utilizan porque aún no se ha rescatado las
 	 * variables de configuración.
@@ -85,227 +90,227 @@ class Bootstrap{
 
 	/**
 	 * Objeto que se encarga de mostrar los mensajes de error fatales.
+	 * 
 	 * @var Mensaje
 	 */
 	var $cuadroMensaje;
 
-
-
-
 	/**
 	 * Contructor
-	 * @param none
+	 * 
+	 * @param
+	 *        	none
 	 * @return integer
-	 * */
+	 *
+	 */
+	function __construct() {
 
-	function __construct(){
-
-		$this->cuadroMensaje=Mensaje::singleton();
-		$this->conectorDB = FabricaDbConexion::singleton();
-		$this->cripto = Encriptador::singleton();
-
+		$this->cuadroMensaje = Mensaje::singleton ();
+		$this->conectorDB = FabricaDbConexion::singleton ();
+		$this->cripto = Encriptador::singleton ();
+		
 		/**
 		 * Importante conservar el orden de creación de los siguientes objetos porque tienen
 		 * referencias cruzadas.
 		 */
-		$this->miConfigurador=Configurador::singleton();
-		$this->miConfigurador->setConectorDB($this->conectorDB);
-
+		$this->miConfigurador = Configurador::singleton ();
+		$this->miConfigurador->setConectorDB ( $this->conectorDB );
+		
 		/**
 		 * El objeto del a clase Sesion es el último que se debe crear.
 		 */
-		$this->sesionUsuario=Sesion::singleton();
-
+		$this->sesionUsuario = Sesion::singleton ();
+	
 	}
 
 	/**
-	 *
 	 * Iniciar la aplicación.
 	 */
-
-	public function iniciar(){
-
+	public function iniciar() {
+		
 		// Poblar el atributo miConfigurador->configuracion
-		$this->miConfigurador->variable();
-
-		if(!$this->miConfigurador->getVariableConfiguracion("instalado"))
-		{
-			$this->instalarAplicativo();
-
-		}else{
-
-			$this->ingresar();
+		$this->miConfigurador->variable ();
+		
+		if (! $this->miConfigurador->getVariableConfiguracion ( "instalado" )) {
+			$this->instalarAplicativo ();
+		} else {
+			
+			$this->ingresar ();
 		}
+	
 	}
 
 	/**
+	 *
 	 *
 	 * Asigna los valores a las variables que indican las rutas predeterminadas.
-	 * @param strting array $variables
+	 * 
+	 * @param
+	 *        	strting array $variables
 	 */
+	function setMisVariables($variables) {
 
-	function setMisVariables($variables){
-		$this->misVariables=$variables;
-		$this->miConfigurador->setRutas($variables);
+		$this->misVariables = $variables;
+		$this->miConfigurador->setRutas ( $variables );
+	
 	}
 
 	/**
 	 *
+	 *
 	 * Ingresar al aplicativo.
-	 * @param Ninguno
+	 * 
+	 * @param
+	 *        	Ninguno
 	 * @return int
 	 */
 	private function ingresar() {
 
 		/**
+		 *
 		 * @global boolean $GLOBALS['autorizado']
 		 * @name $autorizado
 		 */
-            	$GLOBALS["autorizado"]=TRUE;
-
-
-
-		$pagina=$this->determinarPagina();
-
-                $this->miConfigurador->setVariableConfiguracion("pagina",$pagina);
-
-
+		$GLOBALS ["autorizado"] = TRUE;
+		
+		$pagina = $this->determinarPagina ();
+		
+		$this->miConfigurador->setVariableConfiguracion ( "pagina", $pagina );
+		
 		/**
 		 * Verificar que se tenga una sesión válida
-		*/
-
-		require_once($this->miConfigurador->getVariableConfiguracion("raizDocumento")."/core/auth/Autenticador.class.php");
-		$this->autenticador=Autenticador::singleton();
-		$this->autenticador->setPagina($pagina);
-
-		if($this->autenticador->iniciarAutenticacion()){
-
+		 */
+		
+		require_once ($this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/core/auth/Autenticador.class.php");
+		$this->autenticador = Autenticador::singleton ();
+		$this->autenticador->setPagina ( $pagina );
+		
+		if ($this->autenticador->iniciarAutenticacion ()) {
+			
 			/**
 			 * Procesa la página solicitada por el usuario
 			 */
-			require_once($this->miConfigurador->getVariableConfiguracion("raizDocumento")."/core/builder/Pagina.class.php");
-			$this->miPagina=new Pagina();
-
-			if($this->miPagina->inicializarPagina($pagina)){
+			require_once ($this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/core/builder/Pagina.class.php");
+			$this->miPagina = new Pagina ();
+			
+			if ($this->miPagina->inicializarPagina ( $pagina )) {
 				return true;
-			}else{
-				$this->mostrarMensajeError($this->miPagina->getError());
+			} else {
+				$this->mostrarMensajeError ( $this->miPagina->getError () );
 				return false;
 			}
-
-		}else{
-                    if($this->autenticador->getError()=='sesionNoExiste'){
-                        unset($_REQUEST);
-                        $this->redireccionar('indice', 'pagina=index&mostrarMensaje=sesionExpirada');
-                                
-
-                    }else{
-			$this->mostrarMensajeError($this->autenticador->getError());
-			return false;
-                    }
+		} else {
+			if ($this->autenticador->getError () == 'sesionNoExiste') {
+				unset ( $_REQUEST );
+				$this->redireccionar ( 'indice', 'pagina=index&mostrarMensaje=sesionExpirada' );
+			} else {
+				$this->mostrarMensajeError ( $this->autenticador->getError () );
+				return false;
+			}
 		}
-
+	
 	}
 
-	private function mostrarMensajeError($mensaje,$tipoMensaje=''){
+	private function mostrarMensajeError($mensaje, $tipoMensaje = '') {
 
-		$this->miConfigurador->setVariableConfiguracion("error", true);
-                if($tipoMensaje==''){
-		$this->cuadroMensaje->mostrarMensaje($mensaje, "error");
-                }else{
-                    $this->cuadroMensaje->mostrarMensaje($mensaje, $tipoMensaje);
-                }
-	}
-        
-        private function mostrarMensajeRedireccion($mensaje,$tipoMensaje='',$url){
-
-		if($tipoMensaje==''){
-		$this->cuadroMensaje->mostrarMensajeRedireccion($mensaje, "error",$url);
-                }else{
-                    $this->cuadroMensaje->mostrarMensajeRedireccion($mensaje, $tipoMensaje,$url);
-                }
+		$this->miConfigurador->setVariableConfiguracion ( "error", true );
+		if ($tipoMensaje == '') {
+			$this->cuadroMensaje->mostrarMensaje ( $mensaje, "error" );
+		} else {
+			$this->cuadroMensaje->mostrarMensaje ( $mensaje, $tipoMensaje );
+		}
+	
 	}
 
+	private function mostrarMensajeRedireccion($mensaje, $tipoMensaje = '', $url) {
 
-	private function determinarPagina(){
+		if ($tipoMensaje == '') {
+			$this->cuadroMensaje->mostrarMensajeRedireccion ( $mensaje, "error", $url );
+		} else {
+			$this->cuadroMensaje->mostrarMensajeRedireccion ( $mensaje, $tipoMensaje, $url );
+		}
+	
+	}
+
+	private function determinarPagina() {
+
 		/**
 		 * Determinar la página que se desea cargar
 		 */
-
-		if(isset($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")])) {
-			$this->miConfigurador->fabricaConexiones->crypto->decodificar_url($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")]);
-			unset($_REQUEST[$this->miConfigurador->getVariableConfiguracion("enlace")]);
-			if(isset($_REQUEST["redireccionar"])) {
-				$this->redireccionar();
+		if (isset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] )) {
+			$this->miConfigurador->fabricaConexiones->crypto->decodificar_url ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] );
+			unset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] );
+			if (isset ( $_REQUEST ["redireccionar"] )) {
+				$this->redireccionar ();
 				return false;
 			}
-			if(isset($_REQUEST["pagina"])) {
-				return $_REQUEST["pagina"];
-			}else {
+			if (isset ( $_REQUEST ["pagina"] )) {
+				return $_REQUEST ["pagina"];
+			} else {
 				return "";
 			}
-
-		}else {
-
+		} else {
+			
 			return "index";
 		}
+	
 	}
 
 	/**
-	 *
 	 * Instalar el aplicativo.
 	 */
-
 	private function instalarAplicativo() {
 
-
-		require_once("install/Instalador.class.php");
-		$this->miInstalador=new Instalador();
-		if(isset($_REQUEST["instalador"])){
-			$this->miInstalador->procesarInstalacion();
-		}else{
-			$this->miInstalador->mostrarFormularioDatosConexion();
+		require_once ("install/Instalador.class.php");
+		$this->miInstalador = new Instalador ();
+		if (isset ( $_REQUEST ["instalador"] )) {
+			$this->miInstalador->procesarInstalacion ();
+		} else {
+			$this->miInstalador->mostrarFormularioDatosConexion ();
 		}
 		return 0;
+	
 	}
+
 	/**
 	 * Redireccionar a otra página
+	 * 
 	 * @return number
 	 */
+	function redireccionar($pagina = '', $opciones = '') {
 
-	function redireccionar($pagina='',$opciones=''){
-            $enlace=$this->miConfigurador->getVariableConfiguracion("enlace");    
-
-            switch($pagina){
-                case '':
-		$variable="";
-
-		foreach($_REQUEST as $clave=> $val) {
-			if($clave !="redireccionar" && $clave!= $enlace) {
-				$variable.="&".$clave."=".$val;
-			}
+		$enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+		
+		switch ($pagina) {
+			case '' :
+				$variable = "";
+				
+				foreach ( $_REQUEST as $clave => $val ) {
+					if ($clave != "redireccionar" && $clave != $enlace) {
+						$variable .= "&" . $clave . "=" . $val;
+					}
+				}
+				
+				$variable = substr ( $variable, 1 );
+				$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable, $enlace );
+				$indice = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+				echo "<script>location.replace('" . $indice . $variable . "')</script>";
+				break;
+			
+			case 'indice' :
+				$indice = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
+				$opciones = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $opciones, $enlace );
+				echo "<script>location.replace('" . $indice . $opciones . "')</script>";
+				break;
+			
+			default :
+				echo "<script>location.replace('" . $pagina . "')</script>";
+				break;
 		}
-
-		$variable=substr($variable,1);
-		$variable=$this->miConfigurador->fabricaConexiones->crypto->codificar_url($variable,$enlace);
-		$indice=$this->miConfigurador->configuracion["host"].$this->miConfigurador->configuracion["site"]."/index.php?";
-		echo "<script>location.replace('".$indice.$variable."')</script>";
-                break;
-
-                case 'indice':
-                    $indice=$this->miConfigurador->configuracion["host"].$this->miConfigurador->configuracion["site"]."/index.php?";
-                    $opciones=$this->miConfigurador->fabricaConexiones->crypto->codificar_url($opciones,$enlace);
-                    echo "<script>location.replace('".$indice.$opciones."')</script>";
-                break;
-
-            default :
-                echo "<script>location.replace('".$pagina."')</script>";
-                break;
-            }
-
-
+	
 	}
 
-};
+}
+;
 
 ?>

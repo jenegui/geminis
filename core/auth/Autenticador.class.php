@@ -19,8 +19,9 @@ class Autenticador {
 	/**
 	 *
 	 *
+	 *
 	 * Arreglo que contiene los datos de la página que se va revisar
-	 * 
+	 *
 	 * @var String[]
 	 */
 	var $pagina;
@@ -28,7 +29,7 @@ class Autenticador {
 	/**
 	 * Objeto.
 	 * Con los atributos y métodos para gestionar la sesión de usuario
-	 * 
+	 *
 	 * @var Sesion
 	 */
 	var $sesionUsuario;
@@ -46,7 +47,7 @@ class Autenticador {
 		$this->sesionUsuario->setSesionUsuario ( $this->configurador->fabricaConexiones->miLenguaje->getCadena ( "usuarioAnonimo" ) );
 		$this->sesionUsuario->setConexion ( $this->configurador->fabricaConexiones->getRecursoDB ( "configuracion" ) );
 		$this->sesionUsuario->setTiempoExpiracion ( $this->configurador->getVariableConfiguracion ( "expiracion" ) );
-		$this->sesionUsuario->setPrefijoTablas($this->configurador->getVariableConfiguracion ( "prefijo" ));
+		$this->sesionUsuario->setPrefijoTablas ( $this->configurador->getVariableConfiguracion ( "prefijo" ) );
 	
 	}
 
@@ -67,8 +68,8 @@ class Autenticador {
 			$resultado = $this->cargarSesionUsuario ();
 			
 			if ($resultado) {
-				// Verificar que el usuario está autorizado para el nivel de acceso de la página				
-						
+				// Verificar que el usuario está autorizado para el nivel de acceso de la página
+				
 				$resultado = $this->verificarAutorizacionUsuario ();
 				if ($resultado) {
 					return true;
@@ -118,7 +119,7 @@ class Autenticador {
 
 	/**
 	 * Método.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	function cargarSesionUsuario() {
@@ -126,9 +127,8 @@ class Autenticador {
 		// Asignar el nivel de la sesión conforme al nivel de la página que se está visitando
 		$this->sesionUsuario->setSesionNivel ( $this->pagina ["nivel"] );
 		
-		
 		$verificar = $this->sesionUsuario->verificarSesion ();
-
+		
 		if ($verificar == false) {
 			$this->tipoError = "sesionNoExiste";
 			return false;

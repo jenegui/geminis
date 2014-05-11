@@ -186,7 +186,6 @@ class Sesion {
 					$resultadoNivel = $this->miConexion->ejecutarAcceso ( $cadenaSql, 'busqueda' );
 					if ($resultadoNivel && $nivelPagina == 1) {
 						$nivelAut = true;
-						
 					}
 				} else {
 					

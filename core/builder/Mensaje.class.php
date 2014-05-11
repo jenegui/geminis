@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Mensaje.class.php
  *
@@ -12,55 +13,50 @@
  *
  */
 
-
 /**
+ *
  * @todo Implementar el plugin php-gettext, de tal manera que el archivo de localización esté en formato .mo
- * Los archivos correspondientes se encuuentran en la carpeta plugin/php-gettext
+ *       Los archivos correspondientes se encuuentran en la carpeta plugin/php-gettext
  */
-
-class Mensaje{
+class Mensaje {
 
 	private static $instance;
-	
+
 	/**
-	 * @deprecated
-	 * Arreglo que contiene las variables de configuración
+	 *
+	 * @deprecated Arreglo que contiene las variables de configuración
 	 * @var String
 	 */
-	
 	private $miConfigurador;
-	
-	
-	function __construct(){
-		
-		$this->miConfigurador=Configurador::singleton();
 
+	function __construct() {
+
+		$this->miConfigurador = Configurador::singleton ();
+	
 	}
 
+	public static function singleton() {
 
-	public static function singleton()
-	{
-		if (!isset(self::$instance)) {
+		if (! isset ( self::$instance )) {
 			$className = __CLASS__;
-			self::$instance = new $className;
+			self::$instance = new $className ();
 		}
 		return self::$instance;
+	
 	}
 
-	function mostrarMensaje($mensaje, $tipoMensaje="warning"){
-		
-		include_once("Mensaje.page.php");
+	function mostrarMensaje($mensaje, $tipoMensaje = "warning") {
 
-	}
-        
-        function mostrarMensajeRedireccion($mensaje, $tipoMensaje="warning",$url){
-		
-		include_once("Mensaje.page.php");
-
+		include_once ("Mensaje.page.php");
+	
 	}
 
+	function mostrarMensajeRedireccion($mensaje, $tipoMensaje = "warning", $url) {
+
+		include_once ("Mensaje.page.php");
+	
+	}
 
 }
-
 
 ?>
