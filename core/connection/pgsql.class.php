@@ -1,33 +1,27 @@
 <?php
-/*
- * ############################################################################ # UNIVERSIDAD DISTRITAL Francisco Jose de Caldas # # Copyright: Vea el archivo LICENCIA.txt que viene con la distribucion # ############################################################################
- */
 /**
- * *************************************************************************
- * ription Esta clase esta disennada para administrar todas las tareas
+ * UNIVERSIDAD DISTRITAL Francisco Jose de Caldas 
+ * Copyright: Vea el archivo LICENCIA.txt que viene con la distribucion
+ */
+
+/**
+ *Esta clase esta disennada para administrar todas las tareas
  * relacionadas con la base de datos POSTGRESQL.
  *
  * @name pgsql.class.php
  * @author Karen Palacios
- *         @revision Última revisión 26 de Octubre de 2012
- *         ***************************************************************************
+ * @version Última revisión 11 de mayo de 2014
  * @subpackage
- *
- *
- *
  * @package clase
  * @copyright
- *
- *
- *
- * @version 0.2
+ * @version 1.0
  * @author Paulo Cesar Coronado
  * @link http://computo.udistrital.edu.co
- *       ****************************************************************************
+ * 
  */
 
 /**
- * ***************************************************************************
+ * 
  * Atributos
  *
  * @access private
@@ -60,7 +54,7 @@
  */
 
 /**
- * ***************************************************************************
+ * 
  * Métodos
  *
  * @access public
@@ -97,8 +91,7 @@
  *       Devuelve el resultado de una consulta como una matriz bidimensional
  * @name obtener_error
  *       Realiza una consulta SQL y la guarda en una matriz bidimensional
- *      
- *       ****************************************************************************
+ * 
  */
 class pgsql implements Conector {
 
@@ -219,10 +212,10 @@ class pgsql implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	} // Fin del método especificar_enlace
@@ -319,9 +312,9 @@ class pgsql implements Conector {
 	 * @return boolean
 	 * @access private
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		if (! pg_query ( $this->enlace, $cadenaSql )) {
+		if (! pg_query ( $this->enlace, $cadena )) {
 			$this->error = pg_last_error ( $this->enlace );
 			return FALSE;
 		} else {
@@ -356,24 +349,24 @@ class pgsql implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
 		}
 		
-		@$busqueda = pg_query ( $this->enlace, $cadenaSql );
+		@$busqueda = pg_query ( $this->enlace, $cadena );
 		if ($busqueda) {
 			unset ( $this->registro );
 			@$this->campo = pg_num_fields ( $busqueda );
 			@$this->conteo = pg_num_rows ( $busqueda );
 			
-			if ($numero == 0) {
+			if ($numeroRegistros == 0) {
 				
-				$numero = $this->conteo;
+				$numeroRegistros = $this->conteo;
 			}
 			
-			for($j = 0; $j < $numero; $j ++) {
+			for($j = 0; $j < $numeroRegistros; $j ++) {
 				$salida = pg_fetch_array ( $busqueda );
 				
 				if ($j == 0) {
@@ -386,9 +379,9 @@ class pgsql implements Conector {
 					}
 				}
 				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 			}
 			@pg_free_result ( $busqueda );
@@ -457,14 +450,12 @@ class pgsql implements Conector {
 		$this->instrucciones = count ( $insert );
 		
 		for($contador = 0; $contador < $this->instrucciones; $contador ++) {
-			/* echo $insert[$contador]; */
 			$acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
 			
 			if (! $acceso) {
 				
-				for($contador_2 = 0; $contador_2 < $this->instrucciones; $contador_2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador_2] );
-					/* echo $delete[$contador_2]."<br>"; */
+				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
 				}
 				return FALSE;
 			}
@@ -491,20 +482,18 @@ class pgsql implements Conector {
 	
 	} // Fin del método db_admin
 	  
-	// F
-	private function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
+		$this->registro_db ( $cadena, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
 	}
 	
-	/*
-	 * function vaciar_temporales($configuracion,$sesion) { $this->esta_sesion=$sesion; $this->cadena_sql="DELETE "; $this->cadena_sql.="FROM "; $this->cadena_sql.=$configuracion["prefijo"]."registrado_borrador "; $this->cadena_sql.="WHERE "; $this->cadena_sql.="identificador<".(time()-3600); $this->ejecutar_acceso_db($this->cadena_sql); }
-	 */
 	
-	// Funcion para preprocesar la creacion de clausulas sql;
+	/**
+	 * Funcion para preprocesar la creacion de clausulas sql;
+	 */
 	function limpiarVariables($variables) {
 
 		if (is_array ( $variables )) {
@@ -534,24 +523,24 @@ class pgsql implements Conector {
 	
 	}
 
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace ) && $this->enlace == "") {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return FALSE;
 		}
 		
-		$cadenaSql = $this->tratarCadena ( $cadenaSql );
+		$cadena = $this->tratarCadena ( $cadena );
 		
 		if ($tipo == "busqueda") {
-			$esteRegistro = $this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			if (isset ( $this->configuracion ["debugMode"] ) && $this->configuracion ["debugMode"] == 1 && $esteRegistro == false) {
-				error_log ( "El registro esta vacio!!! " . $cadenaSql );
+				error_log ( "El registro esta vacio!!! " . $cadena );
 			}
 			
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	

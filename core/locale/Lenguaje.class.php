@@ -6,7 +6,7 @@
  * @author paulo
  *
  */
-// require_once("plugin/php-gettext/gettext.inc");
+
 class Lenguaje {
 
 	private static $instance;

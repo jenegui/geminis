@@ -49,15 +49,15 @@ class Sql {
 	 *         @comment $archivo pasado por referencia de tal forma que la función modifica su contenido removiendo
 	 *         los comentarios que se encuentren.
 	 */
-	function remover_marcas(&$archivo_sql, $dbms) {
+	function remover_marcas(&$archivoSql, $dbms) {
 		
 		/* Guardamos en la matriz lineas cada una de las lineas que constituye la arquitectura de la base de datos */
-		$lineas = explode ( "\n", $archivo_sql );
-		$archivo_sql = "";
+		$lineas = explode ( "\n", $archivoSql );
+		$archivoSql = "";
 		$simbolo = $this->propiedades_dbms [$dbms] ['comentario'];
-		$contar_lineas = count ( $lineas );
+		$contarLineas = count ( $lineas );
 		
-		for($contador = 0; $contador < $contar_lineas; $contador ++) {
+		for($contador = 0; $contador < $contarLineas; $contador ++) {
 			$this->cadena = trim ( $lineas [$contador] );
 			
 			if ($this->cadena) {
@@ -67,12 +67,12 @@ class Sql {
 				$comparacion = TRUE;
 			}
 			if (! $comparacion) {
-				$archivo_sql .= $this->cadena . "\n";
+				$archivoSql .= $this->cadena . "\n";
 			}
 		}
 		
 		unset ( $lineas );
-		return $archivo_sql;
+		return $archivoSql;
 	
 	} /* Fin de la función remover_comentarios */
 
@@ -89,14 +89,14 @@ class Sql {
 		/* Guarda en una matriz las diferentes sentencias SQL halladas */
 		$instruccion = explode ( $delimitador, $sql );
 		$sql = "";
-		$contar_lineas = count ( $instruccion );
+		$contarLineas = count ( $instruccion );
 		$comentario = FALSE;
-		$contador_2 = 0;
-		for($contador = 0; $contador < $contar_lineas; $contador ++) {
+		$contador2 = 0;
+		for($contador = 0; $contador < $contarLineas; $contador ++) {
 			
 			if (strlen ( $instruccion [$contador] ) > 5) {
-				$sql [$contador_2] = trim ( $instruccion [$contador] ) . "\n";
-				$contador_2 ++;
+				$sql [$contador2] = trim ( $instruccion [$contador] ) . "\n";
+				$contador2 ++;
 			}
 		}
 		

@@ -212,10 +212,10 @@ class oci8 implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	}
@@ -300,9 +300,9 @@ class oci8 implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		$cadenaParser = oci_parse ( $this->enlace, $cadenaSql );
+		$cadenaParser = oci_parse ( $this->enlace, $cadena );
 		$busqueda = oci_execute ( $cadenaParser );
 		return $busqueda;
 	
@@ -336,14 +336,13 @@ class oci8 implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
-		unset ( $this->registro );
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
 		}
 		
-		$cadenaParser = oci_parse ( $this->enlace, $cadenaSql );
+		$cadenaParser = oci_parse ( $this->enlace, $cadena );
 		
 		if (oci_execute ( $cadenaParser )) {
 			
@@ -351,6 +350,8 @@ class oci8 implements Conector {
 			$this->campo = oci_num_fields ( $cadenaParser );
 			
 			$j = 0;
+			$registrosProcesados=0;
+			
 			while ( $salida = oci_fetch_array ( $cadenaParser ) ) {
 				if ($j == 0) {
 					$this->keys = array_keys ( $salida );
@@ -362,13 +363,17 @@ class oci8 implements Conector {
 					}
 				}
 				
-				// $this->campo=count($salida);
-				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 				$j ++;
+				$registrosProcesados++;
+				
+				if($numeroRegistros>0 && $registrosProcesados>=$numeroRegistros){
+					break;
+				}
+				
 			}
 			
 			$this->conteo = $j;
@@ -429,14 +434,12 @@ class oci8 implements Conector {
 		$this->instrucciones = count ( $insert );
 		
 		for($contador = 0; $contador < $this->instrucciones; $contador ++) {
-			/* echo $insert[$contador]; */
 			$acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
 			
 			if (! $acceso) {
 				
-				for($contador_2 = 0; $contador_2 < $this->instrucciones; $contador_2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador_2] );
-					/* echo $delete[$contador_2]."<br>"; */
+				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
 				}
 				return FALSE;
 			}
@@ -469,9 +472,9 @@ class oci8 implements Conector {
 	}
 	
 	// Fin del método db_admin
-	function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+	function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
+		$this->registro_db ( $cadena, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
@@ -484,7 +487,7 @@ class oci8 implements Conector {
 	}
 	
 	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
@@ -492,11 +495,11 @@ class oci8 implements Conector {
 		
 		if ($tipo == "busqueda") {
 			
-			$this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			$esteRegistro = $this->getRegistroDb ();
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	
@@ -507,7 +510,7 @@ class oci8 implements Conector {
 	
 	}
 
-	function ultimo_insertado($enlace = "") {
+	function ultimo_insertado($unEnlace = "") {
 
 	
 	}

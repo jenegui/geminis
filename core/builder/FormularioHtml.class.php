@@ -582,7 +582,7 @@ class FormularioHtml extends WidgetHtml {
 			}
 			
 			$this->cadenaHTML .= "id='" . $atributos ["id"] . "' ";
-			// $this->cadenaHTML.="name='".$atributos["id"]."' ";
+			
 			$this->cadenaHTML .= ">\n";
 		} else {
 			

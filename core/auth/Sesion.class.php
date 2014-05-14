@@ -539,7 +539,7 @@ class Sesion {
 		}
 		return false;
 	
-	} // Fin del método rescatar_valor_sesion return FALSE;
+	} // Fin del método
 	function getSesionId() {
 
 		return $this->sesionId;

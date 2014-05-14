@@ -14,56 +14,56 @@ class Sql {
 		switch ($opcion) {
 			
 			case 'buscarPagina' :
-				$cadenaSql = 'SELECT ';
-				$cadenaSql .= 'id_pagina, ';
-				$cadenaSql .= 'nombre,';
-				$cadenaSql .= 'descripcion,';
-				$cadenaSql .= 'modulo,';
-				$cadenaSql .= 'nivel,';
-				$cadenaSql .= 'parametro';
-				$cadenaSql .= 'FROM ';
-				$cadenaSql .= $parametro ["prefijo"] . 'pagina';
-				$cadenaSql .= 'ORDER BY nombre ASC';
+				$cadena = 'SELECT ';
+				$cadena .= 'id_pagina, ';
+				$cadena .= 'nombre,';
+				$cadena .= 'descripcion,';
+				$cadena .= 'modulo,';
+				$cadena .= 'nivel,';
+				$cadena .= 'parametro';
+				$cadena .= 'FROM ';
+				$cadena .= $parametro ["prefijo"] . 'pagina';
+				$cadena .= 'ORDER BY nombre ASC';
 				break;
 			
 			case 'insertarPagina' :
-				$cadenaSql = 'INSERT INTO ';
-				$cadenaSql .= $parametro . 'pagina ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= 'nombre,';
-				$cadenaSql .= 'descripcion,';
-				$cadenaSql .= 'modulo,';
-				$cadenaSql .= 'nivel,';
-				$cadenaSql .= 'parametro';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
-				$cadenaSql .= $_REQUEST ['nivelPagina'] . ', ';
-				$cadenaSql .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
-				$cadenaSql .= ') ';
+				$cadena = 'INSERT INTO ';
+				$cadena .= $parametro . 'pagina ';
+				$cadena .= '( ';
+				$cadena .= 'nombre,';
+				$cadena .= 'descripcion,';
+				$cadena .= 'modulo,';
+				$cadena .= 'nivel,';
+				$cadena .= 'parametro';
+				$cadena .= ') ';
+				$cadena .= 'VALUES ';
+				$cadena .= '( ';
+				$cadena .= '\'' . $_REQUEST ['nombrePagina'] . '\', ';
+				$cadena .= '\'' . $_REQUEST ['descripcionPagina'] . '\', ';
+				$cadena .= '\'' . $_REQUEST ['moduloPagina'] . '\', ';
+				$cadena .= $_REQUEST ['nivelPagina'] . ', ';
+				$cadena .= '\'' . $_REQUEST ['parametroPagina'] . '\'';
+				$cadena .= ') ';
 				break;
 			
 			case 'insertarBloque' :
-				$cadenaSql = 'INSERT INTO ';
-				$cadenaSql .= $parametro . 'bloque ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= 'nombre,';
-				$cadenaSql .= 'descripcion,';
-				$cadenaSql .= 'grupo';
-				$cadenaSql .= ') ';
-				$cadenaSql .= 'VALUES ';
-				$cadenaSql .= '( ';
-				$cadenaSql .= '\'' . $_REQUEST ['nombreBloque'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['descripcionBloque'] . '\', ';
-				$cadenaSql .= '\'' . $_REQUEST ['grupoBloque'] . '\'';
-				$cadenaSql .= ') ';
+				$cadena = 'INSERT INTO ';
+				$cadena .= $parametro . 'bloque ';
+				$cadena .= '( ';
+				$cadena .= 'nombre,';
+				$cadena .= 'descripcion,';
+				$cadena .= 'grupo';
+				$cadena .= ') ';
+				$cadena .= 'VALUES ';
+				$cadena .= '( ';
+				$cadena .= '\'' . $_REQUEST ['nombreBloque'] . '\', ';
+				$cadena .= '\'' . $_REQUEST ['descripcionBloque'] . '\', ';
+				$cadena .= '\'' . $_REQUEST ['grupoBloque'] . '\'';
+				$cadena .= ') ';
 				break;
 		}
 		
-		return $cadenaSql;
+		return $cadena;
 	
 	}
 

@@ -44,13 +44,13 @@ class Pagina {
 	 */
 	}
 
-	function inicializarPagina($pagina) {
+	function inicializarPagina($laPagina) {
 
 		$this->recursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( "configuracion" );
 		
 		if ($this->recursoDB) {
 			
-			$this->especificar_pagina ( $pagina );
+			$this->especificar_pagina ( $laPagina );
 			
 			// La variable POST formSaraData contiene información codificada
 			

@@ -1,7 +1,7 @@
 <?php
 
 interface Conector {
-
+	
 	/**
 	 *
 	 * @name obtener_enlace

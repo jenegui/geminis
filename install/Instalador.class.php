@@ -131,16 +131,24 @@ class Instalador {
 
 		$resultado = true;
 		
-		$_REQUEST ["instalado"] = "true";
-		$_REQUEST ["debugMode"] = "false";
-		$_REQUEST ["dbPrincipal"] = $_REQUEST ["dbnombre"];
-		$_REQUEST ["hostSeguro"] = "https://" . substr ( $_REQUEST ["host"], strpos ( $_REQUEST ["host"], "//" ) + 2 );
-				
-		$variables=array("dbsys","dbdns","dbpuerto", "dbnombre", "dbusuario", "dbclave","instalador");		
+		$_REQUEST ['instalado'] = "true";
+		$_REQUEST ['debugMode'] = "false";
+		$_REQUEST ['dbPrincipal'] = $_REQUEST ["dbnombre"];
+		$_REQUEST ['hostSeguro'] = "https://" . substr ( $_REQUEST ["host"], strpos ( $_REQUEST ["host"], "//" ) + 2 );
+		
+		$variables = array (
+				"dbsys",
+				"dbdns",
+				"dbpuerto",
+				"dbnombre",
+				"dbusuario",
+				"dbclave",
+				"instalador" 
+		);
 		
 		foreach ( $_REQUEST as $clave => $valor ) {
-					
-			if (!in_array($clave,$variables)) {
+			
+			if (! in_array ( $clave, $variables )) {
 				if ($clave == "raizDocumento") {
 					$valor .= $_REQUEST ["site"];
 				} else {
@@ -350,11 +358,11 @@ class Instalador {
 		
 		if ($resultado) {
 			
-			$found_tables = $this->recurso->getRegistroDb ();
+			$tablasEncontradas = $this->recurso->getRegistroDb ();
 			
 			$resultado = true;
-			if (isset ( $found_tables )) {
-				foreach ( $found_tables as $table_name ) {
+			if (isset ( $tablasEncontradas )) {
+				foreach ( $tablasEncontradas as $table_name ) {
 					
 					$sql = "DROP TABLE IF EXISTS " . $table_name [0];
 					$resultado &= $this->recurso->ejecutarAcceso ( $sql, "borrado" );

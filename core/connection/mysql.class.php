@@ -77,7 +77,7 @@ class mysql implements Conector {
 	 * @name especificar_clave
 	 * @param
 	 *        	string nombre_db
-	 * @return voidreturn new $db($configuracion);
+	 * @return voidreturn new $db($datosConfiguracion);
 	 * @access public
 	 */
 	function especificar_clave($claveDb) {
@@ -128,10 +128,10 @@ class mysql implements Conector {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	}
@@ -196,10 +196,10 @@ class mysql implements Conector {
 	}
 	
 	// Fin del método probar_conexion
-	function logger($configuracion, $idUsuario, $evento) {
+	function logger($datosConfiguracion, $idUsuario, $evento) {
 
 		$this->cadena_sql = "INSERT INTO ";
-		$this->cadena_sql .= "" . $configuracion ["prefijo"] . "logger ";
+		$this->cadena_sql .= "" . $datosConfiguracion ["prefijo"] . "logger ";
 		$this->cadena_sql .= "( ";
 		$this->cadena_sql .= "`id_usuario` ,";
 		$this->cadena_sql .= " `evento` , ";
@@ -243,9 +243,9 @@ class mysql implements Conector {
 	 * @return boolean
 	 * @access private
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		if (! $this->enlace->query ( $cadenaSql )) {
+		if (! $this->enlace->query ( $cadena )) {
 			$this->error = $this->enlace->errno;
 			return false;
 		} else {
@@ -282,14 +282,14 @@ class mysql implements Conector {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
 		if (! is_object ( $this->enlace )) {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return NULL;
 		}
 		
-		$busqueda = $this->enlace->query ( $cadenaSql );
+		$busqueda = $this->enlace->query ( $cadena );
 		
 		if ($busqueda) {
 			
@@ -297,12 +297,12 @@ class mysql implements Conector {
 			$this->campo = $busqueda->field_count;
 			$this->conteo = $busqueda->num_rows;
 			
-			if ($numero == 0) {
+			if ($numeroRegistros == 0) {
 				
-				$numero = $this->conteo;
+				$numeroRegistros = $this->conteo;
 			}
 			
-			for($j = 0; $j < $numero; $j ++) {
+			for($j = 0; $j < $numeroRegistros; $j ++) {
 				$salida = $busqueda->fetch_array ( MYSQLI_BOTH );
 				
 				if ($j == 0) {
@@ -315,9 +315,9 @@ class mysql implements Conector {
 					}
 				}
 				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 			}
 			$busqueda->free ();
@@ -364,10 +364,10 @@ class mysql implements Conector {
 	}
 	
 	// Fin del método obtener_conteo_db
-	function ultimo_insertado($enlace = "") {
+	function ultimo_insertado($unEnlace = "") {
 
-		if ($enlace != "") {
-			return mysqli_insert_id ( $enlace );
+		if ($unEnlace != "") {
+			return mysqli_insert_id ( $unEnlace );
 		} else {
 			return mysqli_insert_id ( $this->enlace );
 		}
@@ -428,28 +428,28 @@ class mysql implements Conector {
 	}
 	
 	// Fin del método db_admin
-	// F
-	private function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
+	
+	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
+
+		$this->registro_db ( $cadena, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
 	}
 
-	function vaciar_temporales($configuracion, $sesion) {
+	function vaciar_temporales($datosConfiguracion, $sesion) {
 
 		$this->esta_sesion = $sesion;
 		$this->cadena_sql = "DELETE ";
 		$this->cadena_sql .= "FROM ";
-		$this->cadena_sql .= $configuracion ["prefijo"] . "registrado_borrador ";
+		$this->cadena_sql .= $datosConfiguracion ["prefijo"] . "registrado_borrador ";
 		$this->cadena_sql .= "WHERE ";
 		$this->cadena_sql .= "identificador<" . (time () - 3600);
 		$this->ejecutar_acceso_db ( $this->cadena_sql );
 	
 	}
 	
-	// Funcion para preprocesar la creacion de clausulas sql;
 	function limpiarVariables($variables) {
 
 		if (is_array ( $variables )) {
@@ -473,20 +473,20 @@ class mysql implements Conector {
 	}
 	
 	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_object ( $this->enlace )) {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return "error";
 		}
 		
-		$cadenaSql = $this->tratarCadena ( $cadenaSql );
+		$cadena = $this->tratarCadena ( $cadena );
 		
 		if ($tipo == "busqueda") {
-			$esteRegistro = $this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	

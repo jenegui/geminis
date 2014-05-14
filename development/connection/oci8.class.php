@@ -215,10 +215,10 @@ class oci8 {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	}
@@ -303,9 +303,9 @@ class oci8 {
 	 * @return boolean
 	 * @access public
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		$cadenaParser = OCIParse ( $this->enlace, $cadenaSql );
+		$cadenaParser = OCIParse ( $this->enlace, $cadena );
 		$busqueda = OCIExecute ( $cadenaParser );
 		if ($busqueda) {
 			return FALSE;
@@ -343,14 +343,14 @@ class oci8 {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
 		unset ( $this->registro );
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
 		}
 		
-		$cadenaParser = oci_parse ( $this->enlace, $cadenaSql );
+		$cadenaParser = oci_parse ( $this->enlace, $cadena );
 		
 		if (oci_execute ( $cadenaParser )) {
 			
@@ -371,9 +371,9 @@ class oci8 {
 				
 				// $this->campo=count($salida);
 				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 				$j ++;
 			}
@@ -441,9 +441,9 @@ class oci8 {
 			
 			if (! $acceso) {
 				
-				for($contador_2 = 0; $contador_2 < $this->instrucciones; $contador_2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador_2] );
-					/* echo $delete[$contador_2]."<br>"; */
+				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
+					/* echo $delete[$contador2]."<br>"; */
 				}
 				return FALSE;
 			}
@@ -478,9 +478,9 @@ class oci8 {
 	}
 	
 	// Fin del método db_admin
-	function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+	function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
+		$this->registro_db ( $cadena, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
@@ -493,7 +493,7 @@ class oci8 {
 	}
 	
 	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
@@ -501,11 +501,11 @@ class oci8 {
 		
 		if ($tipo == "busqueda") {
 			
-			$this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			$esteRegistro = $this->getRegistroDb ();
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	
@@ -516,7 +516,7 @@ class oci8 {
 	
 	}
 
-	function ultimo_insertado($enlace = "") {
+	function ultimo_insertado($unEnlace = "") {
 
 	
 	}

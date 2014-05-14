@@ -36,7 +36,6 @@ class ArmadorPagina {
 			
 			// De forma predeterminada las paginas del aplicativo no tienen cache
 			header ( "Cache-Control: cache" );
-			// header("Expires: Sat, 20 Jun 1974 10:00:00 GMT");
 		} else {
 			if (!(isset ( $_REQUEST ['opcion'] ) && $_REQUEST ['opcion'] == 'mostrarMensaje')) {
 				header ( "Expires: Tue, 03 Jul 2001 06:00:00 GMT" );

@@ -30,7 +30,7 @@ class WidgetHtml {
 
 	var $cuadro_registro;
 
-	var $cuadro_campos;
+	var $cuadroCampos;
 
 	var $cuadro_miniRegistro;
 
@@ -53,14 +53,14 @@ class WidgetHtml {
 	}
 	
 	// Fin del método session
-	function enlace_wiki($cadena, $titulo = "", $configuracion, $elEnlace = "") {
+	function enlaceWiki($cadena, $titulo = "", $datoConfiguracion, $elEnlace = "") {
 
 		if ($elEnlace != "") {
-			$enlace_wiki = "<a class='wiki' href='" . $configuracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $elEnlace . "</a>";
+			$enlaceWiki = "<a class='wiki' href='" . $datoConfiguracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $elEnlace . "</a>";
 		} else {
-			$enlace_wiki = "<a class='wiki' href='" . $configuracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $cadena . "</a>";
+			$enlaceWiki = "<a class='wiki' href='" . $datoConfiguracion ["wikipedia"] . $cadena . "' title='" . $titulo . "'>" . $cadena . "</a>";
 		}
-		return $enlace_wiki;
+		return $enlaceWiki;
 	
 	}
 	
@@ -69,7 +69,7 @@ class WidgetHtml {
 	/**
 	 *
 	 * @name cuadro_lista
-	 * @param string $cuadro_sql
+	 * @param string $cuadroSql
 	 *        	Clausula SQL desde donde se extraen los valores de la lista
 	 * @param string $nombre
 	 *        	Nombre del control que se va a crear
@@ -93,99 +93,92 @@ class WidgetHtml {
 	// Cuando se pase un registro explicito debe ser una matriz de tres dimensiones. En cada dimension
 	// debe tener:
 	// $resultado[indice][valor][etiqueta_a_mostrar]
-	function cuadro_lista($atributos) {
+	function cuadro_lista($misAtributos) {
 
-		$this->atributos = $atributos;
-		
-		if (isset ( $this->atributos ["nombre"] ) && $this->atributos ["nombre"] != '') {
-			$nombre = $this->atributos ["nombre"];
-		} else {
-			$nombre = $this->atributos ["id"];
-		}
-		
-		if (isset ( $this->atributos ["seleccion"] )) {
-			$seleccion = $this->atributos ["seleccion"];
-		} else {
-			$seleccion = - 1;
-		}
-		
-		$limitar = $this->atributos ["limitar"];
-		$tab = $this->atributos ["tabIndex"];
-		$id = $this->atributos ["id"];
-		$tamanno = $this->atributos ["tamanno"];
-		
-		if (isset ( $this->atributos ["otraOpcion"] )) {
-			$otraOpcion = $this->atributos ["otraOpcion"];
-		}
+		$this->setAtributos($misAtributos);
 		
 		// Invocar la funcion que rescata el registro de los valores que se mostraran en la lista
 		$resultado = $this->rescatarRegistroCuadroLista ();
 		
-		$this->cadena_html = "";
+		$this->cadena_html='';
+		
 		
 		if ($resultado) {
 			
-			$mi_evento = $this->definirEvento ();
+			if (!isset ( $this->atributos ["nombre"] )) {
+				$this->atributos ["nombre"]=$this->atributos ["id"];
+			} 
 			
-			if ($id == "") {
-				if (isset ( $atributos ["deshabilitado"] ) && $atributos ["deshabilitado"] == true) {
-					$this->cadena_html = "<select disabled";
-				} else {
-					$this->cadena_html = "<select ";
-				}
-			} else {
-				if (isset ( $atributos ["deshabilitado"] ) && $atributos ["deshabilitado"] == true) {
-					$this->cadena_html = "<select disabled id='" . $id . "' ";
-				} else {
-					$this->cadena_html = "<select id='" . $id . "' ";
-				}
-			}
+			if (!isset ( $this->atributos ["seleccion"] )) {
+				$this->atributos ["seleccion"]=-1;
+			} 
 			
-			// Si se utiliza jQuery-Validation-Engine
-			if (isset ( $atributos ["validar"] )) {
-				$this->mi_cuadro .= " validate[" . $atributos ["validar"] . "] ";
-			}
+			$this->atributos ["evento"] = $this->definirEvento ();
 			
-			if (isset ( $atributos ["estilo"] ) && $atributos ["estilo"] == "jqueryui") {
-				
-				$this->cadena_html .= " class='selectboxdiv' ";
-			}
+			$this->armarSelect();
 			
-			if (isset ( $this->atributos ["ancho"] )) {
-				$this->cadena_html .= " style='width:" . $this->atributos ["ancho"] . "' ";
-			}
 			
-			// Si se especifica que puede ser multiple
-			if (isset ( $this->atributos ["multiple"] ) && $this->atributos ["multiple"] = true) {
-				$this->cadena_html .= " multiple \n";
-			}
-			
-			$this->cadena_html .= "name='" . $nombre . "' size='" . $tamanno . "' " . $mi_evento . " tabindex='" . $tab . "'>\n";
-			
-			// Si no se especifica una seleccion se agrega un espacio en blanco
-			if ($seleccion == - 1) {
-				$this->cadena_html .= "<option value='-1'> </option>\n";
-			}
-			
-			// Si el control esta asociado a otro control que aparece si no hay un valor en la lista
-			if (isset ( $otraOpcion )) {
-				if ($seleccion == "ttg") {
-					$this->cadena_html .= "<option value='ttg' selected='true'>" . $this->atributos ["otraOpcionEtiqueta"] . "</option>\n";
-				} else {
-					$this->cadena_html .= "<option value='ttg'>" . $this->atributos ["otraOpcionEtiqueta"] . "</option>\n";
-				}
-			}
-			
-			$this->listadoInicialCuadroLista ();
-			$this->opcionesCuadroLista ();
-			
-			$this->cadena_html .= "</select>\n";
 		} else {
 			$this->cadena_html .= "No Data";
 		}
 		
 		return $this->cadena_html;
 	
+	}
+	
+	private function armarSelect(){
+		$this->cadena_html = "<select ";
+			
+		if (isset ( $this->atributos ["deshabilitado"] ) && $this->atributos ["deshabilitado"] == true) {
+			$this->cadena_html .= "disabled ";
+		}
+			
+		if ($this->atributos ["id"] != "") {
+			$this->cadena_html .= "id='" . $this->atributos ["id"] . "' ";
+		}
+			
+			
+		// Si se utiliza jQuery-Validation-Engine
+		if (isset ( $this->atributos ["validar"] )) {
+			$this->mi_cuadro .= " validate[" . $this->atributos ["validar"] . "] ";
+		}
+			
+		if (isset ( $this->atributos ["estilo"] ) && $this->atributos ["estilo"] == "jqueryui") {
+		
+			$this->cadena_html .= " class='selectboxdiv' ";
+		}
+			
+		if (isset ( $this->atributos ["ancho"] )) {
+			$this->cadena_html .= " style='width:" . $this->atributos ["ancho"] . "' ";
+		}
+			
+		// Si se especifica que puede ser multiple
+		if (isset ( $this->atributos ["multiple"] ) && $this->atributos ["multiple"] = true) {
+			$this->cadena_html .= " multiple \n";
+		}
+			
+		$this->cadena_html .= "name='" . $this->atributos ['nombre'] . "' size='" . $this->atributos ['tamanno'] . "' " . $this->atributos ["evento"] . " tabindex='" . $this->atributos ['tab']."'>\n";
+			
+		// Si no se especifica una seleccion se agrega un espacio en blanco
+		if ($this->atributos ["seleccion"] == - 1) {
+			$this->cadena_html .= "<option value='-1'> </option>\n";
+		}
+			
+		// Si el control esta asociado a otro control que aparece si no hay un valor en la lista
+		if (isset ($this->atributos ["otraOpcion"])) {
+			if ($this->atributos ["seleccion"] == "sara") {
+				$this->cadena_html .= "<option value='sara' selected='true'>" . $this->atributos ["otraOpcionEtiqueta"] . "</option>\n";
+			} else {
+				$this->cadena_html .= "<option value='sara'>" . $this->atributos ["otraOpcionEtiqueta"] . "</option>\n";
+			}
+		}
+			
+		$this->listadoInicialCuadroLista ();
+		$this->opcionesCuadroLista ();
+			
+		$this->cadena_html .= "</select>\n";
+		
+		
 	}
 	
 	// Fin del método cuadro lista
@@ -200,13 +193,13 @@ class WidgetHtml {
 		$limitar = $this->atributos ["limitar"];
 		// Recorrer todos los registros devueltos
 		
-		for($j = 0; $j < $this->cuadro_campos; $j ++) {
+		for($j = 0; $j < $this->cuadroCampos; $j ++) {
 			
 			$this->cuadro_contenido = "";
 			
 			if ($j == 0) {
 				$this->keys = array_keys ( $this->cuadro_registro [0] );
-				$i = 0;
+				
 				$this->columnas = 0;
 				foreach ( $this->keys as $clave => $valor ) {
 					if (is_string ( $valor )) {
@@ -269,7 +262,7 @@ class WidgetHtml {
 				$this->cuadro_contenido = "";
 				if ($i == 0) {
 					$keys = array_keys ( $miniRegistro [0] );
-					$fila = 0;
+					
 					$columnas = 0;
 					foreach ( $keys as $clave => $valor ) {
 						if (is_string ( $valor )) {
@@ -330,24 +323,24 @@ class WidgetHtml {
 		
 		switch ($evento) {
 			case 1 :
-				$mi_evento = 'onchange="this.form.submit()"';
+				$miEvento = 'onchange="this.form.submit()"';
 				break;
 			
 			case 2 :
 				$this->control = explode ( "|", $this->configuracion ["ajax_control"] );
-				$mi_evento = "onchange=\"" . $this->configuracion ["ajax_function"];
-				$mi_evento .= "(";
+				$miEvento = "onchange=\"" . $this->configuracion ["ajax_function"];
+				$miEvento .= "(";
 				foreach ( $this->control as $miControl ) {
-					$mi_evento .= "document.getElementById('" . $miControl . "').value,";
+					$miEvento .= "document.getElementById('" . $miControl . "').value,";
 				}
-				$mi_evento = substr ( $mi_evento, 0, (strlen ( $mi_evento ) - 1) );
-				$mi_evento .= ")\"";
+				$miEvento = substr ( $miEvento, 0, (strlen ( $miEvento ) - 1) );
+				$miEvento .= ")\"";
 				break;
 			
 			default :
-				$mi_evento = "";
+				$miEvento = "";
 		}
-		return $mi_evento;
+		return $miEvento;
 	
 	}
 
@@ -367,9 +360,9 @@ class WidgetHtml {
 	private function rescatarRegistroCuadroLista() {
 		// Si no se ha pasado una tabla de valores, entonces debe realizarse una busqueda con la opcion determinada
 		// Si se ha pasado una tabla de valores, entonces se utiliza esa tabla y no se hacen consultas
-		$cuadro_sql = $this->atributos ["cadena_sql"];
+		$cuadroSql = $this->atributos ["cadena_sql"];
 		
-		if (! is_array ( $cuadro_sql )) {
+		if (! is_array ( $cuadroSql )) {
 			
 			// Si no se ha definido de donde tomar los datos se utiliza la base de datos definida en config.inc
 			
@@ -383,11 +376,11 @@ class WidgetHtml {
 				exit ();
 			}
 			
-			$this->cuadro_registro = $esteRecursoDB->ejecutarAcceso ( $cuadro_sql, "busqueda" );
+			$this->cuadro_registro = $esteRecursoDB->ejecutarAcceso ( $cuadroSql, "busqueda" );
 			
 			if ($this->cuadro_registro) {
 				
-				$this->cuadro_campos = $esteRecursoDB->getConteo ();
+				$this->cuadroCampos = $esteRecursoDB->getConteo ();
 				
 				// En el caso que se requiera una minilista de opciones al principio
 				if (isset ( $this->atributos ["subcadena_sql"] )) {
@@ -402,35 +395,37 @@ class WidgetHtml {
 			
 			return false;
 		} else {
-			$this->cuadro_registro = $cuadro_sql;
-			$this->cuadro_campos = count ( $cuadro_sql );
+			$this->cuadro_registro = $cuadroSql;
+			$this->cuadroCampos = count ( $cuadroSql );
 		}
 	
 	}
 	
 	// Fin del metodo rescatarRegistro
 	// ================================== Fin de las Funciones Cuadro Lista ==================================
-	function cuadro_texto($configuracion, $atributos) {
+	function cuadro_texto($misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 
-		if (! isset ( $atributos ["tipo"] ) || $atributos ["tipo"] != 'hidden') {
+		if (! isset ( $this->atributos ["tipo"] ) || $this->atributos ["tipo"] != 'hidden') {
 			
 			// --------------Atributo class --------------------------------
-			if (isset ( $atributos ["estilo"] ) && $atributos ["estilo"] != "") {
+			if (isset ( $this->atributos ["estilo"] ) && $this->atributos ["estilo"] != "") {
 				
-				if ($atributos ["estilo"] == "jqueryui") {
+				if ($this->atributos ["estilo"] == "jqueryui") {
 					$this->mi_cuadro = "<input class='ui-widget ui-widget-content ui-corner-all ";
 				} else {
-					$this->mi_cuadro = "<input class='" . $atributos ["estilo"] . " ";
+					$this->mi_cuadro = "<input class='" . $this->atributos ["estilo"] . " ";
 				}
 			} else {
 				$this->mi_cuadro = "<input class='cuadroTexto ";
 			}
 			
 			// Si se utiliza jQuery-Validation-Engine
-			if (isset ( $atributos ["validar"] )) {
-				$this->mi_cuadro .= " validate[" . $atributos ["validar"] . "] ";
+			if (isset ( $this->atributos ["validar"] )) {
+				$this->mi_cuadro .= " validate[" . $this->atributos ["validar"] . "] ";
 				// Si se utiliza jQuery-Validation-Engine
-				if (isset ( $atributos ["categoria"] ) && $atributos ["categoria"] = "fecha") {
+				if (isset ( $this->atributos ["categoria"] ) && $this->atributos ["categoria"] = "fecha") {
 					$this->mi_cuadro .= "datepicker ";
 				}
 			}
@@ -439,63 +434,63 @@ class WidgetHtml {
 			
 			// ----------- Fin del atributo class ----------------------------
 			
-			if (isset ( $atributos ["tipo"] ) && $atributos ["tipo"] != "") {
-				$this->mi_cuadro .= "type='" . $atributos ["tipo"] . "' ";
+			if (isset ( $this->atributos ["tipo"] ) && $this->atributos ["tipo"] != "") {
+				$this->mi_cuadro .= "type='" . $this->atributos ["tipo"] . "' ";
 			} else {
 				$this->mi_cuadro .= "type='text' ";
 			}
 			
-			if (isset ( $atributos ["titulo"] ) && $atributos ["titulo"] != "") {
-				$this->mi_cuadro .= "title='" . $atributos ["titulo"] . "' ";
+			if (isset ( $this->atributos ["titulo"] ) && $this->atributos ["titulo"] != "") {
+				$this->mi_cuadro .= "title='" . $this->atributos ["titulo"] . "' ";
 			}
 			
-			if (isset ( $atributos ["deshabilitado"] ) && $atributos ["deshabilitado"] == true) {
+			if (isset ( $this->atributos ["deshabilitado"] ) && $this->atributos ["deshabilitado"] == true) {
 				$this->mi_cuadro .= "readonly='readonly' ";
 			}
 			
-			if (isset ( $atributos ["name"] ) && $atributos ["name"] != "") {
-				$this->mi_cuadro .= "name='" . $atributos ["name"] . "' ";
+			if (isset ( $this->atributos ["name"] ) && $this->atributos ["name"] != "") {
+				$this->mi_cuadro .= "name='" . $this->atributos ["name"] . "' ";
 			} else {
-				$this->mi_cuadro .= "name='" . $atributos ["id"] . "' ";
+				$this->mi_cuadro .= "name='" . $this->atributos ["id"] . "' ";
 			}
 			
-			$this->mi_cuadro .= "id='" . $atributos ["id"] . "' ";
+			$this->mi_cuadro .= "id='" . $this->atributos ["id"] . "' ";
 			
-			if (isset ( $atributos ["valor"] )) {
-				$this->mi_cuadro .= "value='" . $atributos ["valor"] . "' ";
+			if (isset ( $this->atributos ["valor"] )) {
+				$this->mi_cuadro .= "value='" . $this->atributos ["valor"] . "' ";
 			}
 			
-			if (isset ( $atributos ["tamanno"] )) {
-				$this->mi_cuadro .= "size='" . $atributos ["tamanno"] . "' ";
+			if (isset ( $this->atributos ["tamanno"] )) {
+				$this->mi_cuadro .= "size='" . $this->atributos ["tamanno"] . "' ";
 			} else {
 				$this->mi_cuadro .= "size='50' ";
 			}
 			
-			if (isset ( $atributos ["maximoTamanno"] )) {
-				$this->mi_cuadro .= "maxlength='" . $atributos ["maximoTamanno"] . "' ";
+			if (isset ( $this->atributos ["maximoTamanno"] )) {
+				$this->mi_cuadro .= "maxlength='" . $this->atributos ["maximoTamanno"] . "' ";
 			} else {
 				$this->mi_cuadro .= "maxlength='100' ";
 			}
 			
 			// Si se utiliza ketchup
-			if (isset ( $atributos ["data-validate"] )) {
-				$this->mi_cuadro .= "data-validate='validate(" . $atributos ["data-validate"] . ")' ";
+			if (isset ( $this->atributos ["data-validate"] )) {
+				$this->mi_cuadro .= "data-validate='validate(" . $this->atributos ["data-validate"] . ")' ";
 			}
 			
 			// Si utiliza algun evento especial
-			if (isset ( $atributos ["evento"] )) {
-				$this->mi_cuadro .= " " . $atributos ["evento"] . " ";
+			if (isset ( $this->atributos ["evento"] )) {
+				$this->mi_cuadro .= " " . $this->atributos ["evento"] . " ";
 			}
 			
-			$this->mi_cuadro .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+			$this->mi_cuadro .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 			$this->mi_cuadro .= ">\n";
 		} else {
 			
 			$this->mi_cuadro = "<input type='hidden' ";
-			$this->mi_cuadro .= "name='" . $atributos ["id"] . "' ";
-			$this->mi_cuadro .= "id='" . $atributos ["id"] . "' ";
-			if (isset ( $atributos ["valor"] )) {
-				$this->mi_cuadro .= "value='" . $atributos ["valor"] . "' ";
+			$this->mi_cuadro .= "name='" . $this->atributos ["id"] . "' ";
+			$this->mi_cuadro .= "id='" . $this->atributos ["id"] . "' ";
+			if (isset ( $this->atributos ["valor"] )) {
+				$this->mi_cuadro .= "value='" . $this->atributos ["valor"] . "' ";
 			}
 			$this->mi_cuadro .= ">\n";
 		}
@@ -503,54 +498,56 @@ class WidgetHtml {
 	
 	}
 
-	function area_texto($configuracion, $atributos) {
+	function area_texto($datosConfiguracion, $misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 
 		$this->mi_cuadro = "<textarea ";
 		
-		if (isset ( $atributos ["deshabilitado"] ) && $atributos ["deshabilitado"] == true) {
+		if (isset ( $this->atributos ["deshabilitado"] ) && $this->atributos ["deshabilitado"] == true) {
 			$this->mi_cuadro .= "readonly='1' ";
 		}
 		
-		if (isset ( $atributos ["name"] ) && $atributos ["name"] != "") {
-			$this->mi_cuadro .= "name='" . $atributos ["name"] . "' ";
+		if (isset ( $this->atributos ["name"] ) && $this->atributos ["name"] != "") {
+			$this->mi_cuadro .= "name='" . $this->atributos ["name"] . "' ";
 		} else {
-			$this->mi_cuadro .= "name='" . $atributos ["id"] . "' ";
+			$this->mi_cuadro .= "name='" . $this->atributos ["id"] . "' ";
 		}
 		
-		$this->mi_cuadro .= "id='" . $atributos ["id"] . "' ";
+		$this->mi_cuadro .= "id='" . $this->atributos ["id"] . "' ";
 		
-		if (isset ( $atributos ["columnas"] )) {
-			$this->mi_cuadro .= "cols='" . $atributos ["columnas"] . "' ";
+		if (isset ( $this->atributos ["columnas"] )) {
+			$this->mi_cuadro .= "cols='" . $this->atributos ["columnas"] . "' ";
 		} else {
 			$this->mi_cuadro .= "cols='50' ";
 		}
 		
-		if (isset ( $atributos ["filas"] )) {
-			$this->mi_cuadro .= "rows='" . $atributos ["filas"] . "' ";
+		if (isset ( $this->atributos ["filas"] )) {
+			$this->mi_cuadro .= "rows='" . $this->atributos ["filas"] . "' ";
 		} else {
 			$this->mi_cuadro .= "rows='2' ";
 		}
 		
-		if (isset ( $atributos ["estiloArea"] ) && $atributos ["estiloArea"] != "") {
-			$this->mi_cuadro .= "class='" . $atributos ["estiloArea"] . "' ";
+		if (isset ( $this->atributos ["estiloArea"] ) && $this->atributos ["estiloArea"] != "") {
+			$this->mi_cuadro .= "class='" . $this->atributos ["estiloArea"] . "' ";
 		} else {
 			$this->mi_cuadro .= "class='areaTexto' ";
 		}
 		
-		$this->mi_cuadro .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+		$this->mi_cuadro .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 		$this->mi_cuadro .= ">\n";
-		if (isset ( $atributos ["valor"] )) {
-			$this->mi_cuadro .= $atributos ["valor"];
+		if (isset ( $this->atributos ["valor"] )) {
+			$this->mi_cuadro .= $this->atributos ["valor"];
 		} else {
 			$this->mi_cuadro .= "";
 		}
 		$this->mi_cuadro .= "</textarea>\n";
 		
-		if (isset ( $atributos ["textoEnriquecido"] ) && $atributos ["textoEnriquecido"] == true) {
+		if (isset ( $this->atributos ["textoEnriquecido"] ) && $this->atributos ["textoEnriquecido"] == true) {
 			$this->mi_cuadro .= "<script type=\"text/javascript\">\n";
-			$this->mi_cuadro .= "mis_botones='" . $configuracion ["host"] . $configuracion ["site"] . $configuracion ["grafico"] . "/textarea/';\n";
-			$this->mi_cuadro .= "archivo_css='" . $configuracion ["host"] . $configuracion ["site"] . $configuracion ["estilo"] . "/basico/estilo.php';\n";
-			$this->mi_cuadro .= "editor_html('" . $atributos ["id"] . "', 'bold italic underline | left center right | number bullet | wikilink');";
+			$this->mi_cuadro .= "mis_botones='" . $datosConfiguracion ["host"] . $datosConfiguracion ["site"] . $datosConfiguracion ["grafico"] . "/textarea/';\n";
+			$this->mi_cuadro .= "archivo_css='" . $datosConfiguracion ["host"] . $datosConfiguracion ["site"] . $datosConfiguracion ["estilo"] . "/basico/estilo.php';\n";
+			$this->mi_cuadro .= "editor_html('" . $this->atributos ["id"] . "', 'bold italic underline | left center right | number bullet | wikilink');";
 			$this->mi_cuadro .= "\n</script>";
 		}
 		
@@ -558,14 +555,16 @@ class WidgetHtml {
 	
 	}
 
-	function etiqueta($atributos) {
+	function etiqueta($misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 
 		$this->mi_etiqueta = "";
 		
-		if (! isset ( $atributos ["sinDivision"] )) {
-			if (isset ( $atributos ["anchoEtiqueta"] )) {
+		if (! isset ( $this->atributos ["sinDivision"] )) {
+			if (isset ( $this->atributos ["anchoEtiqueta"] )) {
 				
-				$this->mi_etiqueta .= "<div style='float:left; width:" . $atributos ["anchoEtiqueta"] . "px' ";
+				$this->mi_etiqueta .= "<div style='float:left; width:" . $this->atributos ["anchoEtiqueta"] . "px' ";
 			} else {
 				$this->mi_etiqueta .= "<div style='float:left; width:120px' ";
 			}
@@ -575,22 +574,22 @@ class WidgetHtml {
 		
 		$this->mi_etiqueta .= '<label ';
 		
-		if (isset ( $atributos ["estiloEtiqueta"] )) {
-			$this->mi_etiqueta .= "class='" . $atributos ["estiloEtiqueta"] . "' ";
+		if (isset ( $this->atributos ["estiloEtiqueta"] )) {
+			$this->mi_etiqueta .= "class='" . $this->atributos ["estiloEtiqueta"] . "' ";
 		}
 		
-		$this->mi_etiqueta .= "for='" . $atributos ["id"] . "' >";
-		$this->mi_etiqueta .= $atributos ["etiqueta"] . "</label>\n";
+		$this->mi_etiqueta .= "for='" . $this->atributos ["id"] . "' >";
+		$this->mi_etiqueta .= $this->atributos ["etiqueta"] . "</label>\n";
 		
-		if (isset ( $atributos ["etiquetaObligatorio"] ) && $atributos ["etiquetaObligatorio"] == true) {
+		if (isset ( $this->atributos ["etiquetaObligatorio"] ) && $this->atributos ["etiquetaObligatorio"] == true) {
 			$this->mi_etiqueta .= "<span class='texto_rojo texto_pie'>* </span>";
 		} else {
-			if (! isset ( $atributos ["sinDivision"] ) && (isset ( $atributos ["estilo"] ) && $atributos ["estilo"] != "jqueryui")) {
+			if (! isset ( $this->atributos ["sinDivision"] ) && (isset ( $this->atributos ["estilo"] ) && $this->atributos ["estilo"] != "jqueryui")) {
 				$this->mi_etiqueta .= "<span style='white-space:pre;'> </span>";
 			}
 		}
 		
-		if (! isset ( $atributos ["sinDivision"] )) {
+		if (! isset ( $this->atributos ["sinDivision"] )) {
 			$this->mi_etiqueta .= "</div>\n";
 		}
 		
@@ -598,79 +597,81 @@ class WidgetHtml {
 	
 	}
 
-	function boton($configuracion, $atributos) {
+	function boton($datosConfiguracion, $misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 
-		if ($atributos ["tipo"] == "boton") {
+		if ($this->atributos ["tipo"] == "boton") {
 			$this->cadenaBoton = "<button ";
-			$this->cadenaBoton .= "value='" . $atributos ["valor"] . "' ";
-			$this->cadenaBoton .= "id='" . $atributos ["id"] . "A' ";
-			$this->cadenaBoton .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+			$this->cadenaBoton .= "value='" . $this->atributos ["valor"] . "' ";
+			$this->cadenaBoton .= "id='" . $this->atributos ["id"] . "A' ";
+			$this->cadenaBoton .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 			
-			if (isset ( $atributos ['submit'] ) && $atributos ['submit'] == true) {
+			if (isset ( $this->atributos ['submit'] ) && $this->atributos ['submit'] == true) {
 				$this->cadenaBoton .= "type='submit' ";
 			} else {
 				$this->cadenaBoton .= "type='button' ";
 			}
 			
-			if (! isset ( $atributos ["onsubmit"] )) {
-				$atributos ["onsubmit"] = "";
+			if (! isset ( $this->atributos ["onsubmit"] )) {
+				$this->atributos ["onsubmit"] = "";
 			}
 			
 			// Poner el estilo en línea definido por el usuario
-			if (isset ( $atributos ["estiloEnLinea"] ) && $atributos ["estiloEnLinea"] != "") {
-				$this->cadenaBoton .= "style='" . $atributos ["estiloEnLinea"] . "' ";
+			if (isset ( $this->atributos ["estiloEnLinea"] ) && $this->atributos ["estiloEnLinea"] != "") {
+				$this->cadenaBoton .= "style='" . $this->atributos ["estiloEnLinea"] . "' ";
 			}
 			
-			if (! isset ( $atributos ["cancelar"] ) && (isset ( $atributos ["verificarFormulario"] ) && $atributos ["verificarFormulario"] != "")) {
-				$this->cadenaBoton .= "onclick=\"if(" . $atributos ["verificarFormulario"] . "){document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
-				if (isset ( $atributos ["tipoSubmit"] ) && $atributos ["tipoSubmit"] == "jquery") {
+			if (! isset ( $this->atributos ["cancelar"] ) && (isset ( $this->atributos ["verificarFormulario"] ) && $this->atributos ["verificarFormulario"] != "")) {
+				$this->cadenaBoton .= "onclick=\"if(" . $this->atributos ["verificarFormulario"] . "){document.forms['" . $this->atributos ["nombreFormulario"] . "'].elements['" . $this->atributos ["id"] . "'].value='true';";
+				if (isset ( $this->atributos ["tipoSubmit"] ) && $this->atributos ["tipoSubmit"] == "jquery") {
 					$this->cadenaBoton .= " $(this).closest('form').submit();";
 				} else {
-					$this->cadenaBoton .= "document.forms['" . $atributos ["nombreFormulario"] . "'].submit()";
+					$this->cadenaBoton .= "document.forms['" . $this->atributos ["nombreFormulario"] . "'].submit()";
 				}
-				$this->cadenaBoton .= "}else{this.disabled=false;false}\">" . $atributos ["valor"] . '</button>\n';
+				$this->cadenaBoton .= "}else{this.disabled=false;false}\">" . $this->atributos ["valor"] . '</button>\n';
 				// El cuadro de Texto asociado
-				$atributos ["id"] = $atributos ["id"];
-				$atributos ["tipo"] = "hidden";
-				$atributos ["obligatorio"] = false;
-				$atributos ["etiqueta"] = "";
-				$atributos ["valor"] = "false";
-				$this->cadenaBoton .= $this->cuadro_texto ( $configuracion, $atributos );
+				$this->atributos ["id"] = $this->atributos ["id"];
+				$this->atributos ["tipo"] = "hidden";
+				$this->atributos ["obligatorio"] = false;
+				$this->atributos ["etiqueta"] = "";
+				$this->atributos ["valor"] = "false";
+				$this->cadenaBoton .= $this->cuadro_texto ( $datosConfiguracion, $this->atributos );
 			} else {
 				
-				if (isset ( $atributos ["tipoSubmit"] ) && $atributos ["tipoSubmit"] == "jquery") {
+				if (isset ( $this->atributos ["tipoSubmit"] ) && $this->atributos ["tipoSubmit"] == "jquery") {
 					// Utilizar esto para garantizar que se procesan los controladores de eventos de javascript al momento de enviar el form
-					$this->cadenaBoton .= "onclick=\"document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
+					$this->cadenaBoton .= "onclick=\"document.forms['" . $this->atributos ["nombreFormulario"] . "'].elements['" . $this->atributos ["id"] . "'].value='true';";
 					$this->cadenaBoton .= " $(this).closest('form').submit();";
 				} else {
-					if (! isset ( $atributos ["onclick"] )) {
+					if (! isset ( $this->atributos ["onclick"] )) {
 						
-						$this->cadenaBoton .= "onclick=\"document.forms['" . $atributos ["nombreFormulario"] . "'].elements['" . $atributos ["id"] . "'].value='true';";
-						$this->cadenaBoton .= "document.forms['" . $atributos ["nombreFormulario"] . "'].submit()";
+						$this->cadenaBoton .= "onclick=\"document.forms['" . $this->atributos ["nombreFormulario"] . "'].elements['" . $this->atributos ["id"] . "'].value='true';";
+						$this->cadenaBoton .= "document.forms['" . $this->atributos ["nombreFormulario"] . "'].submit()";
 					}
 				}
 				
-				if (isset ( $atributos ["onclick"] ) && $atributos ["onclick"] != '') {
-					$this->cadenaBoton .= "onclick=\" " . $atributos ["onclick"] . "\" ";
+				if (isset ( $this->atributos ["onclick"] ) && $this->atributos ["onclick"] != '') {
+					$this->cadenaBoton .= "onclick=\" " . $this->atributos ["onclick"] . "\" ";
 				}
 				
-				$this->cadenaBoton .= "\">" . $atributos ["valor"] . "</button>\n";
+				$this->cadenaBoton .= "\">" . $this->atributos ["valor"] . "</button>\n";
 				
 				// El cuadro de Texto asociado
-				$atributos ["id"] = $atributos ["id"];
-				$atributos ["tipo"] = "hidden";
-				$atributos ["obligatorio"] = false;
-				$atributos ["etiqueta"] = "";
-				$atributos ["valor"] = "false";
-				$this->cadenaBoton .= $this->cuadro_texto ( $configuracion, $atributos );
+				$this->atributos ["id"] = $this->atributos ["id"];
+				$this->atributos ["tipo"] = "hidden";
+				$this->atributos ["obligatorio"] = false;
+				$this->atributos ["etiqueta"] = "";
+				$this->atributos ["valor"] = "false";
+				$this->cadenaBoton .= $this->cuadro_texto ( $datosConfiguracion, $this->atributos );
 			}
 		} else {
 			
 			$this->cadenaBoton = "<input ";
-			$this->cadenaBoton .= "value='" . $atributos ["valor"] . "' ";
-			$this->cadenaBoton .= "name='" . $atributos ["id"] . "' ";
-			$this->cadenaBoton .= "id='" . $atributos ["id"] . "' ";
-			$this->cadenaBoton .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+			$this->cadenaBoton .= "value='" . $this->atributos ["valor"] . "' ";
+			$this->cadenaBoton .= "name='" . $this->atributos ["id"] . "' ";
+			$this->cadenaBoton .= "id='" . $this->atributos ["id"] . "' ";
+			$this->cadenaBoton .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 			$this->cadenaBoton .= "type='submit' ";
 			$this->cadenaBoton .= ">\n";
 		}
@@ -678,32 +679,32 @@ class WidgetHtml {
 	
 	}
 	
-	// uncion que genera listas desplegables con grupos de opciones
-	// atriz_items es un vector, donde la posicion cero y las posiciones pares corresponden a los labels de los grupos de opciones y las posiciones impares corresponden a las opciones por cada grupo.
-	// as posiciones impar contienen un vector con las opciones correspondientes al grupo de opciones
-	function cuadro_listaGrupos($matriz_items, $nombre, $configuracion, $seleccion, $evento, $limitar, $tab = 0, $id) {
+	// Funcion que genera listas desplegables con grupos de opciones
+	// matrizItems es un vector, donde la posicion cero y las posiciones pares corresponden a los labels de los grupos de opciones y las posiciones impares corresponden a las opciones por cada grupo.
+	// Las posiciones impar contienen un vector con las opciones correspondientes al grupo de opciones
+	function cuadro_listaGrupos($matrizItems, $nombre, $datosConfiguracion, $seleccion, $evento, $limitar, $tab = 0, $id) {
 
-		include_once ($configuracion ["raiz_documento"] . $configuracion ["clases"] . "/cadenas.class.php");
+		include_once ($datosConfiguracion ["raiz_documento"] . $datosConfiguracion ["clases"] . "/cadenas.class.php");
 		$this->formato = new cadenas ();
-		$this->cuadro_registro = $matriz_items;
-		$this->cuadro_campos = count ( $matriz_items );
+		$this->cuadro_registro = $matrizItems;
+		$this->cuadroCampos = count ( $matrizItems );
 		
 		$this->mi_cuadro = "";
 		
-		if ($this->cuadro_campos > 0) {
+		if ($this->cuadroCampos > 0) {
 			switch ($evento) {
 				case 1 :
-					$mi_evento = 'onchange="this.form.submit()"';
+					$miEvento = 'onchange="this.form.submit()"';
 					break;
 				
 				case 2 :
-					$mi_evento = "onchange=\"" . $configuracion ["ajax_function"] . "(document.getElementById('" . $configuracion ["ajax_control"] . "').value)\"";
+					$miEvento = "onchange=\"" . $datosConfiguracion ["ajax_function"] . "(document.getElementById('" . $datosConfiguracion ["ajax_control"] . "').value)\"";
 					break;
 				case 3 :
-					$mi_evento = 'disabled="yes"';
+					$miEvento = 'disabled="yes"';
 					break;
 				default :
-					$mi_evento = "";
+					$miEvento = "";
 			} // ierre de switch($evento)
 			  // i trae id para asignar
 			if ($id != "") {
@@ -711,14 +712,14 @@ class WidgetHtml {
 			}
 			
 			// onstruye cuadro de seleccion
-			$this->mi_cuadro = "<select name='" . $nombre . "' size='1' " . $mi_evento . " tabindex='" . $tab . "' " . $id . ">\n";
+			$this->mi_cuadro = "<select name='" . $nombre . "' size='1' " . $miEvento . " tabindex='" . $tab . "' " . $id . ">\n";
 			
 			// i no se especifica una seleccion se agrega un espacio en blanco
 			if ($seleccion < 0) {
 				$this->mi_cuadro .= "<option value=''>Seleccione </option>\n";
 			}
 			
-			for($this->grupos_contador = 0; $this->grupos_contador < $this->cuadro_campos - 1; $this->grupos_contador ++) {
+			for($this->grupos_contador = 0; $this->grupos_contador < $this->cuadroCampos - 1; $this->grupos_contador ++) {
 				if (! is_array ( $this->cuadro_registro [$this->grupos_contador] ) && is_array ( $this->cuadro_registro [$this->grupos_contador + 1] )) {
 					$this->valor = $this->cuadro_registro [$this->grupos_contador];
 					$this->mi_cuadro .= "<optgroup ";
@@ -762,7 +763,7 @@ class WidgetHtml {
 				}
 			} // ierre de for
 			$this->mi_cuadro .= "</select>\n";
-		} 		// ierre de if $this->cuadro_campos>0
+		} 		// ierre de if $this->cuadroCampos>0
 		else {
 			echo "Imposible rescatar los datos.";
 		}
@@ -772,21 +773,22 @@ class WidgetHtml {
 	}
 	
 	// ierre de funcion cuadro_listaGrupos
-	function radioButton($configuracion, $atributos) {
-
+	function radioButton($misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 		$this->miOpcion = "";
-		$nombre = $atributos ["id"];
+		$nombre = $this->atributos ["id"];
 		$id = "campo" . rand ();
 		
-		if (isset ( $atributos ["opciones"] )) {
-			$opciones = explode ( "|", $atributos ["opciones"] );
+		if (isset ( $this->atributos ["opciones"] )) {
+			$opciones = explode ( "|", $this->atributos ["opciones"] );
 			
 			if (is_array ( $opciones )) {
 				
 				foreach ( $opciones as $clave => $valor ) {
 					$opcion = explode ( "&", $valor );
 					if ($opcion [0] != "") {
-						if ($opcion [0] != $atributos ["seleccion"]) {
+						if ($opcion [0] != $this->atributos ["seleccion"]) {
 							$this->miOpcion .= "<div>";
 							$this->miOpcion .= "<input type='radio' id='" . $id . "' name='" . $nombre . "' value='" . $opcion [0] . "' />";
 							$this->miOpcion .= "<label for='" . $id . "'>";
@@ -810,58 +812,64 @@ class WidgetHtml {
 			$this->miOpcion .= "name='" . $id . "' ";
 			$this->miOpcion .= "id='" . $id . "' ";
 			
-			$this->miOpcion .= "value='" . $atributos ["valor"] . "' ";
+			$this->miOpcion .= "value='" . $this->atributos ["valor"] . "' ";
 			
-			if (isset ( $atributos ["tabIndex"] )) {
-				$this->miOpcion .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+			if (isset ( $this->atributos ["tabIndex"] )) {
+				$this->miOpcion .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 			}
 			
-			if (isset ( $atributos ["seleccionado"] ) && $atributos ["seleccionado"] == true) {
+			if (isset ( $this->atributos ["seleccionado"] ) && $this->atributos ["seleccionado"] == true) {
 				$this->miOpcion .= "checked='true' ";
 			}
 			
 			$this->miOpcion .= "/> ";
 			$this->miOpcion .= "<label for='" . $id . "'>";
-			$this->miOpcion .= $atributos ["etiqueta"];
+			$this->miOpcion .= $this->atributos ["etiqueta"];
 			$this->miOpcion .= "</label>\n";
 		}
 		return $this->miOpcion;
 	
 	}
 
-	function checkBox($configuracion, $atributos) {
+	function checkBox($misAtributos) {
+		
+		$this->setAtributos($misAtributos);
 
 		$this->miOpcion = "";
-		$this->miOpcion .= "<label for='" . $atributos ["id"] . "'>";
-		$this->miOpcion .= $atributos ["etiqueta"];
+		$this->miOpcion .= "<label for='" . $this->atributos ["id"] . "'>";
+		$this->miOpcion .= $this->atributos ["etiqueta"];
 		$this->miOpcion .= "</label>\n";
 		
 		$this->miOpcion .= "<input type='checkbox' ";
 		
-		if (isset ( $atributos ["id"] )) {
-			$this->miOpcion .= "name='" . $atributos ["id"] . "' ";
-			$this->miOpcion .= "id='" . $atributos ["id"] . "' ";
+		if (isset ( $this->atributos ["id"] )) {
+			$this->miOpcion .= "name='" . $this->atributos ["id"] . "' ";
+			$this->miOpcion .= "id='" . $this->atributos ["id"] . "' ";
 		}
 		
-		if (isset ( $atributos ["valor"] )) {
-			$this->miOpcion .= "value='" . $atributos ["valor"] . "' ";
+		if (isset ( $this->atributos ["valor"] )) {
+			$this->miOpcion .= "value='" . $this->atributos ["valor"] . "' ";
 		}
 		
-		if (isset ( $atributos ["tabIndex"] )) {
-			$this->miOpcion .= "tabindex='" . $atributos ["tabIndex"] . "' ";
+		if (isset ( $this->atributos ["tabIndex"] )) {
+			$this->miOpcion .= "tabindex='" . $this->atributos ["tabIndex"] . "' ";
 		}
 		
-		if (isset ( $atributos ["evento"] )) {
-			$this->miOpcion .= $atributos ["evento"] . "=\"" . $atributos ["eventoFuncion"] . "\" ";
+		if (isset ( $this->atributos ["evento"] )) {
+			$this->miOpcion .= $this->atributos ["evento"] . "=\"" . $this->atributos ["eventoFuncion"] . "\" ";
 		}
 		
-		if (isset ( $atributos ["seleccionado"] ) && $atributos ["seleccionado"] == true) {
+		if (isset ( $this->atributos ["seleccionado"] ) && $this->atributos ["seleccionado"] == true) {
 			$this->miOpcion .= "checked ";
 		}
 		
 		$this->miOpcion .= "/>";
 		return $this->miOpcion;
 	
+	}
+	
+	function setAtributos($misAtributos){
+		$this->atributos=$misAtributos;
 	}
 
 }

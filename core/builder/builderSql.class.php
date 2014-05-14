@@ -43,55 +43,55 @@ class BuilderSql extends Sql {
 		switch ($indice) {
 			
 			case "usuario" :
-				$cadenaSql = "SELECT  ";
-				$cadenaSql .= "usuario, ";
-				$cadenaSql .= "estilo ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= $prefijo . "estilo ";
-				$cadenaSql .= "WHERE ";
-				$cadenaSql .= "usuario='" . $this->id_usuario . "'";
+				$cadena = "SELECT  ";
+				$cadena .= "usuario, ";
+				$cadena .= "estilo ";
+				$cadena .= "FROM ";
+				$cadena .= $prefijo . "estilo ";
+				$cadena .= "WHERE ";
+				$cadena .= "usuario='" . $this->id_usuario . "'";
 				
 				break;
 			
 			case "pagina" :
-				$cadenaSql = "SELECT  ";
-				$cadenaSql .= $prefijo . "bloque_pagina.*,";
-				$cadenaSql .= $prefijo . "bloque.nombre, ";
-				$cadenaSql .= $prefijo . "pagina.parametro ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= $prefijo . "pagina, ";
-				$cadenaSql .= $prefijo . "bloque_pagina, ";
-				$cadenaSql .= $prefijo . "bloque ";
-				$cadenaSql .= "WHERE ";
-				$cadenaSql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
-				$cadenaSql .= "AND ";
-				$cadenaSql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
-				$cadenaSql .= "AND ";
-				$cadenaSql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina";
+				$cadena = "SELECT  ";
+				$cadena .= $prefijo . "bloque_pagina.*,";
+				$cadena .= $prefijo . "bloque.nombre, ";
+				$cadena .= $prefijo . "pagina.parametro ";
+				$cadena .= "FROM ";
+				$cadena .= $prefijo . "pagina, ";
+				$cadena .= $prefijo . "bloque_pagina, ";
+				$cadena .= $prefijo . "bloque ";
+				$cadena .= "WHERE ";
+				$cadena .= $prefijo . "pagina.nombre='" . $parametro . "' ";
+				$cadena .= "AND ";
+				$cadena .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
+				$cadena .= "AND ";
+				$cadena .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina";
 				break;
 			
 			case "bloquesPagina" :
 				
-				$cadenaSql = "SELECT  ";
-				$cadenaSql .= $prefijo . "bloque_pagina.*,";
-				$cadenaSql .= $prefijo . "bloque.nombre ,";
-				$cadenaSql .= $prefijo . "pagina.parametro, ";
-				$cadenaSql .= $prefijo . "bloque.grupo ";
-				$cadenaSql .= "FROM ";
-				$cadenaSql .= $prefijo . "pagina, ";
-				$cadenaSql .= $prefijo . "bloque_pagina, ";
-				$cadenaSql .= $prefijo . "bloque ";
-				$cadenaSql .= "WHERE ";
-				$cadenaSql .= $prefijo . "pagina.nombre='" . $parametro . "' ";
-				$cadenaSql .= "AND ";
-				$cadenaSql .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
-				$cadenaSql .= "AND ";
-				$cadenaSql .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina ";
-				$cadenaSql .= "ORDER BY " . $prefijo . "bloque_pagina.seccion," . $prefijo . "bloque_pagina.posicion ";
+				$cadena = "SELECT  ";
+				$cadena .= $prefijo . "bloque_pagina.*,";
+				$cadena .= $prefijo . "bloque.nombre ,";
+				$cadena .= $prefijo . "pagina.parametro, ";
+				$cadena .= $prefijo . "bloque.grupo ";
+				$cadena .= "FROM ";
+				$cadena .= $prefijo . "pagina, ";
+				$cadena .= $prefijo . "bloque_pagina, ";
+				$cadena .= $prefijo . "bloque ";
+				$cadena .= "WHERE ";
+				$cadena .= $prefijo . "pagina.nombre='" . $parametro . "' ";
+				$cadena .= "AND ";
+				$cadena .= $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque ";
+				$cadena .= "AND ";
+				$cadena .= $prefijo . "bloque_pagina.id_pagina=" . $prefijo . "pagina.id_pagina ";
+				$cadena .= "ORDER BY " . $prefijo . "bloque_pagina.seccion," . $prefijo . "bloque_pagina.posicion ";
 				break;
 		}
-		if (isset ( $cadenaSql )) {
-			$this->cadena_sql [$indice] = $cadenaSql;
+		if (isset ( $cadena )) {
+			$this->cadena_sql [$indice] = $cadena;
 		}
 	
 	}

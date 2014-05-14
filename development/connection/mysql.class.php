@@ -125,10 +125,10 @@ class mysql {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	} // Fin del método especificar_enlace
@@ -229,9 +229,9 @@ class mysql {
 	 * @return boolean
 	 * @access private
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		if (! $this->enlace->query ( $cadenaSql )) {
+		if (! $this->enlace->query ( $cadena )) {
 			$this->error = $this->enlace->errno;
 			return false;
 		} else {
@@ -266,13 +266,13 @@ class mysql {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
 		if (! is_object ( $this->enlace )) {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return NULL;
 		}
-		$busqueda = $this->enlace->query ( $cadenaSql );
+		$busqueda = $this->enlace->query ( $cadena );
 		
 		if ($busqueda) {
 			
@@ -280,12 +280,12 @@ class mysql {
 			$this->campo = $busqueda->field_count;
 			$this->conteo = $busqueda->num_rows;
 			
-			if ($numero == 0) {
+			if ($numeroRegistros == 0) {
 				
-				$numero = $this->conteo;
+				$numeroRegistros = $this->conteo;
 			}
 			
-			for($j = 0; $j < $numero; $j ++) {
+			for($j = 0; $j < $numeroRegistros; $j ++) {
 				$salida = $busqueda->fetch_array ( MYSQLI_BOTH );
 				
 				if ($j == 0) {
@@ -298,9 +298,9 @@ class mysql {
 					}
 				}
 				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 			}
 			$busqueda->free ();
@@ -341,10 +341,10 @@ class mysql {
 		return $this->conteo;
 	
 	} // Fin del método obtener_conteo_db
-	function ultimo_insertado($enlace = "") {
+	function ultimo_insertado($unEnlace = "") {
 
-		if ($enlace != "") {
-			return mysqli_insert_id ( $enlace );
+		if ($unEnlace != "") {
+			return mysqli_insert_id ( $unEnlace );
 		} else {
 			return mysqli_insert_id ( $this->enlace );
 		}
@@ -367,9 +367,9 @@ class mysql {
 			
 			if (! $acceso) {
 				
-				for($contador_2 = 0; $contador_2 < $this->instrucciones; $contador_2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador_2] );
-					/*echo $delete[$contador_2]."<br>";*/
+				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
+					/*echo $delete[$contador2]."<br>";*/
 				}
 				return FALSE;
 			}
@@ -397,9 +397,9 @@ class mysql {
 	} // Fin del método db_admin
 	  
 	// F
-	private function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
+		$this->registro_db ( $cadena, $numeroRegistros );
 		$registro = $this->getRegistroDb ();
 		return $registro;
 	
@@ -441,20 +441,20 @@ class mysql {
 	}
 	
 	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_object ( $this->enlace )) {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return "error";
 		}
 		
-		$cadenaSql = $this->tratarCadena ( $cadenaSql );
+		$cadena = $this->tratarCadena ( $cadena );
 		
 		if ($tipo == "busqueda") {
-			$esteRegistro = $this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	

@@ -139,7 +139,7 @@ class Configurador {
 				$this->registro = $this->conexionDB->getRegistroDb ();
 				for($j = 0; $j < $this->total; $j ++) {
 					$this->configuracion [trim ( $this->registro [$j] ["parametro"] )] = trim ( $this->registro [$j] ["valor"] );
-					// print_r($this->configuracion);
+					
 				}
 				
 				return true;

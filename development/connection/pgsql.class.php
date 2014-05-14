@@ -38,11 +38,11 @@
  *        	de la base de datos
  * @param $clave Clave
  *        	de acceso al servidor de bases de datos
- * @param $enlace Identificador
+ * @param $unEnlace Identificador
  *        	del enlace a la base de datos
  * @param $dbms Nombre
  *        	del DBMS POSTGRES
- * @param $cadenaSql Clausula
+ * @param $cadena Clausula
  *        	SQL a ejecutar
  * @param $error Mensaje
  *        	de error devuelto por el DBMS
@@ -118,11 +118,11 @@ class pgsql {
 
 	private $clave;
 
-	private $enlace;
+	private $unEnlace;
 
 	private $dbsys;
 
-	private $cadenaSql;
+	private $cadena;
 
 	private $error;
 
@@ -218,10 +218,10 @@ class pgsql {
 	 * @return void
 	 * @access public
 	 */
-	function especificar_enlace($enlace) {
+	function especificar_enlace($unEnlace) {
 
-		if (is_resource ( $enlace )) {
-			$this->enlace = $enlace;
+		if (is_resource ( $unEnlace )) {
+			$this->enlace = $unEnlace;
 		}
 	
 	} // Fin del método especificar_enlace
@@ -273,10 +273,10 @@ class pgsql {
 		}
 	
 	} // Fin del método probar_conexion
-	function logger($configuracion, $idUsuario, $evento) {
+	function logger($datosConfiguracion, $idUsuario, $evento) {
 
 		$this->cadena_sql = "INSERT INTO ";
-		$this->cadena_sql .= "" . $configuracion ["prefijo"] . "logger ";
+		$this->cadena_sql .= "" . $datosConfiguracion ["prefijo"] . "logger ";
 		$this->cadena_sql .= "( ";
 		$this->cadena_sql .= "`id_usuario` ,";
 		$this->cadena_sql .= " `evento` , ";
@@ -317,9 +317,9 @@ class pgsql {
 	 * @return boolean
 	 * @access private
 	 */
-	private function ejecutar_acceso_db($cadenaSql) {
+	private function ejecutar_acceso_db($cadena) {
 
-		if (! pg_query ( $this->enlace, $cadenaSql )) {
+		if (! pg_query ( $this->enlace, $cadena )) {
 			$this->error = pg_last_error ( $this->enlace );
 			return FALSE;
 		} else {
@@ -354,24 +354,24 @@ class pgsql {
 	 * @return boolean
 	 * @access public
 	 */
-	function registro_db($cadenaSql, $numero = 0) {
+	function registro_db($cadena, $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace )) {
 			return FALSE;
 		}
 		
-		@$busqueda = pg_query ( $this->enlace, $cadenaSql );
+		@$busqueda = pg_query ( $this->enlace, $cadena );
 		if ($busqueda) {
 			unset ( $this->registro );
 			@$this->campo = pg_num_fields ( $busqueda );
 			@$this->conteo = pg_num_rows ( $busqueda );
 			
-			if ($numero == 0) {
+			if ($numeroRegistros == 0) {
 				
-				$numero = $this->conteo;
+				$numeroRegistros = $this->conteo;
 			}
 			
-			for($j = 0; $j < $numero; $j ++) {
+			for($j = 0; $j < $numeroRegistros; $j ++) {
 				$salida = pg_fetch_array ( $busqueda );
 				
 				if ($j == 0) {
@@ -384,9 +384,9 @@ class pgsql {
 					}
 				}
 				
-				for($un_campo = 0; $un_campo < $this->campo; $un_campo ++) {
-					$this->registro [$j] [$un_campo] = $salida [$un_campo];
-					$this->registro [$j] [$this->claves [$un_campo]] = $salida [$un_campo];
+				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+					$this->registro [$j] [$unCampo] = $salida [$unCampo];
+					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
 				}
 			}
 			@pg_free_result ( $busqueda );
@@ -438,9 +438,9 @@ class pgsql {
 		return $this->conteo;
 	
 	} // Fin del método obtener_conteo_db
-	function ultimo_insertado($enlace = "") {
+	function ultimo_insertado($unEnlace = "") {
 
-		return pg_last_oid ( $enlace );
+		return pg_last_oid ( $unEnlace );
 	
 	}
 
@@ -460,9 +460,9 @@ class pgsql {
 			
 			if (! $acceso) {
 				
-				for($contador_2 = 0; $contador_2 < $this->instrucciones; $contador_2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador_2] );
-					/*echo $delete[$contador_2]."<br>";*/
+				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
+					/*echo $delete[$contador2]."<br>";*/
 				}
 				return FALSE;
 			}
@@ -490,20 +490,20 @@ class pgsql {
 	} // Fin del método db_admin
 	  
 	// F
-	private function ejecutar_busqueda($cadenaSql, $numeroRegistros = 0) {
+	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
-		$this->registro_db ( $cadenaSql, $numeroRegistros );
-		$registro = $this->getRegistroDb ();
-		return $registro;
+		$this->registro_db ( $cadena, $numeroRegistros );
+		$elRegistro = $this->getRegistroDb ();
+		return $elRegistro;
 	
 	}
 	
-	/*function vaciar_temporales($configuracion,$sesion)
+	/*function vaciar_temporales($datosConfiguracion,$sesion)
 	 {
 	$this->esta_sesion=$sesion;
 	$this->cadena_sql="DELETE ";
 	$this->cadena_sql.="FROM ";
-	$this->cadena_sql.=$configuracion["prefijo"]."registrado_borrador ";
+	$this->cadena_sql.=$datosConfiguracion["prefijo"]."registrado_borrador ";
 	$this->cadena_sql.="WHERE ";
 	$this->cadena_sql.="identificador<".(time()-3600);
 	$this->ejecutar_acceso_db($this->cadena_sql);
@@ -540,24 +540,24 @@ class pgsql {
 	
 	}
 
-	function ejecutarAcceso($cadenaSql, $tipo = "", $numeroRegistros = 0) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
 		if (! is_resource ( $this->enlace ) && $this->enlace == "") {
 			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return FALSE;
 		}
 		
-		$cadenaSql = $this->tratarCadena ( $cadenaSql );
+		$cadena = $this->tratarCadena ( $cadena );
 		
 		if ($tipo == "busqueda") {
-			$esteRegistro = $this->ejecutar_busqueda ( $cadenaSql, $numeroRegistros );
+			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
 			if (isset ( $this->configuracion ["debugMode"] ) && $this->configuracion ["debugMode"] == 1 && $esteRegistro == false) {
-				error_log ( "El registro esta vacio!!! " . $cadenaSql );
+				error_log ( "El registro esta vacio!!! " . $cadena );
 			}
 			
 			return $esteRegistro;
 		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadenaSql );
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
 			return $resultado;
 		}
 	
