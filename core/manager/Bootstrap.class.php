@@ -35,26 +35,6 @@ class Bootstrap {
 	 */
 	var $miConfigurador;
 
-	/**
-	 *
-	 *
-	 *
-	 * Objeto, con funciones miembro generales que encapsulan funcionalidades
-	 * básicas.
-	 *
-	 * @var FuncionGeneral
-	 */
-	private $miFuncion;
-
-	/**
-	 *
-	 *
-	 *
-	 * Objeto. Gestiona conexiones a bases de datos.
-	 *
-	 * @var FabricaDBConexion
-	 */
-	private $manejadorDB;
 
 	/**
 	 * Objeto de la clase Encriptador se encarga de codificar/decodificar cadenas de texto.

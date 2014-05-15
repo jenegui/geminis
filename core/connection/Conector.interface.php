@@ -1,16 +1,7 @@
 <?php
 
 interface Conector {
-	
-	/**
-	 *
-	 * @name obtener_enlace
-	 * @return void
-	 * @access public
-	 */
-	function getEnlace();
-
-	/**
+		/**
 	 *
 	 * @name conectar_db
 	 * @return void
@@ -26,7 +17,7 @@ interface Conector {
 	 */
 	function probar_conexion();
 
-	function logger($configuracion, $idUsuario, $evento);
+	function logger($datosConfiguracion, $idUsuario, $evento);
 
 	/**
 	 *
@@ -76,22 +67,6 @@ interface Conector {
 	 */
 	function registro_db($cadenaSql, $numero = 0);
 
-	/**
-	 *
-	 * @name getRegistroDb
-	 * @return registro []
-	 * @access public
-	 */
-	function getRegistroDb();
-
-	/**
-	 *
-	 * @name obtener_conteo_db
-	 * @return int conteo
-	 * @access public
-	 */
-	function getConteo();
-
 	function obtenerCadenaListadoTablas($variable);
 
 	function ultimo_insertado($enlace = "");
@@ -102,7 +77,7 @@ interface Conector {
 	 * @return boolean resultado
 	 * @access public
 	 */
-	function transaccion($insert, $delete);
+	function transaccion($clausulas);
 
 	function limpiarVariables($variables);
 
@@ -114,65 +89,7 @@ interface Conector {
 	 */
 	function tratarCadena($cadena);
 
-	/**
-	 *
-	 * @name especificar_db
-	 * @param
-	 *        	string nombreDb
-	 * @return void
-	 * @access public
-	 */
-	function especificar_db($nombreDb);
-
-	/**
-	 *
-	 * @name especificar_usuario
-	 * @param
-	 *        	string usuarioDb
-	 * @return void
-	 * @access public
-	 */
-	function especificar_usuario($usuarioDb);
-
-	/**
-	 *
-	 * @name especificar_clave
-	 * @param
-	 *        	string nombreDb
-	 * @return void
-	 * @access public
-	 */
-	function especificar_clave($claveDb);
-
-	/**
-	 *
-	 * @name especificar_servidor
-	 * @param
-	 *        	string servidorDb
-	 * @return void
-	 * @access public
-	 */
-	function especificar_servidor($servidorDb);
-
-	/**
-	 *
-	 * @name especificar_dbms
-	 * @param
-	 *        	string dbms
-	 * @return void
-	 * @access public
-	 */
-	function especificar_dbsys($sistema);
-
-	/**
-	 *
-	 * @name especificar_enlace
-	 * @param
-	 *        	resource enlace
-	 * @return void
-	 * @access public
-	 */
-	function especificar_enlace($enlace);
+	
 
 }
 

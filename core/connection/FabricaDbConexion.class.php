@@ -11,6 +11,7 @@
  *
  */
 require_once ("Conector.interface.php");
+require_once ("ConectorDb.php");
 require_once ("mysql.class.php");
 require_once ("oci8.class.php");
 require_once ("pgsql.class.php");
@@ -116,7 +117,7 @@ class FabricaDbConexion {
 	private function recursoTabla($nombre) {
 
 		$recursoDB = $this->getRecursoDB ( "configuracion" );
-		$cadena = $this->getClausulaSQL ( "", $nombre );
+		$cadena = $this->getClausulaSQL ( $nombre );
 		
 		$resultado = $recursoDB->ejecutarAcceso ( $cadena, "busqueda" );
 		
@@ -133,28 +134,24 @@ class FabricaDbConexion {
 	
 	}
 
-	private function getClausulaSQL($opcion = "", $variable) {
+	private function getClausulaSQL( $variable) {
 
 		if (isset ( $this->configuracion ["dbprefijo"] )) {
-			$prefijo = $this->configuracion ["dbprefijo"];
-			switch ($opcion) {
-				
-				default :
+			
 					$cadenaSql = "SELECT ";
-					$cadenaSql .= "nombre, ";
-					$cadenaSql .= "servidor as dbdns, ";
-					$cadenaSql .= "puerto as dbpuerto, ";
-					$cadenaSql .= "conexionssh as dbssl, ";
-					$cadenaSql .= "db as dbnombre, ";
-					$cadenaSql .= "usuario as dbusuario, ";
-					$cadenaSql .= "password as dbclave, ";
-					$cadenaSql .= "dbms as dbsys ";
+					$cadenaSql .= 'nombre,  
+							servidor as dbdns, 
+							puerto as dbpuerto, 
+							conexionssh as dbssl, 
+							db as dbnombre, 
+							usuario as dbusuario, 
+							password as dbclave, 
+							dbms as dbsys ';
 					$cadenaSql .= "FROM ";
-					$cadenaSql .= $prefijo . "dbms ";
+					$cadenaSql .= $this->configuracion ["dbprefijo"] . "dbms ";
 					$cadenaSql .= "WHERE ";
 					$cadenaSql .= "nombre='" . $variable . "'";
-					break;
-			}
+			
 			return $cadenaSql;
 		}
 		

@@ -47,13 +47,17 @@ class Mensaje {
 
 	function mostrarMensaje($mensaje, $tipoMensaje = "warning") {
 
-		include_once ("Mensaje.page.php");
+		if ($mensaje != '' && $tipoMensaje != '') {
+			include_once ('Mensaje.page.php');
+		}
 	
 	}
 
 	function mostrarMensajeRedireccion($mensaje, $tipoMensaje = "warning", $url) {
 
-		include_once ("Mensaje.page.php");
+		if ($mensaje != '' && $tipoMensaje != '' && $url != '') {
+			include_once ('Mensaje.page.php');
+		}
 	
 	}
 

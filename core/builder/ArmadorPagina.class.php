@@ -186,9 +186,7 @@ class ArmadorPagina {
 			echo "<div id='seccionAmplia'>\n";
 		} else {
 			
-			if ((in_array ( "B", $this->seccionesDeclaradas, true ) && ! in_array ( "D", $this->seccionesDeclaradas, true )) || (! in_array ( "B", $this->seccionesDeclaradas, true ) && in_array ( "D", $this->seccionesDeclaradas, true ))) 
-
-			{
+			if ((in_array ( "B", $this->seccionesDeclaradas, true ) && ! in_array ( "D", $this->seccionesDeclaradas, true )) || (! in_array ( "B", $this->seccionesDeclaradas, true ) && in_array ( "D", $this->seccionesDeclaradas, true ))){
 				echo "<div id='seccionCentralAmpliada'>\n";
 			} else {
 				echo "<div id='seccionCentral'>\n";

@@ -1,27 +1,31 @@
 <?php
+
 /**
  * UNIVERSIDAD DISTRITAL Francisco Jose de Caldas 
  * Copyright: Vea el archivo LICENCIA.txt que viene con la distribucion
  */
 
 /**
- *Esta clase esta disennada para administrar todas las tareas
+ * Esta clase esta disennada para administrar todas las tareas
  * relacionadas con la base de datos POSTGRESQL.
  *
  * @name pgsql.class.php
  * @author Karen Palacios
  * @version Última revisión 11 de mayo de 2014
  * @subpackage
+ *
  * @package clase
  * @copyright
+ *
  * @version 1.0
  * @author Paulo Cesar Coronado
  * @link http://computo.udistrital.edu.co
- * 
+ *      
  */
 
 /**
- * 
+ *
+ *
  * Atributos
  *
  * @access private
@@ -54,7 +58,8 @@
  */
 
 /**
- * 
+ *
+ *
  * Métodos
  *
  * @access public
@@ -91,9 +96,9 @@
  *       Devuelve el resultado de una consulta como una matriz bidimensional
  * @name obtener_error
  *       Realiza una consulta SQL y la guarda en una matriz bidimensional
- * 
+ *      
  */
-class pgsql implements Conector {
+class pgsql extends ConectorDb {
 
 	/**
 	 * * Atributos: **
@@ -102,135 +107,11 @@ class pgsql implements Conector {
 	 *
 	 * @access privado
 	 */
-	private $servidor;
-
-	private $puerto;
-
-	private $db;
-
-	private $usuario;
-
-	private $clave;
-
-	private $enlace;
-
-	private $dbsys;
-
-	private $cadenaSql;
-
-	private $error;
-
-	private $numero;
-
-	private $conteo;
-
-	private $registro;
-
-	private $campo;
-
 	private $charset = 'utf8'; // codificacion php
 	
 	/**
 	 * * Fin de sección Atributos: **
 	 */
-	
-	/**
-	 *
-	 * @name especificar_db
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_db($nombreDb) {
-
-		$this->db = $nombreDb;
-	
-	} // Fin del método especificar_db
-	
-	/**
-	 *
-	 * @name especificar_usuario
-	 * @param
-	 *        	string usuario_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_usuario($usuarioDb) {
-
-		$this->usuario = $usuarioDb;
-	
-	} // Fin del método especificar_usuario
-	
-	/**
-	 *
-	 * @name especificar_clave
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_clave($claveDb) {
-
-		$this->clave = $claveDb;
-	
-	} // Fin del método especificar_clave
-	
-	/**
-	 *
-	 * @name especificar_servidor
-	 * @param
-	 *        	string servidor_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_servidor($servidorDb) {
-
-		$this->servidor = $servidorDb;
-	
-	} // Fin del método especificar_servidor
-	
-	/**
-	 *
-	 * @name especificar_dbms
-	 * @param
-	 *        	string dbms
-	 * @return void
-	 * @access public
-	 */
-	function especificar_dbsys($sistema) {
-
-		$this->dbsys = $sistema;
-	
-	} // Fin del método especificar_dbsys
-	
-	/**
-	 *
-	 * @name especificar_enlace
-	 * @param
-	 *        	resource enlace
-	 * @return void
-	 * @access public
-	 */
-	function especificar_enlace($unEnlace) {
-
-		if (is_resource ( $unEnlace )) {
-			$this->enlace = $unEnlace;
-		}
-	
-	} // Fin del método especificar_enlace
-	
-	/**
-	 *
-	 * @name obtener_enlace
-	 * @return void
-	 * @access public
-	 */
-	function getEnlace() {
-
-		return $this->enlace;
-	
-	} // Fin del método obtener_enlace
 	
 	/**
 	 *
@@ -267,27 +148,7 @@ class pgsql implements Conector {
 		}
 	
 	} // Fin del método probar_conexion
-	function logger($configuracion, $idUsuario, $evento) {
-
-		$this->cadena_sql = "INSERT INTO ";
-		$this->cadena_sql .= "" . $configuracion ["prefijo"] . "logger ";
-		$this->cadena_sql .= "( ";
-		$this->cadena_sql .= "`id_usuario` ,";
-		$this->cadena_sql .= " `evento` , ";
-		$this->cadena_sql .= "`fecha`  ";
-		$this->cadena_sql .= ") ";
-		$this->cadena_sql .= "VALUES (";
-		$this->cadena_sql .= $idUsuario . ",";
-		$this->cadena_sql .= "'" . $evento . "',";
-		$this->cadena_sql .= "'" . time () . "'";
-		$this->cadena_sql .= ")";
-		
-		$this->ejecutar_acceso_db ( $this->cadena_sql );
-		unset ( $this->db_sel );
-		return TRUE;
 	
-	}
-
 	/**
 	 *
 	 * @name desconectar_db
@@ -301,24 +162,25 @@ class pgsql implements Conector {
 		mysql_close ( $this->enlace );
 	
 	} // Fin del método desconectar_db
-	
-	/**
-	 *
-	 * @name ejecutar_acceso_db
-	 * @param
-	 *        	string cadena_sql
-	 * @param
-	 *        	string conexion_id
-	 * @return boolean
-	 * @access private
-	 */
-	private function ejecutar_acceso_db($cadena) {
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
-		if (! pg_query ( $this->enlace, $cadena )) {
-			$this->error = pg_last_error ( $this->enlace );
+		if (! is_resource ( $this->enlace ) && $this->enlace == "") {
+			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
 			return FALSE;
+		}
+		
+		$cadena = $this->tratarCadena ( $cadena );
+		
+		if ($tipo == "busqueda") {
+			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
+			if (isset ( $this->configuracion ["debugMode"] ) && $this->configuracion ["debugMode"] == 1 && $esteRegistro == false) {
+				error_log ( "El registro esta vacio!!! " . $cadena );
+			}
+			
+			return $esteRegistro;
 		} else {
-			return TRUE;
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
+			return $resultado;
 		}
 	
 	}
@@ -374,7 +236,8 @@ class pgsql implements Conector {
 					$i = 0;
 					foreach ( $this->keys as $clave => $valor ) {
 						if (is_string ( $valor )) {
-							$this->claves [$i ++] = $valor;
+							$this->claves [$i] = $valor;
+							$i ++;
 						}
 					}
 				}
@@ -393,103 +256,41 @@ class pgsql implements Conector {
 		}
 	
 	} // Fin del método registro_db
-	
-	/**
-	 * Elimina espacios en blanco
-	 *
-	 * @name trim_value
-	 * @param string $value        	
-	 * @return array
-	 * @access public
-	 */
-	function trim_value(&$value) {
+	function obtenerCadenaListadoTablas() {
 
-		$value = trim ( $value );
+		return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';";
 	
 	}
 
 	/**
-	 *
-	 * @name getRegistroDb
-	 * @return registro []
-	 * @access public
-	 */
-	function getRegistroDb() {
-
-		if (isset ( $this->registro )) {
-			return $this->registro;
-		}
-	
-	} // Fin del método getRegistroDb
-	
-	/**
-	 *
-	 * @name obtener_conteo_db
-	 * @return int conteo
-	 * @access public
-	 */
-	function getConteo() {
-
-		return $this->conteo;
-	
-	} // Fin del método obtener_conteo_db
-	function ultimo_insertado($enlace = "") {
-
-		return pg_last_oid ( $enlace );
-	
-	}
-
-	/**
+	 * /**
 	 *
 	 * @name transaccion
 	 * @return boolean resultado
 	 * @access public
 	 */
-	function transaccion($insert, $delete) {
+	function transaccion($clausulas) {
 
-		$this->instrucciones = count ( $insert );
 		
+		$acceso = true;
+		
+		
+		pg_query ( $this->enlace, 'BEGIN' );
+		$this->instrucciones = count ( $clausulas );
 		for($contador = 0; $contador < $this->instrucciones; $contador ++) {
-			$acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
-			
-			if (! $acceso) {
-				
-				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
-				}
-				return FALSE;
-			}
+			$acceso &= $this->ejecutar_acceso_db ( $clausulas [$contador] );
 		}
-		return TRUE;
+		
+		if ($acceso) {
+			$resultado = pg_query ( $this->enlace,'COMMIT' );
+		} else {
+			pg_query ( $this->enlace.'ROLLBACK' );
+			$resultado = false;
+		}
+		
+		return $resultado;
 	
 	} // Fin del método transaccion
-	
-	/**
-	 *
-	 * @name db_admin
-	 *      
-	 */
-	function __construct($registro) {
-
-		$this->servidor = $registro ["dbdns"];
-		$this->db = $registro ["dbnombre"];
-		$this->puerto = isset ( $registro ['dbpuerto'] ) ? $registro ['dbpuerto'] : 5432;
-		$this->usuario = $registro ["dbusuario"];
-		$this->clave = $registro ["dbclave"];
-		$this->dbsys = $registro ["dbsys"];
-		
-		$this->enlace = $this->conectar_db ();
-	
-	} // Fin del método db_admin
-	  
-	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
-
-		$this->registro_db ( $cadena, $numeroRegistros );
-		$registro = $this->getRegistroDb ();
-		return $registro;
-	
-	}
-	
 	
 	/**
 	 * Funcion para preprocesar la creacion de clausulas sql;
@@ -516,6 +317,52 @@ class pgsql implements Conector {
 	
 	}
 
+	/**
+	 *
+	 * @name db_admin
+	 *      
+	 */
+	function __construct($registro) {
+
+		$this->servidor = $registro ["dbdns"];
+		$this->db = $registro ["dbnombre"];
+		$this->puerto = isset ( $registro ['dbpuerto'] ) ? $registro ['dbpuerto'] : 5432;
+		$this->usuario = $registro ["dbusuario"];
+		$this->clave = $registro ["dbclave"];
+		$this->dbsys = $registro ["dbsys"];
+		
+		$this->enlace = $this->conectar_db ();
+	
+	} // Fin del método db_admin
+	private function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
+
+		$this->registro_db ( $cadena, $numeroRegistros );
+		$resultado = $this->getRegistroDb ();
+		return $resultado;
+	
+	}
+
+	/**
+	 *
+	 * @name ejecutar_acceso_db
+	 * @param
+	 *        	string cadena_sql
+	 * @param
+	 *        	string conexion_id
+	 * @return boolean
+	 * @access private
+	 */
+	private function ejecutar_acceso_db($cadena) {
+
+		if (! pg_query ( $this->enlace, $cadena )) {
+			$this->error = pg_last_error ( $this->enlace );
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	
+	}
+
 	function tratarCadena($cadena) {
 
 		$cadena = str_replace ( "<AUTOINCREMENT>", "DEFAULT", $cadena );
@@ -523,32 +370,17 @@ class pgsql implements Conector {
 	
 	}
 
-	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
+	/**
+	 * Elimina espacios en blanco
+	 *
+	 * @name trim_value
+	 * @param string $value        	
+	 * @return array
+	 * @access public
+	 */
+	function trim_value(&$value) {
 
-		if (! is_resource ( $this->enlace ) && $this->enlace == "") {
-			error_log ( "NO HAY ACCESO A LA BASE DE DATOS!!!" );
-			return FALSE;
-		}
-		
-		$cadena = $this->tratarCadena ( $cadena );
-		
-		if ($tipo == "busqueda") {
-			$esteRegistro = $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
-			if (isset ( $this->configuracion ["debugMode"] ) && $this->configuracion ["debugMode"] == 1 && $esteRegistro == false) {
-				error_log ( "El registro esta vacio!!! " . $cadena );
-			}
-			
-			return $esteRegistro;
-		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadena );
-			return $resultado;
-		}
-	
-	}
-
-	function obtenerCadenaListadoTablas($variable) {
-
-		return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';";
+		$value = trim ( $value );
 	
 	}
 

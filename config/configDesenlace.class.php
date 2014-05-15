@@ -1,5 +1,4 @@
-<?PHP
-
+<?php
 /**
  * IMPORTANTE
  * Este archivo debe generarse en el momento de la instalación

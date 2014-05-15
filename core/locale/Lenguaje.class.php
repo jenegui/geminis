@@ -10,9 +10,6 @@
 class Lenguaje {
 
 	private static $instance;
-
-	private $cadena;
-
 	var $idioma;
 
 	public static function singleton($idioma = "") {

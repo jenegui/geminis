@@ -91,151 +91,8 @@
  *
  * **************************************************************************** */
 
-class oci8 implements Conector {
-	/* * Atributos: ** */
-	
-	/**
-	 *
-	 * @access privado
-	 */
-	var $servidor;
-
-	var $db;
-
-	var $usuario;
-
-	var $clave;
-
-	var $enlace;
-
-	var $dbsys;
-
-	var $cadenaSql;
-
-	var $error;
-
-	var $numero;
-
-	var $conteo;
-
-	var $registro;
-
-	var $campo;
-	
-	/* * Fin de sección Atributos: ** */
-	
-	/**
-	 *
-	 * @name especificar_db
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_db($nombreDb) {
-
-		$this->db = $nombreDb;
-	
-	}
-	
-	// Fin del método especificar_db
-	
-	/**
-	 *
-	 * @name especificar_usuario
-	 * @param
-	 *        	string usuario_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_usuario($usuarioDb) {
-
-		$this->usuario = $usuarioDb;
-	
-	}
-	
-	// Fin del método especificar_usuario
-	
-	/**
-	 *
-	 * @name especificar_clave
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_clave($claveDb) {
-
-		$this->clave = $claveDb;
-	
-	}
-	
-	// Fin del método especificar_clave
-	
-	/**
-	 *
-	 * @name especificar_servidor
-	 * @param
-	 *        	string servidor_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_servidor($servidorDb) {
-
-		$this->servidor = $servidorDb;
-	
-	}
-	
-	// Fin del método especificar_servidor
-	
-	/**
-	 *
-	 * @name especificar_dbms
-	 * @param
-	 *        	string dbms
-	 * @return void
-	 * @access public
-	 */
-	function especificar_dbsys($sistema) {
-
-		$this->dbsys = $sistema;
-	
-	}
-	
-	// Fin del método especificar_dbsys
-	
-	/**
-	 *
-	 * @name especificar_enlace
-	 * @param
-	 *        	resource enlace
-	 * @return void
-	 * @access public
-	 */
-	function especificar_enlace($unEnlace) {
-
-		if (is_resource ( $unEnlace )) {
-			$this->enlace = $unEnlace;
-		}
-	
-	}
-	
-	// Fin del método especificar_enlace
-	
-	/**
-	 *
-	 * @name obtener_enlace
-	 * @return void
-	 * @access public
-	 */
-	function getEnlace() {
-
-		return $this->enlace;
-	
-	}
-	
-	// Fin del método obtener_enlace
-	
+class oci8 extends ConectorDb {
+		
 	/**
 	 *
 	 * @name conectar_db
@@ -290,21 +147,22 @@ class oci8 implements Conector {
 	
 	// Fin del método desconectar_db
 	
-	/**
-	 *
-	 * @name ejecutar_acceso_db
-	 * @param
-	 *        	string cadena_sql
-	 * @param
-	 *        	string conexion_id
-	 * @return boolean
-	 * @access public
-	 */
-	private function ejecutar_acceso_db($cadena) {
-
-		$cadenaParser = oci_parse ( $this->enlace, $cadena );
-		$busqueda = oci_execute ( $cadenaParser );
-		return $busqueda;
+	// Funcion para el acceso a las bases de datos
+	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
+	
+		if (! is_resource ( $this->enlace )) {
+			return FALSE;
+		}
+	
+		if ($tipo == "busqueda") {
+				
+			$this->ejecutar_busqueda ( $cadena, $numeroRegistros );
+			$esteRegistro = $this->getRegistroDb ();
+			return $esteRegistro;
+		} else {
+			$resultado = $this->ejecutar_acceso_db ( $cadena );
+			return $resultado;
+		}
 	
 	}
 
@@ -358,7 +216,8 @@ class oci8 implements Conector {
 					$i = 0;
 					foreach ( $this->keys as $clave => $valor ) {
 						if (is_string ( $valor )) {
-							$this->claves [$i ++] = $valor;
+							$this->claves [$i] = $valor;
+							$i++;
 						}
 					}
 				}
@@ -390,65 +249,41 @@ class oci8 implements Conector {
 	
 	// Fin del método registro_db
 	
-	/**
-	 *
-	 * @name getRegistroDb
-	 * @return registro []
-	 * @access public
-	 */
-	function getRegistroDb() {
-
-		if (isset ( $this->registro )) {
-			
-			return $this->registro;
-		} else {
-			return false;
-		}
-	
-	}
-	
-	// Fin del método getRegistroDb
-	
-	/**
-	 *
-	 * @name obtener_conteo_db
-	 * @return int conteo
-	 * @access public
-	 */
-	function getConteo() {
-
-		return $this->conteo;
-	
-	}
-	
-	// Fin del método obtener_conteo_db
-	
+		
 	/**
 	 *
 	 * @name transaccion
 	 * @return boolean resultado
 	 * @access public
 	 */
-	function transaccion($insert, $delete) {
+	function transaccion($clausulas) {
+		
+		$acceso=true;
 
-		$this->instrucciones = count ( $insert );
+		$this->instrucciones = count ( $clausulas );
 		
 		for($contador = 0; $contador < $this->instrucciones; $contador ++) {
-			$acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
+			$acceso .= $this->ejecutar_acceso_db ( $insert [$contador],true );
 			
-			if (! $acceso) {
-				
-				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
-				}
-				return FALSE;
-			}
 		}
-		return TRUE;
+		if (!$acceso) {
+			oci_rollback($this->enlace);
+			return FALSE;
+		}else{
+			oci_commit($this->enlace);
+			return TRUE;			
+		}		
 	
 	}
 	
 	// Fin del método transaccion
+	
+	function limpiarVariables($variables) {
+	
+		return $variables;
+	
+	}
+	
 	function tratarCadena($cadena) {
 
 		return $cadena;
@@ -475,52 +310,40 @@ class oci8 implements Conector {
 	function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
 
 		$this->registro_db ( $cadena, $numeroRegistros );
-		$registro = $this->getRegistroDb ();
-		return $registro;
+		$resultado = $this->getRegistroDb ();
+		return $resultado;
 	
 	}
 
-	function limpiarVariables($variables) {
 
-		return $variables;
-	
-	}
-	
-	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
 
-		if (! is_resource ( $this->enlace )) {
-			return FALSE;
-		}
+
+
+	/**
+	 *
+	 * @name ejecutar_acceso_db
+	 * @param
+	 *        	string cadena_sql
+	 * @param
+	 *        	string conexion_id
+	 * @return boolean
+	 * @access public
+	 */
+	private function ejecutar_acceso_db($cadena,$esTransaccion=false) {
+	
+		$cadenaParser = oci_parse ( $this->enlace, $cadena );
 		
-		if ($tipo == "busqueda") {
-			
-			$this->ejecutar_busqueda ( $cadena, $numeroRegistros );
-			$esteRegistro = $this->getRegistroDb ();
-			return $esteRegistro;
-		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadena );
-			return $resultado;
+		if($esTransaccion==true){
+			$busqueda = oci_execute ( $cadenaParser, OCI_NO_AUTO_COMMIT );
+		}else{
+			$busqueda = oci_execute ( $cadenaParser );
 		}
+		return $busqueda;
 	
 	}
-
-	function logger($configuracion, $idUsuario, $evento) {
+	
 
 	
-	}
-
-	function ultimo_insertado($unEnlace = "") {
-
-	
-	}
-
-	function obtenerCadenaListadoTablas($variable) {
-
-		return "";
-	
-	}
-
 }
 
 // Fin de la clase db_admin
