@@ -1,15 +1,7 @@
 <?php
 /*
-    File: searchReplaceTest.php
-
-    Script to test the response command <xajaxResponse->replace> which
-    will replace a specified piece of text with another.
-    
-    Title: Test the <xajaxResponse> object.
-    
-    Please see <copyright.inc.php> for a detailed description, copyright
-    and license information.
-*/
+ * File: searchReplaceTest.php Script to test the response command <xajaxResponse->replace> which will replace a specified piece of text with another. Title: Test the <xajaxResponse> object. Please see <copyright.inc.php> for a detailed description, copyright and license information.
+ */
 
 /*
     @package xajax
@@ -20,10 +12,10 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function replace($aForm) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->replace ( 'content', "innerHTML", $aForm ['search'], $aForm ['replace'] );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->replace ( 'content', "innerHTML", $aForm ['search'], $aForm ['replace'] );
+    return $objResponse;
 
 }
 

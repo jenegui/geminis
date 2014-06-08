@@ -4,9 +4,9 @@ require_once ("../xajax_core/xajax.inc.php");
 $xajax = new xajax ();
 
 function testFluentInterface() {
-
-	global $xajax;
-	return $xajax->getGlobalResponse ()->alert ( "Here is an alert." )->assign ( "submittedDiv", "innerHTML", "Here is some <b>HTML text</b>." );
+    
+    global $xajax;
+    return $xajax->getGlobalResponse ()->alert ( "Here is an alert." )->assign ( "submittedDiv", "innerHTML", "Here is some <b>HTML text</b>." );
 
 }
 

@@ -1,8 +1,8 @@
 <?php
 
 interface Bloque {
-
-	function bloque();
+    
+    function bloque();
 
 }
 

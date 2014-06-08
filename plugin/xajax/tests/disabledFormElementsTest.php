@@ -2,11 +2,11 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function testForm($formData) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 

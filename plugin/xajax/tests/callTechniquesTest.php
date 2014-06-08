@@ -2,54 +2,54 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function saySomething() {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "Hello world!" );
-	$objResponse->assign ( "submittedDiv", "style.visibility", "inherit" );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "Hello world!" );
+    $objResponse->assign ( "submittedDiv", "style.visibility", "inherit" );
+    return $objResponse;
 
 }
 
 function testForm($formData, $doDelay = false) {
-
-	if ($doDelay) {
-		sleep ( 5 );
-	}
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "POST\nformData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    if ($doDelay) {
+        sleep ( 5 );
+    }
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "POST\nformData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 
 function testForm2($formData) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "GET\nformData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	$objResponse->assign ( "submittedDiv", "style.visibility", "hidden" );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "GET\nformData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    $objResponse->assign ( "submittedDiv", "style.visibility", "hidden" );
+    return $objResponse;
 
 }
 
 function testFormFail($formData) {
-
-	sleep ( 2 );
-	header ( "HTTP/1.1 500 Internal Server Error" );
-	header ( "Status: 500" );
-	
-	echo " \n";
-	exit ();
+    
+    sleep ( 2 );
+    header ( "HTTP/1.1 500 Internal Server Error" );
+    header ( "Status: 500" );
+    
+    echo " \n";
+    exit ();
 
 }
 
 function testFormExpire($formData) {
-
-	sleep ( 15 );
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "POST\nformData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    sleep ( 15 );
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "POST\nformData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 
@@ -73,14 +73,14 @@ $xajax->configure ( 'javascript URI', '../' );
 <title>Call Techniques Test | xajax Tests</title>
 
         <?php
-								$xajax_files = array ();
-								$xajax_files [] = array (
-										"xajax_js/xajax_core.js",
-										"xajax" 
-								);
-								
-								// $xajax_files[] = array("xajax_js/xajax_debug.js", "xajax.debug");
-								$xajax->printJavascript ( "../", $xajax_files )?>
+        $xajax_files = array ();
+        $xajax_files [] = array (
+                "xajax_js/xajax_core.js",
+                "xajax" 
+        );
+        
+        // $xajax_files[] = array("xajax_js/xajax_debug.js", "xajax.debug");
+        $xajax->printJavascript ( "../", $xajax_files )?>
 
         <script type="text/javascript">
             function setupCallback()

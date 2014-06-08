@@ -2,10 +2,10 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function addEvent($sId, $sCode) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->addEvent ( $sId, "onclick", $sCode );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->addEvent ( $sId, "onclick", $sCode );
+    return $objResponse;
 
 }
 

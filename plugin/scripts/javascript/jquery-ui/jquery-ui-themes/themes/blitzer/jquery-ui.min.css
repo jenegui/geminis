@@ -50,7 +50,7 @@
 	left: 0;
 	position: absolute;
 	opacity: 0;
-	filter: Alpha(Opacity = 0)
+	filter: Alpha(Opacity =   0)
 }
 
 .ui-front {
@@ -575,7 +575,7 @@ input.ui-button::-moz-focus-inner,button.ui-button::-moz-focus-inner {
 .ui-progressbar .ui-progressbar-overlay {
 	background: url(images/animated-overlay.gif);
 	height: 100%;
-	filter: alpha(opacity = 25);
+	filter: alpha(opacity =   25);
 	opacity: .25
 }
 
@@ -982,19 +982,19 @@ body .ui-tooltip {
 .ui-priority-secondary,.ui-widget-content .ui-priority-secondary,.ui-widget-header .ui-priority-secondary
 	{
 	opacity: .7;
-	filter: Alpha(Opacity = 70);
+	filter: Alpha(Opacity =   70);
 	font-weight: normal
 }
 
 .ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled
 	{
 	opacity: .35;
-	filter: Alpha(Opacity = 35);
+	filter: Alpha(Opacity =   35);
 	background-image: none
 }
 
 .ui-state-disabled .ui-icon {
-	filter: Alpha(Opacity = 35)
+	filter: Alpha(Opacity =   35)
 }
 
 .ui-icon {
@@ -1750,7 +1750,7 @@ body .ui-tooltip {
 	background: #a6a6a6 url(images/ui-bg_dots-small_65_a6a6a6_2x2.png) 50%
 		50% repeat;
 	opacity: .4;
-	filter: Alpha(Opacity = 40)
+	filter: Alpha(Opacity =   40)
 }
 
 .ui-widget-shadow {
@@ -1759,6 +1759,6 @@ body .ui-tooltip {
 	background: #333 url(images/ui-bg_flat_0_333333_40x100.png) 50% 50%
 		repeat-x;
 	opacity: .1;
-	filter: Alpha(Opacity = 10);
+	filter: Alpha(Opacity =   10);
 	border-radius: 8px
 }

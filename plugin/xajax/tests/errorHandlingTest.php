@@ -1,15 +1,7 @@
 <?php
 /*
-    File: errorHandlingTest.php
-
-    Unit test script for validating proper functioning of the error
-    handler mechanism on the xajax server side.
-    
-    Title: Error Handling Test
-    
-    Please see <copyright.inc.php> for a detailed description, copyright
-    and license information.
-*/
+ * File: errorHandlingTest.php Unit test script for validating proper functioning of the error handler mechanism on the xajax server side. Title: Error Handling Test Please see <copyright.inc.php> for a detailed description, copyright and license information.
+ */
 
 /*
     @package xajax
@@ -32,51 +24,43 @@ $xajax = new xajax ();
 $xajax->configure ( 'javascript URI', '../' );
 
 /*
-    - enable deubgging if desired
-*/
+ * - enable deubgging if desired
+ */
 $xajax->configure ( 'debug', true );
 
 /*
-    Section: Enable Error Handler
-    
-    - set <xajax->bErrorHandler> using <xajax->configure> or <xajax->configure>
-    - set the log file using <xajax->setLogFile>
-*/
+ * Section: Enable Error Handler - set <xajax->bErrorHandler> using <xajax->configure> or <xajax->configure> - set the log file using <xajax->setLogFile>
+ */
 $xajax->configure ( 'errorHandler', true );
 $xajax->configure ( 'logFile', 'xajax_error_log.log' );
 
 /*
-    Section: Define error ridden function
-    
-    - syntax is correct, but logic errors will be generated at runtime.
-*/
+ * Section: Define error ridden function - syntax is correct, but logic errors will be generated at runtime.
+ */
 function myErrorRiddenFunction() {
-
-	$value = $silly ['nuts'];
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "Bad array value: $value" );
-	include ("file_doesnt_exist.php");
-	return $objResponse;
+    
+    $value = $silly ['nuts'];
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "Bad array value: $value" );
+    include ("file_doesnt_exist.php");
+    return $objResponse;
 
 }
 
 /*
-    - register the error ridden function
-*/
+ * - register the error ridden function
+ */
 $xajax->register ( XAJAX_FUNCTION, "myErrorRiddenFunction" );
 
 /*
-    Section: Process the request or generate the initial page
-    
-    - standard call to <xajax->processRequest>
-*/
+ * Section: Process the request or generate the initial page - standard call to <xajax->processRequest>
+ */
 $xajax->processRequest ();
 $xajax->configure ( 'javascript URI', '../' );
 
 /*
-    - if this is xajax request, it is handled and the script is exited
-    - else, generate the html for the page
-*/
+ * - if this is xajax request, it is handled and the script is exited - else, generate the html for the page
+ */
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 ?>
 
@@ -86,11 +70,10 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <title>Error Handling Test | xajax Tests</title>
 
         <?php
-								/*
-            - output javascript configuration and reference to xajax 
-                javascript library
-        */
-								$xajax->printJavascript ()?>
+        /*
+         * - output javascript configuration and reference to xajax javascript library
+         */
+        $xajax->printJavascript ()?>
     </head>
 
 <body>

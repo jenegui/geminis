@@ -138,19 +138,19 @@
 .ui-priority-secondary,.ui-widget-content .ui-priority-secondary,.ui-widget-header .ui-priority-secondary
 	{
 	opacity: .7;
-	filter: Alpha(Opacity = 70);
+	filter: Alpha(Opacity =   70);
 	font-weight: normal;
 }
 
 .ui-state-disabled,.ui-widget-content .ui-state-disabled,.ui-widget-header .ui-state-disabled
 	{
 	opacity: .35;
-	filter: Alpha(Opacity = 35);
+	filter: Alpha(Opacity =   35);
 	background-image: none;
 }
 
 .ui-state-disabled .ui-icon {
-	filter: Alpha(Opacity = 35); /* For IE8 - See #6059 */
+	filter: Alpha(Opacity =   35); /* For IE8 - See #6059 */
 }
 
 /* Icons
@@ -916,7 +916,7 @@
 	background: #5c5c5c url(images/ui-bg_flat_50_5c5c5c_40x100.png) 50% 50%
 		repeat-x;
 	opacity: .8;
-	filter: Alpha(Opacity = 80);
+	filter: Alpha(Opacity =   80);
 }
 
 .ui-widget-shadow {
@@ -925,6 +925,6 @@
 	background: #cccccc url(images/ui-bg_flat_30_cccccc_40x100.png) 50% 50%
 		repeat-x;
 	opacity: .6;
-	filter: Alpha(Opacity = 60);
+	filter: Alpha(Opacity =   60);
 	border-radius: 8px;
 }

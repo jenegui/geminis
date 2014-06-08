@@ -11,32 +11,32 @@ $xajax->configure ( 'javascript URI', '../' );
 
 // Custom Response Class extends xajaxResponse
 class customXajaxResponse extends xajaxResponse {
-
-	function createOption($sSelectId, $sOptionId, $sOptionText, $sOptionValue) {
-
-		$this->script ( "addOption('" . $sSelectId . "','" . $sOptionId . "','" . $sOptionText . "','" . $sOptionValue . "');" );
-	
-	}
+    
+    function createOption($sSelectId, $sOptionId, $sOptionText, $sOptionValue) {
+        
+        $this->script ( "addOption('" . $sSelectId . "','" . $sOptionId . "','" . $sOptionText . "','" . $sOptionValue . "');" );
+    
+    }
 
 }
 
 // tests the select form
 function testForm($formData) {
-
-	$objResponse = new customXajaxResponse ();
-	$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    $objResponse = new customXajaxResponse ();
+    $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 
 // adds an option to the select
 function addOption($selectId, $optionData) {
-
-	$objResponse = new customXajaxResponse ();
-	$objResponse->createOption ( $selectId, $optionData ['optionId'], $optionData ['optionText'], $optionData ['optionValue'] );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $optionData, true ) ) );
-	return $objResponse;
+    
+    $objResponse = new customXajaxResponse ();
+    $objResponse->createOption ( $selectId, $optionData ['optionId'], $optionData ['optionText'], $optionData ['optionValue'] );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $optionData, true ) ) );
+    return $objResponse;
 
 }
 

@@ -1,24 +1,24 @@
  <?php
-	require_once ("../xajax_core/xajax.inc.php");
-	
-	$xajax = new xajax ();
-	
-	if ($xajax->canProcessRequest ())
-		echo ' ';
-	$xajax->configure ( 'debug', true );
-	$xajax->configure ( 'responseType', 'XML' );
-	$xajax->register ( XAJAX_FUNCTION, 'showOutput' );
-	$xajax->processRequest ();
-	$xajax->configure ( 'javascript URI', '../' );
+require_once ("../xajax_core/xajax.inc.php");
 
-	function showOutput() {
+$xajax = new xajax ();
 
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "Hello" );
-		return $objResponse;
-	
-	}
-	?>
+if ($xajax->canProcessRequest ())
+    echo ' ';
+$xajax->configure ( 'debug', true );
+$xajax->configure ( 'responseType', 'XML' );
+$xajax->register ( XAJAX_FUNCTION, 'showOutput' );
+$xajax->processRequest ();
+$xajax->configure ( 'javascript URI', '../' );
+
+function showOutput() {
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "Hello" );
+    return $objResponse;
+
+}
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-transitional.dtd">

@@ -2,27 +2,27 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function setOptions($formData) {
-
-	$_SESSION ['useEncoding'] = $formData ['useEncoding'];
-	$_SESSION ['htmlEntities'] = ( boolean ) $formData ['htmlEntities'];
-	$_SESSION ['decodeUTF8'] = ( boolean ) $formData ['decodeUTF8'];
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "Your options have been saved." );
-	return $objResponse;
+    
+    $_SESSION ['useEncoding'] = $formData ['useEncoding'];
+    $_SESSION ['htmlEntities'] = ( boolean ) $formData ['htmlEntities'];
+    $_SESSION ['decodeUTF8'] = ( boolean ) $formData ['decodeUTF8'];
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "Your options have been saved." );
+    return $objResponse;
 
 }
 
 function testForm($strText, $formData, $arrArray) {
-	// global $useEncoding, $htmlEntities;
-	// $objResponse = new xajaxResponse($useEncoding, $htmlEntities);
-	// encoding parameters are not retreived automatically from the xajax object
-	$objResponse = new xajaxResponse ();
-	$data = "Text:\n" . $strText;
-	$data .= "\n\nFormData:\n" . print_r ( $formData, true );
-	$data .= "\n\nArray:\n" . print_r ( $arrArray, true );
-	$objResponse->alert ( $data );
-	$objResponse->assign ( "submittedDiv", "innerHTML", "<pre>" . $data . "</pre>" );
-	return $objResponse;
+    // global $useEncoding, $htmlEntities;
+    // $objResponse = new xajaxResponse($useEncoding, $htmlEntities);
+    // encoding parameters are not retreived automatically from the xajax object
+    $objResponse = new xajaxResponse ();
+    $data = "Text:\n" . $strText;
+    $data .= "\n\nFormData:\n" . print_r ( $formData, true );
+    $data .= "\n\nArray:\n" . print_r ( $arrArray, true );
+    $objResponse->alert ( $data );
+    $objResponse->assign ( "submittedDiv", "innerHTML", "<pre>" . $data . "</pre>" );
+    return $objResponse;
 
 }
 
@@ -34,29 +34,29 @@ session_start ();
 session_name ( "xajaxCharEncodingTest" );
 
 if (@$_GET ['refresh'] == "yes") {
-	session_destroy ();
-	header ( "location: charEncodingTest.php" );
-	exit ();
+    session_destroy ();
+    header ( "location: charEncodingTest.php" );
+    exit ();
 }
 
 if (isset ( $_SESSION ['useEncoding'] )) {
-	$useEncoding = $_SESSION ['useEncoding'];
+    $useEncoding = $_SESSION ['useEncoding'];
 }
 if (isset ( $_SESSION ['htmlEntities'] )) {
-	$htmlEntities = $_SESSION ['htmlEntities'];
+    $htmlEntities = $_SESSION ['htmlEntities'];
 }
 if (isset ( $_SESSION ['decodeUTF8'] )) {
-	$decodeUTF8 = $_SESSION ['decodeUTF8'];
+    $decodeUTF8 = $_SESSION ['decodeUTF8'];
 }
 
 $xajax = new xajax ();
 $xajax->configure ( 'javascript URI', '../' );
 $xajax->configure ( 'characterEncoding', $useEncoding );
 if ($htmlEntities) {
-	$xajax->configure ( "outputEntities", true );
+    $xajax->configure ( "outputEntities", true );
 }
 if ($decodeUTF8) {
-	$xajax->configure ( "decodeUTF8Input", true );
+    $xajax->configure ( "decodeUTF8Input", true );
 }
 $xajax->configure ( 'debug', true );
 $xajax->register ( XAJAX_FUNCTION, 'setOptions' );

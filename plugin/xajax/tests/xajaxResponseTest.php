@@ -1,14 +1,7 @@
 <?php
 /*
-    File: xajaxResponseTest.php
-
-    Script to test various aspects of the <xajaxResponse> object.
-    
-    Title: Test the <xajaxResponse> object.
-    
-    Please see <copyright.inc.php> for a detailed description, copyright
-    and license information.
-*/
+ * File: xajaxResponseTest.php Script to test various aspects of the <xajaxResponse> object. Title: Test the <xajaxResponse> object. Please see <copyright.inc.php> for a detailed description, copyright and license information.
+ */
 
 /*
     @package xajax
@@ -19,21 +12,21 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function showOutput() {
-
-	$testResponse = new xajaxResponse ();
-	$testResponse->alert ( "Hello" );
-	
-	$testResponse2 = new xajaxResponse ();
-	$testResponse2->appendResponse ( $testResponse );
-	$testResponse2->replace ( "this", "is", "a", "replacement]]>" );
-	$testResponseOutput = htmlspecialchars ( $testResponse2->getOutput () );
-	
-	$objResponse = new xajaxResponse ();
-	$objResponse->assign ( "submittedDiv", "innerHTML", $testResponseOutput );
-	$aValues = array ();
-	$aValues [] = "Yippie";
-	$objResponse->setReturnValue ( $aValues );
-	return $objResponse;
+    
+    $testResponse = new xajaxResponse ();
+    $testResponse->alert ( "Hello" );
+    
+    $testResponse2 = new xajaxResponse ();
+    $testResponse2->appendResponse ( $testResponse );
+    $testResponse2->replace ( "this", "is", "a", "replacement]]>" );
+    $testResponseOutput = htmlspecialchars ( $testResponse2->getOutput () );
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->assign ( "submittedDiv", "innerHTML", $testResponseOutput );
+    $aValues = array ();
+    $aValues [] = "Yippie";
+    $objResponse->setReturnValue ( $aValues );
+    return $objResponse;
 
 }
 $xajax = new xajax ();

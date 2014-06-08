@@ -107,7 +107,7 @@ h2:first-of-type {
 		#72aa00 96%, #9ecb2d 100%); /* IE10+ */
 	background: radial-gradient(center, ellipse cover, #bfd255 0%, #8eb92a 72%, #72aa00
 		96%, #9ecb2d 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#bfd255',
+	filter: progid:DXImageTransform.Microsoft.gradient(    startColorstr='#bfd255',
 		endColorstr='#9ecb2d', GradientType=1);
 	/* IE6-9 fallback on horizontal gradient */
 	padding: 40px 0 15px 0;

@@ -2,10 +2,10 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function includeScript($sFilename) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->includeScript ( $sFilename );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->includeScript ( $sFilename );
+    return $objResponse;
 
 }
 

@@ -3,20 +3,20 @@
  * Página para mostrar mensajes de error fatales dentro de la aplicación. Se ejecuta completa pues se espera que solo se
  * muestre en casos extremos.
  *
- * @author	Paulo Cesar Coronado
- * @version	0.0.0.2, 25/03/2012
- * @package 	framework:BCK:instalacion
- * @copyright Universidad Distrital F.J.C
- * @license	GPL Version 3.0 o posterior
+ * @author      Paulo Cesar Coronado
+ * @version     0.0.0.2, 25/03/2012
+ * @package     framework:BCK:instalacion
+ * @copyright   Universidad Distrital F.J.C
+ * @license	    GPL Version 3.0 o posterior
  *
  */
 if (! $this->miConfigurador->getVariableConfiguracion ( "estilo" )) {
-	
-	$this->miConfigurador->setVariableConfiguracion ( "estilo", "basico" );
+    
+    $this->miConfigurador->setVariableConfiguracion ( "estilo", "basico" );
 }
 
 if (! $this->miConfigurador->getVariableConfiguracion ( "idioma" )) {
-	$this->miConfigurador->setVariableConfiguracion ( "idioma", "es_es" );
+    $this->miConfigurador->setVariableConfiguracion ( "idioma", "es_es" );
 }
 
 /**
@@ -29,8 +29,8 @@ include $miIdioma;
 
 $indice = strpos ( $_SERVER ["REQUEST_URI"], "/index.php" );
 
-if ($indice === false) {
-	$indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
+if (! $indice) {
+    $indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
 }
 $sitio = substr ( $_SERVER ["REQUEST_URI"], 0, $indice );
 
@@ -42,13 +42,13 @@ $_REQUEST ["jquery"] = true;
 <?php include_once $this->miConfigurador->getVariableConfiguracion("raizDocumento")."/plugin/scripts/Script.php"?>
 <script>
 $(window).load(function() {
-	$("#mensaje").fadeIn(1000);
-	
+    $("#mensaje").fadeIn(1000);
+    
 });
 
 <?php
 if (isset ( $url )) {
-	?>
+    ?>
       window.setTimeout(function(){
         window.location.href ="<?php echo $url?>";
     }, 3000);
@@ -62,9 +62,9 @@ if (isset ( $url )) {
 <meta content="text/html;" http-equiv="content-type" charset="utf-8">
 </head>
 <body>
-	<div id="mensaje" class="<?php echo $tipoMensaje ?> shadow ocultar"><?php
-	echo $this->idioma [$mensaje];
-	
-	?></div>
+<div id="mensaje" class="<?php echo $tipoMensaje ?> shadow ocultar"><?php
+echo $this->idioma [$mensaje];
+
+?></div>
 </body>
 </html>

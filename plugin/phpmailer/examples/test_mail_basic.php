@@ -29,9 +29,9 @@ $mail->AddAttachment ( "images/phpmailer.gif" ); // attachment
 $mail->AddAttachment ( "images/phpmailer_mini.gif" ); // attachment
 
 if (! $mail->Send ()) {
-	echo "Mailer Error: " . $mail->ErrorInfo;
+    echo "Mailer Error: " . $mail->ErrorInfo;
 } else {
-	echo "Message sent!";
+    echo "Message sent!";
 }
 
 ?>

@@ -1,21 +1,21 @@
 <?
 // Listado de posibles fuentes para la direcci&oacute;n IP, en orden de prioridad
 $fuentes_ip = array (
-		"HTTP_X_FORWARDED_FOR",
-		"HTTP_X_FORWARDED",
-		"HTTP_FORWARDED_FOR",
-		"HTTP_FORWARDED",
-		"HTTP_X_COMING_FROM",
-		"HTTP_COMING_FROM",
-		"REMOTE_ADDR" 
+        "HTTP_X_FORWARDED_FOR",
+        "HTTP_X_FORWARDED",
+        "HTTP_FORWARDED_FOR",
+        "HTTP_FORWARDED",
+        "HTTP_X_COMING_FROM",
+        "HTTP_COMING_FROM",
+        "REMOTE_ADDR" 
 );
 
 foreach ( $fuentes_ip as $fuentes_ip ) {
-	// Si la fuente existe captura la IP
-	if (isset ( $_SERVER [$fuentes_ip] )) {
-		$proxy_ip = $_SERVER [$fuentes_ip];
-		break;
-	}
+    // Si la fuente existe captura la IP
+    if (isset ( $_SERVER [$fuentes_ip] )) {
+        $proxy_ip = $_SERVER [$fuentes_ip];
+        break;
+    }
 }
 
 $proxy_ip = (isset ( $proxy_ip )) ? $proxy_ip : @getenv ( "REMOTE_ADDR" );

@@ -1,12 +1,9 @@
 <?php
 /*
-
-This test script requires PEAR/Benchmark to measure the script runtime.
-
-
-*/
+ * This test script requires PEAR/Benchmark to measure the script runtime.
+ */
 if (function_exists ( 'xdebug_start_code_coverage' ))
-	xdebug_start_code_coverage ();
+    xdebug_start_code_coverage ();
 
 require_once 'Benchmark/Timer.php';
 
@@ -56,67 +53,67 @@ $xajax->configure ( 'javascript URI', '../' );
 $timer->setMarker ( 'after process request' );
 
 function argumentDecode($nTimes, $aArgs) {
-
-	global $timer;
-	global $trips;
-	$objResponse = new xajaxResponse ();
-	
-	if ($nTimes < $trips) {
-		$nTimes += 1;
-		$objResponse->script ( 'xajax_argumentDecode(' . $nTimes . ', jsArray);' );
-		$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Working...' );
-		$objResponse->append ( 'submittedDiv', 'innerHTML', print_r ( $aArgs, true ) );
-	} else {
-		$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Done' );
-		ob_start ();
-		$objResponse->append ( 'submittedDiv', 'innerHTML', ob_get_clean () );
-	}
-	$timer->stop ();
-	$objResponse->call ( 'accumulateTime', $timer->timeElapsed () );
-	$objResponse->call ( 'printTime' );
-	return $objResponse;
+    
+    global $timer;
+    global $trips;
+    $objResponse = new xajaxResponse ();
+    
+    if ($nTimes < $trips) {
+        $nTimes += 1;
+        $objResponse->script ( 'xajax_argumentDecode(' . $nTimes . ', jsArray);' );
+        $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Working...' );
+        $objResponse->append ( 'submittedDiv', 'innerHTML', print_r ( $aArgs, true ) );
+    } else {
+        $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Done' );
+        ob_start ();
+        $objResponse->append ( 'submittedDiv', 'innerHTML', ob_get_clean () );
+    }
+    $timer->stop ();
+    $objResponse->call ( 'accumulateTime', $timer->timeElapsed () );
+    $objResponse->call ( 'printTime' );
+    return $objResponse;
 
 }
 
 function roundTrip($nTimes) {
-
-	global $timer;
-	global $trips;
-	$objResponse = new xajaxResponse ();
-	
-	if ($nTimes < $trips) {
-		$nTimes += 1;
-		$objResponse->script ( 'xajax_roundTrip(' . $nTimes . ');' );
-		$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Working...' );
-	} else {
-		$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Done' );
-	}
-	$timer->stop ();
-	$objResponse->call ( 'accumulateTime', $timer->timeElapsed () );
-	$objResponse->call ( 'printTime' );
-	return $objResponse;
+    
+    global $timer;
+    global $trips;
+    $objResponse = new xajaxResponse ();
+    
+    if ($nTimes < $trips) {
+        $nTimes += 1;
+        $objResponse->script ( 'xajax_roundTrip(' . $nTimes . ');' );
+        $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Working...' );
+    } else {
+        $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Done' );
+    }
+    $timer->stop ();
+    $objResponse->call ( 'accumulateTime', $timer->timeElapsed () );
+    $objResponse->call ( 'printTime' );
+    return $objResponse;
 
 }
 
 function compress() {
-
-	global $xajax;
-	$xajax->_compressSelf ();
-	
-	$objResponse = new xajaxResponse ();
-	$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Compressed' );
-	return $objResponse;
+    
+    global $xajax;
+    $xajax->_compressSelf ();
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Compressed' );
+    return $objResponse;
 
 }
 
 function compile() {
-
-	global $xajax;
-	$xajax->_compile ();
-	
-	$objResponse = new xajaxResponse ();
-	$objResponse->assign ( 'submittedDiv', 'innerHTML', 'Compiled' );
-	return $objResponse;
+    
+    global $xajax;
+    $xajax->_compile ();
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->assign ( 'submittedDiv', 'innerHTML', 'Compiled' );
+    return $objResponse;
 
 }
 ?>
@@ -195,12 +192,12 @@ function compile() {
 	<div id="result"></div>
 
         <?php
-								$timer->stop ();
-								$timer->display ();
-								
-								if (function_exists ( 'xdebug_get_code_coverage' ))
-									var_dump ( xdebug_get_code_coverage () );
-								?>
+        $timer->stop ();
+        $timer->display ();
+        
+        if (function_exists ( 'xdebug_get_code_coverage' ))
+            var_dump ( xdebug_get_code_coverage () );
+        ?>
     </body>
 </html>
 

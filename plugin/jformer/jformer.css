@@ -42,7 +42,7 @@
 	height: 100%;
 	left: 0;
 	top: 0;
-	filter: alpha(opacity : 50);
+	filter: alpha(opacity :   50);
 	-moz-opacity: .5;
 	-khtml-opacity: .5;
 	opacity: .5;
@@ -535,7 +535,7 @@
 	text-align: right;
 	position: relative;
 	font-size: 1.1em;
-	filter: alpha(opacity : 0);
+	filter: alpha(opacity :   0);
 	-moz-opacity: 0;
 	-khtml-opacity: 0;
 	opacity: 0

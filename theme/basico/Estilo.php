@@ -1,23 +1,23 @@
 <?php
 $indice = 0;
 $estilo [$indice] = "general.css";
-$indice++;
+$indice ++;
 $estilo [$indice] = "estiloCuadrosMensaje.css";
-$indice++;
+$indice ++;
 $estilo [$indice] = "estiloTexto.css";
-$indice++;
+$indice ++;
 $estilo [$indice] = "estiloFormulario.css";
-$indice++;
+$indice ++;
 
 $host = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $sitio = $this->miConfigurador->getVariableConfiguracion ( "site" );
 
 if (isset ( $_REQUEST ["jquery-ui"] )) {
-	$estilo [$indice] = 'jquery-ui.css';
-	$indice++;
+    $estilo [$indice] = 'jquery-ui.css';
+    $indice ++;
 }
 
 foreach ( $estilo as $nombre ) {
-	echo "<link rel='stylesheet' type='text/css' href='" . $host . $sitio . "/theme/basico/css/" . $nombre . "'>\n";
+    echo "<link rel='stylesheet' type='text/css' href='" . $host . $sitio . "/theme/basico/css/" . $nombre . "'>\n";
 }
 ?>

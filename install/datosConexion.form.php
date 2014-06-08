@@ -12,7 +12,7 @@
 $indice = strpos ( $_SERVER ["REQUEST_URI"], "/index.php" );
 
 if ($indice === false) {
-	$indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
+    $indice = strpos ( $_SERVER ["REQUEST_URI"], "/", 1 );
 }
 $sitio = substr ( $_SERVER ["REQUEST_URI"], 0, $indice );
 
@@ -151,18 +151,19 @@ p,h1,form,button {
 
 <?php
 if (isset ( $_REQUEST ["instalador"] )) {
-	?>
+    ?>
 	<div class="clean-red"><?php echo $mensajeError?></div>	
 	<?php
 }
 ?>
 	<div id="formulario" class="miFormulario">
-		<form id="<?php 
-		echo $formulario;
-		?>" name="<?php 
-		echo $formulario;
-		?>"
-			method="post" action="index.php" accept-charset="UTF-8">
+		<form id="<?php
+echo $formulario;
+?>"
+			name="<?php
+echo $formulario;
+?>" method="post" action="index.php"
+			accept-charset="UTF-8">
 			<h1>Informaci&oacute;n de Conexi&oacute;n</h1>
 			<p>Informaci&oacute;n de conexi&oacute;n a la base de datos principal
 				del aplicativo.</p>
@@ -175,49 +176,50 @@ if (isset ( $_REQUEST ["instalador"] )) {
 					servidor de base de datos</span></label> <input type="text"
 				name="dbdns" id="dbDns"
 				value="<?php
-				if (isset ( $_REQUEST ["dbdns"] )) {
-					echo $_REQUEST ["dbdns"];
-				} else {
-					echo "localhost";
-				}
-				?>" /> <label>Puerto <span class="textoPequenno">Puerto de acceso al
+    if (isset ( $_REQUEST ["dbdns"] )) {
+        echo $_REQUEST ["dbdns"];
+    } else {
+        echo "localhost";
+    }
+    ?>" /> <label>Puerto <span class="textoPequenno">Puerto de acceso al
 					servidor de base de datos</span></label> <input type="text"
 				name="dbpuerto" id="dbPuerto"
 				value="<?php
-				if (isset ( $_REQUEST ["dbpuerto"] )) {
-					echo $_REQUEST ["dbpuerto"];
-				} else {
-					echo "0";
-				}
-				?>" /> <label>Nombre <span class="textoPequenno">Nombre de la base
+    if (isset ( $_REQUEST ["dbpuerto"] )) {
+        echo $_REQUEST ["dbpuerto"];
+    } else {
+        echo "0";
+    }
+    ?>" /> <label>Nombre <span class="textoPequenno">Nombre de la base
 					de datos principal</span></label> <input type="text"
 				name="dbnombre" id="dbNombre"
-				value="<?php if(isset($_REQUEST["dbnombre"])){
-					echo $_REQUEST["dbnombre"];
-				}?>" />
-
-			<label>Usuario <span class="textoPequenno">Usuario de la base de
-					datos principal</span>
+				value="<?php
+    
+    if (isset ( $_REQUEST ["dbnombre"] )) {
+        echo $_REQUEST ["dbnombre"];
+    }
+    ?>" /> <label>Usuario <span class="textoPequenno">Usuario de la base
+					de datos principal</span>
 			</label> <input type="text" name="dbusuario" id="dbUsuario"
 				value="<?php
-				if (isset ( $_REQUEST ["dbusuario"] )) {
-					echo $_REQUEST ["dbusuario"];
-				} else {
-					echo "";
-				}
-				?>" /> <label>Clave <span class="textoPequenno">Clave de acceso a la
+    if (isset ( $_REQUEST ["dbusuario"] )) {
+        echo $_REQUEST ["dbusuario"];
+    } else {
+        echo "";
+    }
+    ?>" /> <label>Clave <span class="textoPequenno">Clave de acceso a la
 					base de datos.</span>
 			</label> <input type="password" name="dbclave" id="dbClave" /> <label>Prefijo
 				<span class="textoPequenno">Prefijo para las tablas de la base de
 					datos</span>
 			</label> <input type="text" name="prefijo" id="prefijo"
 				value="<?php
-				if (isset ( $_REQUEST ["prefijo"] )) {
-					echo $_REQUEST ["prefijo"];
-				} else {
-					echo "aplicativo_";
-				}
-				?>" />
+    if (isset ( $_REQUEST ["prefijo"] )) {
+        echo $_REQUEST ["prefijo"];
+    } else {
+        echo "aplicativo_";
+    }
+    ?>" />
 
 			<div class="spacer"></div>
 			<div class="spacer">
@@ -232,12 +234,12 @@ if (isset ( $_REQUEST ["instalador"] )) {
 					255 letras</span></label> <input type="text"
 				name="nombreAplicativo" id="nombreAplicativo"
 				value="<?php
-				if (isset ( $_REQUEST ["nombreAplicativo"] )) {
-					echo $_REQUEST ["nombreAplicativo"];
-				} else {
-					echo "";
-				}
-				?>" /> <label>Directorio ra&iacute;z en el servidor <span
+    if (isset ( $_REQUEST ["nombreAplicativo"] )) {
+        echo $_REQUEST ["nombreAplicativo"];
+    } else {
+        echo "";
+    }
+    ?>" /> <label>Directorio ra&iacute;z en el servidor <span
 				class="textoPequenno">En caso de duda preguntar al administrador de
 					su servidor.</span>
 			</label> <input type="text" name="raizDocumento" id="raizDocumento"
@@ -253,12 +255,12 @@ if (isset ( $_REQUEST ["instalador"] )) {
 			<input type="text" name="nombreAdministrador"
 				id="nombreAdministrador"
 				value="<?php
-				if (isset ( $_REQUEST ["nombreAdministrador"] )) {
-					echo $_REQUEST ["nombreAdministrador"];
-				} else {
-					echo "administrador";
-				}
-				?>" /> <label>Clave Administrador <span class="textoPequenno">Clave
+    if (isset ( $_REQUEST ["nombreAdministrador"] )) {
+        echo $_REQUEST ["nombreAdministrador"];
+    } else {
+        echo "administrador";
+    }
+    ?>" /> <label>Clave Administrador <span class="textoPequenno">Clave
 					de acceso del administrador.</span>
 			</label> <input type="password" name="claveAdministrador"
 				id="claveAdministrador" /> <label>Correo Administrador <span
@@ -266,21 +268,21 @@ if (isset ( $_REQUEST ["instalador"] )) {
 			</label> <input type="text" name="correoAdministrador"
 				id="correoAdministrador"
 				value="<?php
-				if (isset ( $_REQUEST ["correoAdministrador"] )) {
-					echo $_REQUEST ["correoAdministrador"];
-				} else {
-					echo "";
-				}
-				?>" /> <label>Indice de Parámetros <span class="textoPequenno">Nombre
+    if (isset ( $_REQUEST ["correoAdministrador"] )) {
+        echo $_REQUEST ["correoAdministrador"];
+    } else {
+        echo "";
+    }
+    ?>" /> <label>Indice de Parámetros <span class="textoPequenno">Nombre
 					del parámetro GET.</span>
 			</label> <input type="text" name="enlace" id="enlace"
 				value="<?php
-				if (isset ( $_REQUEST ["enlace"] )) {
-					echo $_REQUEST ["enlace"];
-				} else {
-					echo "data";
-				}
-				?>" />
+    if (isset ( $_REQUEST ["enlace"] )) {
+        echo $_REQUEST ["enlace"];
+    } else {
+        echo "data";
+    }
+    ?>" />
 
 			<div class="spacer"></div>
 			<div class="spacer"></div>

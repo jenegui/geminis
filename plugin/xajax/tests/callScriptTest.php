@@ -2,23 +2,23 @@
 require ("../xajax_core/xajax.inc.php");
 
 function callScript() {
-
-	$response = new xajaxResponse ();
-	$value2 = "this is a string";
-	$response->call ( "myJSFunction", "arg1", 9432.12, array (
-			"myKey" => "some value",
-			"key2" => $value2 
-	) );
-	
-	return $response;
+    
+    $response = new xajaxResponse ();
+    $value2 = "this is a string";
+    $response->call ( "myJSFunction", "arg1", 9432.12, array (
+            "myKey" => "some value",
+            "key2" => $value2 
+    ) );
+    
+    return $response;
 
 }
 
 function callOtherScript() {
-
-	$response = new xajaxResponse ();
-	$response->call ( "myOtherJSFunction" );
-	return $response;
+    
+    $response = new xajaxResponse ();
+    $response->call ( "myOtherJSFunction" );
+    return $response;
 
 }
 

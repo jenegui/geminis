@@ -5,9 +5,9 @@ $xajax = new xajax ();
 $xajax->configure ( 'debug', true );
 $xajax->register ( XAJAX_FUNCTION, "myExternalFunction", dirname ( __FILE__ ) . "/myExternalFunction.php" );
 $xajax->register ( XAJAX_FUNCTION, array (
-		"myFunction",
-		"myExternalClass",
-		"myMethod" 
+        "myFunction",
+        "myExternalClass",
+        "myMethod" 
 ), dirname ( __FILE__ ) . "/myExternalFunction.php" );
 
 $xajax->processRequest ();

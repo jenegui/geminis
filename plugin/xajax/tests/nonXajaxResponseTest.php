@@ -2,32 +2,32 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function testXajaxResponse() {
-	// Return a xajax response object
-	$objResponse = new xajaxResponse ();
-	$objResponse->assign ( 'DataDiv', 'innerHTML', 'Xajax Response Data' );
-	return $objResponse;
+    // Return a xajax response object
+    $objResponse = new xajaxResponse ();
+    $objResponse->assign ( 'DataDiv', 'innerHTML', 'Xajax Response Data' );
+    return $objResponse;
 
 }
 
 function testXmlResponse() {
-
-	$objResponse = new xajaxCustomResponse ( 'text/xml' );
-	$objResponse->setCharacterEncoding ( 'UTF-8' );
-	
-	$objResponse->append ( '<?xml version="1.0" encoding="utf-8" ?' . '><root><data>text</data></root>' );
-	
-	return $objResponse;
+    
+    $objResponse = new xajaxCustomResponse ( 'text/xml' );
+    $objResponse->setCharacterEncoding ( 'UTF-8' );
+    
+    $objResponse->append ( '<?xml version="1.0" encoding="utf-8" ?' . '><root><data>text</data></root>' );
+    
+    return $objResponse;
 
 }
 
 function testTextResponse() {
-
-	$objResponse = new xajaxCustomResponse ( 'text/plain' );
-	$objResponse->append ( 'text data' );
-	return $objResponse;
-	
-	// return text data directly to the custom response handler function
-	return 'text data';
+    
+    $objResponse = new xajaxCustomResponse ( 'text/plain' );
+    $objResponse->append ( 'text data' );
+    return $objResponse;
+    
+    // return text data directly to the custom response handler function
+    return 'text data';
 
 }
 
@@ -42,12 +42,12 @@ $xajax->configure ( 'allowAllResponseTypes', true );
 $callXajaxResponse = $xajax->register ( XAJAX_FUNCTION, 'testXajaxResponse' );
 
 $callXmlResponse = $xajax->register ( XAJAX_FUNCTION, 'testXmlResponse', array (
-		'responseProcessor' => 'xmlResponse' 
+        'responseProcessor' => 'xmlResponse' 
 ) );
 
 $callTextResponse = $xajax->register ( XAJAX_FUNCTION, 'testTextResponse', array (
-		'mode' => '"synchronous"',
-		'responseProcessor' => 'textResponse' 
+        'mode' => '"synchronous"',
+        'responseProcessor' => 'textResponse' 
 ) );
 
 $xajax->processRequest ();

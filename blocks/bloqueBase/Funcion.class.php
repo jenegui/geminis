@@ -1,7 +1,7 @@
 <?php
 if (! isset ( $GLOBALS ["autorizado"] )) {
-	include ("../index.php");
-	exit ();
+    include ("../index.php");
+    exit ();
 }
 
 include_once ("core/manager/Configurador.class.php");
@@ -27,82 +27,84 @@ class Funcion<nombreBloque>
 	var $error;
 	var $miRecursoDB;
 	var 
+
+
 $crypto;
 
 function verificarCampos() {
-
-	include_once ($this->ruta . "/funcion/verificarCampos.php");
-	if ($this->error == true) {
-		return false;
-	} else {
-		return true;
-	}
+    
+    include_once ($this->ruta . "/funcion/verificarCampos.php");
+    if ($this->error == true) {
+        return false;
+    } else {
+        return true;
+    }
 
 }
 
 function redireccionar($opcion, $valor = "") {
-
-	include_once ($this->ruta . "/funcion/redireccionar.php");
+    
+    include_once ($this->ruta . "/funcion/redireccionar.php");
 
 }
 
 function funcionEjemplo() {
-
-	include_once ($this->ruta . "/funcion/funcionEjemplo.php");
+    
+    include_once ($this->ruta . "/funcion/funcionEjemplo.php");
 
 }
 
 function action() {
-	
-	// Evitar que se ingrese codigo HTML y PHP en los campos de texto
-	// Campos que se quieren excluir de la limpieza de código. Formato: nombreCampo1|nombreCampo2|nombreCampo3
-	$excluir = "";
-	$_REQUEST = $this->miInspectorHTML->limpiarPHPHTML ( $_REQUEST );
-	
-	// Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
-	// aunque el código fuente puede ir directamente en este script, para facilitar el mantenimiento
-	// se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
-	// en la carpeta funcion
-	
-	// Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-	
-	if (isset ( $_REQUEST ["opcion"] )) {
-		
-		// Realizar una validación específica para los campos de este formulario:
-		$validacion = $this->verificarCampos ();
-		
-		if ($validacion == false) {
-			// Instanciar a la clase pagina con mensaje de correcion de datos
-			echo "Datos Incorrectos";
-		} else {
-			// Validar las variables para evitar un tipo insercion de SQL
-			$_REQUEST = $this->miInspectorHTML->limpiarSQL ( $_REQUEST );
-			
-			$this->funcionEjemplo ();
-			$this->redireccionar ( "exito" );
-		}
-	}
+    
+    // Evitar que se ingrese codigo HTML y PHP en los campos de texto
+    // Campos que se quieren excluir de la limpieza de código. Formato: nombreCampo1|nombreCampo2|nombreCampo3
+    $excluir = "";
+    $_REQUEST = $this->miInspectorHTML->limpiarPHPHTML ( $_REQUEST );
+    
+    // Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
+    // aunque el código fuente puede ir directamente en este script, para facilitar el mantenimiento
+    // se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
+    // en la carpeta funcion
+    
+    // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
+    
+    if (isset ( $_REQUEST ["opcion"] )) {
+        
+        // Realizar una validación específica para los campos de este formulario:
+        $validacion = $this->verificarCampos ();
+        
+        if ($validacion == false) {
+            // Instanciar a la clase pagina con mensaje de correcion de datos
+            echo "Datos Incorrectos";
+        } else {
+            // Validar las variables para evitar un tipo insercion de SQL
+            $_REQUEST = $this->miInspectorHTML->limpiarSQL ( $_REQUEST );
+            
+            $this->funcionEjemplo ();
+            $this->redireccionar ( "exito" );
+        }
+    }
 
 }
 
 function __construct() {
-
-	$this->miConfigurador = Configurador::singleton ();
-	
-	$this->miInspectorHTML = InspectorHTML::singleton ();
-	
-	$this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
-	
-	$this->miMensaje = Mensaje::singleton ();
-	
-	$conexion = "aplicativo";
-	$this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-	
-	if (! $this->miRecursoDB) {
-		
-		$this->miConfigurador->fabricaConexiones->setRecursoDB ( $conexion, "tabla" );
-		$this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
-	}
+    
+    $this->miConfigurador = Configurador::singleton ();
+    
+    $this->miInspectorHTML = InspectorHTML::singleton ();
+    
+    $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
+    
+    $this->miMensaje = Mensaje::singleton ();
+    
+    $conexion = "aplicativo";
+    $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+    
+    if (! $this->miRecursoDB) {
+        
+        $this->miConfigurador->fabricaConexiones->setRecursoDB ( $conexion, "tabla" );
+        $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+    }
 
 }
 

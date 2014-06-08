@@ -1,14 +1,7 @@
 <?php
 /*
-    File: registerObjectTest.php
-
-    Script to test callable objects.
-    
-    Title: Call methods of registered objects.
-    
-    Please see <copyright.inc.php> for a detailed description, copyright
-    and license information.
-*/
+ * File: registerObjectTest.php Script to test callable objects. Title: Call methods of registered objects. Please see <copyright.inc.php> for a detailed description, copyright and license information.
+ */
 
 /*
     @package xajax
@@ -19,62 +12,62 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 class myObjectTest {
-
-	var $myValue = 'default';
-
-	function testInstanceMethod($formData) {
-
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "My value is: {$this->myValue}" );
-		$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-		$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-		return $objResponse;
-	
-	}
-
-	function testClassMethod($formData) {
-
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "This is a class method." );
-		$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-		$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-		return $objResponse;
-	
-	}
+    
+    var $myValue = 'default';
+    
+    function testInstanceMethod($formData) {
+        
+        $objResponse = new xajaxResponse ();
+        $objResponse->alert ( "My value is: {$this->myValue}" );
+        $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+        $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+        return $objResponse;
+    
+    }
+    
+    function testClassMethod($formData) {
+        
+        $objResponse = new xajaxResponse ();
+        $objResponse->alert ( "This is a class method." );
+        $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+        $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+        return $objResponse;
+    
+    }
 
 }
 
 class objectMethodsTest {
-
-	var $myValue = 'default';
-
-	function firstMethod() {
-
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "In firstMethod. My value is: {$this->myValue}" );
-		return $objResponse;
-	
-	}
-
-	function second_method() {
-
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "In second_method. My value is: {$this->myValue}" );
-		return $objResponse;
-	
-	}
+    
+    var $myValue = 'default';
+    
+    function firstMethod() {
+        
+        $objResponse = new xajaxResponse ();
+        $objResponse->alert ( "In firstMethod. My value is: {$this->myValue}" );
+        return $objResponse;
+    
+    }
+    
+    function second_method() {
+        
+        $objResponse = new xajaxResponse ();
+        $objResponse->alert ( "In second_method. My value is: {$this->myValue}" );
+        return $objResponse;
+    
+    }
 
 }
 
 class objectMethodsTest2 extends objectMethodsTest {
-
-	function thirdMethod($arg1) {
-
-		$objResponse = new xajaxResponse ();
-		$objResponse->alert ( "In thirdMethod. My value is: {$this->myValue} and arg1: $arg1" );
-		return $objResponse;
-	
-	}
+    
+    function thirdMethod($arg1) {
+        
+        $objResponse = new xajaxResponse ();
+        $objResponse->alert ( "In thirdMethod. My value is: {$this->myValue} and arg1: $arg1" );
+        return $objResponse;
+    
+    }
 
 }
 
@@ -85,20 +78,20 @@ $xajax = new xajax ();
 $myObj2 = new objectMethodsTest ();
 
 if (0 <= version_compare ( '5.0', PHP_VERSION ))
-	// for PHP4
-	eval ( '$aMethodsTest = $xajax->register(XAJAX_CALLABLE_OBJECT, &$myObj2);' );
+    // for PHP4
+    eval ( '$aMethodsTest = $xajax->register(XAJAX_CALLABLE_OBJECT, &$myObj2);' );
 else
-	$aMethodsTest = $xajax->register ( XAJAX_CALLABLE_OBJECT, $myObj2 );
+    $aMethodsTest = $xajax->register ( XAJAX_CALLABLE_OBJECT, $myObj2 );
 
 $myObj2->myValue = 'right:2';
 
 $myObj3 = new objectMethodsTest2 ();
 
 if (0 <= version_compare ( '5.0', PHP_VERSION ))
-	// for PHP4
-	eval ( '$aMethodsTest2 = $xajax->register(XAJAX_CALLABLE_OBJECT, &$myObj3);' );
+    // for PHP4
+    eval ( '$aMethodsTest2 = $xajax->register(XAJAX_CALLABLE_OBJECT, &$myObj3);' );
 else
-	$aMethodsTest2 = $xajax->register ( XAJAX_CALLABLE_OBJECT, $myObj3 );
+    $aMethodsTest2 = $xajax->register ( XAJAX_CALLABLE_OBJECT, $myObj3 );
 
 $aMethodsTest2 ['thirdmethod']->setParameter ( 0, XAJAX_QUOTED_VALUE, 'howdy' );
 $myObj3->myValue = 'right:3';
@@ -106,16 +99,16 @@ $myObj3->myValue = 'right:3';
 $myObj = new myObjectTest ();
 $myObj->myValue = 'wrong';
 $requestInstanceMethod = $xajax->register ( XAJAX_FUNCTION, array (
-		"testForm",
-		$myObj,
-		"testInstanceMethod" 
+        "testForm",
+        $myObj,
+        "testInstanceMethod" 
 ) );
 
 $requestInstanceMethod->setParameter ( 0, XAJAX_FORM_VALUES, 'testForm1' );
 $requestClassMethod = $xajax->register ( XAJAX_FUNCTION, array (
-		"testForm2",
-		"myObjectTest",
-		"testClassMethod" 
+        "testForm2",
+        "myObjectTest",
+        "testClassMethod" 
 ) );
 
 $requestClassMethod->setParameter ( 0, XAJAX_FORM_VALUES, 'testForm1' );

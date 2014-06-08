@@ -38,19 +38,19 @@ $query = "SELECT full_name, email, photo FROM employee WHERE id=$id";
 $result = @MYSQL_QUERY ( $query );
 
 while ( $row = mysql_fetch_array ( $result ) ) {
-	$mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-	$mail->MsgHTML ( $body );
-	$mail->AddAddress ( $row ["email"], $row ["full_name"] );
-	$mail->AddStringAttachment ( $row ["photo"], "YourPhoto.jpg" );
-	
-	if (! $mail->Send ()) {
-		echo "Mailer Error (" . str_replace ( "@", "&#64;", $row ["email"] ) . ') ' . $mail->ErrorInfo . '<br />';
-	} else {
-		echo "Message sent to :" . $row ["full_name"] . ' (' . str_replace ( "@", "&#64;", $row ["email"] ) . ')<br />';
-	}
-	// Clear all addresses and attachments for next loop
-	$mail->ClearAddresses ();
-	$mail->ClearAttachments ();
+    $mail->AltBody = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+    $mail->MsgHTML ( $body );
+    $mail->AddAddress ( $row ["email"], $row ["full_name"] );
+    $mail->AddStringAttachment ( $row ["photo"], "YourPhoto.jpg" );
+    
+    if (! $mail->Send ()) {
+        echo "Mailer Error (" . str_replace ( "@", "&#64;", $row ["email"] ) . ') ' . $mail->ErrorInfo . '<br />';
+    } else {
+        echo "Message sent to :" . $row ["full_name"] . ' (' . str_replace ( "@", "&#64;", $row ["email"] ) . ')<br />';
+    }
+    // Clear all addresses and attachments for next loop
+    $mail->ClearAddresses ();
+    $mail->ClearAttachments ();
 }
 ?>
 

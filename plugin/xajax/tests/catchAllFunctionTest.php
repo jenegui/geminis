@@ -2,29 +2,29 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function test2ndFunction($formData, $objResponse) {
-
-	$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 
 function onInvalidRequest() {
-
-	$objArgumentManager = xajaxArgumentManager::getInstance ();
-	$aArgs = $objArgumentManager->process ();
-	
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "This is from the invalid request handler" );
-	return test2ndFunction ( $aArgs [0], $objResponse );
+    
+    $objArgumentManager = xajaxArgumentManager::getInstance ();
+    $aArgs = $objArgumentManager->process ();
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "This is from the invalid request handler" );
+    return test2ndFunction ( $aArgs [0], $objResponse );
 
 }
 
 function testForm($formData) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "This is from the regular function" );
-	return test2ndFunction ( $formData, $objResponse );
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "This is from the regular function" );
+    return test2ndFunction ( $formData, $objResponse );
 
 }
 
@@ -34,8 +34,8 @@ $xajax->configure ( "errorHandler", true );
 $xajax->register ( XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_INVALID, "onInvalidRequest" );
 
 if (isset ( $_GET ['registerFunction'] ))
-	if (1 == $_GET ['registerFunction'])
-		$xajax->register ( XAJAX_FUNCTION, "testForm" );
+    if (1 == $_GET ['registerFunction'])
+        $xajax->register ( XAJAX_FUNCTION, "testForm" );
 $xajax->processRequest ();
 $xajax->configure ( 'javascript URI', '../' );
 
@@ -71,21 +71,21 @@ $xajax->configure ( 'javascript URI', '../' );
 	</form>
 
         <?php
-								if (isset ( $_GET ['registerFunction'] ) && 1 == $_GET ['registerFunction']) {
-									?>
+        if (isset ( $_GET ['registerFunction'] ) && 1 == $_GET ['registerFunction']) {
+            ?>
 
             <a href='./catchAllFunctionTest.php'>Disable Normal Handler</a>
 
         <?php
-								} else {
-									?>
+        } else {
+            ?>
 
             <a href='./catchAllFunctionTest.php?registerFunction=1'>Enable
 		Normal Handler</a>
 
         <?php
-								}
-								?>
+        }
+        ?>
 
             <div id="submittedDiv"></div>
 </body>

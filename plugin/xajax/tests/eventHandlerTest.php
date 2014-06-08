@@ -2,20 +2,20 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function addHandler($sId, $sHandler) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->addHandler ( $sId, "click", $sHandler );
-	$objResponse->append ( 'log', 'innerHTML', "{$sHandler} enabled.<br />" );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->addHandler ( $sId, "click", $sHandler );
+    $objResponse->append ( 'log', 'innerHTML', "{$sHandler} enabled.<br />" );
+    return $objResponse;
 
 }
 
 function removeHandler($sId, $sHandler) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->removeHandler ( $sId, "click", $sHandler );
-	$objResponse->append ( 'log', 'innerHTML', "{$sHandler} disabled.<br />" );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->removeHandler ( $sId, "click", $sHandler );
+    $objResponse->append ( 'log', 'innerHTML', "{$sHandler} disabled.<br />" );
+    return $objResponse;
 
 }
 

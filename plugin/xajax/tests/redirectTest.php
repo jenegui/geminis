@@ -2,10 +2,10 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function redirect() {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->redirect ( "http://www.xajaxproject.org" );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->redirect ( "http://www.xajaxproject.org" );
+    return $objResponse;
 
 }
 $xajax = new xajax ();

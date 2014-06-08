@@ -10,11 +10,13 @@ class Frontera<nombreBloque>{
 	var $formulario;
 	
 	var 
+
+
 $miConfigurador;
 
 function __construct() {
-
-	$this->miConfigurador = Configurador::singleton ();
+    
+    $this->miConfigurador = Configurador::singleton ();
 
 }
 

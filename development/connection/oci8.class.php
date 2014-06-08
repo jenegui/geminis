@@ -1,10 +1,7 @@
 <?php
 
 /*
-  ############################################################################
-  # UNIVERSIDAD DISTRITAL Francisco Jose de Caldas #
-  # Copyright: Vea el archivo LICENCIA.txt que viene con la distribucion #
-  ############################################################################
+ * ############################################################################ # UNIVERSIDAD DISTRITAL Francisco Jose de Caldas # # Copyright: Vea el archivo LICENCIA.txt que viene con la distribucion # ############################################################################
  */
 /* * *************************************************************************
  * @name oci8.class.php
@@ -95,437 +92,435 @@
  * **************************************************************************** */
 
 class oci8 {
-	/*     * * Atributos: ** */
-	
-	/**
-	 *
-	 * @access privado
-	 */
-	var $servidor;
-
-	var $db;
-
-	var $usuario;
-
-	var $clave;
-
-	var $enlace;
-
-	var $dbsys;
-
-	var $cadenaSql;
-
-	var $error;
-
-	var $numero;
-
-	var $conteo;
-
-	var $registro;
-
-	var $campo;
-	
-	/*     * * Fin de sección Atributos: ** */
-	
-	/**
-	 *
-	 * @name especificar_db
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_db($nombreDb) {
-
-		$this->db = $nombreDb;
-	
-	}
-	
-	// Fin del método especificar_db
-	
-	/**
-	 *
-	 * @name especificar_usuario
-	 * @param
-	 *        	string usuario_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_usuario($usuarioDb) {
-
-		$this->usuario = $usuarioDb;
-	
-	}
-	
-	// Fin del método especificar_usuario
-	
-	/**
-	 *
-	 * @name especificar_clave
-	 * @param
-	 *        	string nombre_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_clave($claveDb) {
-
-		$this->clave = $claveDb;
-	
-	}
-	
-	// Fin del método especificar_clave
-	
-	/**
-	 *
-	 * @name especificar_servidor
-	 * @param
-	 *        	string servidor_db
-	 * @return void
-	 * @access public
-	 */
-	function especificar_servidor($servidorDb) {
-
-		$this->servidor = $servidorDb;
-	
-	}
-	
-	// Fin del método especificar_servidor
-	
-	/**
-	 *
-	 * @name especificar_dbms
-	 * @param
-	 *        	string dbms
-	 * @return void
-	 * @access public
-	 */
-	function especificar_dbsys($sistema) {
-
-		$this->dbsys = $sistema;
-	
-	}
-	
-	// Fin del método especificar_dbsys
-	
-	/**
-	 *
-	 * @name especificar_enlace
-	 * @param
-	 *        	resource enlace
-	 * @return void
-	 * @access public
-	 */
-	function especificar_enlace($unEnlace) {
-
-		if (is_resource ( $unEnlace )) {
-			$this->enlace = $unEnlace;
-		}
-	
-	}
-	
-	// Fin del método especificar_enlace
-	
-	/**
-	 *
-	 * @name obtener_enlace
-	 * @return void
-	 * @access public
-	 */
-	function getEnlace() {
-
-		return $this->enlace;
-	
-	}
-	
-	// Fin del método obtener_enlace
-	
-	/**
-	 *
-	 * @name conectar_db
-	 * @return void
-	 * @access public
-	 */
-	function conectar_db() {
-
-		$this->enlace = oci_connect ( $this->usuario, $this->clave, $this->db );
-		
-		if ($this->enlace) {
-			return $this->enlace;
-		} else {
-			$this->error = oci_error ();
-		}
-	
-	}
-	
-	// Fin del método conectar_db
-	
-	/**
-	 *
-	 * @name probar_conexion
-	 * @return void
-	 * @access public
-	 */
-	function probar_conexion() {
-
-		if ($this->enlace == TRUE) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	
-	}
-	
-	// Fin del método probar_conexion
-	
-	/**
-	 *
-	 * @name desconectar_db
-	 * @param
-	 *        	resource enlace
-	 * @return void
-	 * @access public
-	 */
-	function desconectar_db() {
-
-		oci_close ( $this->enlace );
-	
-	}
-	
-	// Fin del método desconectar_db
-	
-	/**
-	 *
-	 * @name ejecutar_acceso_db
-	 * @param
-	 *        	string cadena_sql
-	 * @param
-	 *        	string conexion_id
-	 * @return boolean
-	 * @access public
-	 */
-	private function ejecutar_acceso_db($cadena) {
-
-		$cadenaParser = OCIParse ( $this->enlace, $cadena );
-		$busqueda = OCIExecute ( $cadenaParser );
-		if ($busqueda) {
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	
-	}
-
-	/**
-	 *
-	 * @name obtener_error
-	 * @param
-	 *        	string cadena_sql
-	 * @param
-	 *        	string conexion_id
-	 * @return boolean
-	 * @access public
-	 */
-	function obtener_error() {
-
-		return $this->error;
-	
-	}
-	
-	// Fin del método obtener_error
-	
-	/**
-	 *
-	 * @name registro_db
-	 * @param
-	 *        	string cadena_sql
-	 * @param
-	 *        	int numero
-	 * @return boolean
-	 * @access public
-	 */
-	function registro_db($cadena, $numeroRegistros = 0) {
-
-		unset ( $this->registro );
-		if (! is_resource ( $this->enlace )) {
-			return FALSE;
-		}
-		
-		$cadenaParser = oci_parse ( $this->enlace, $cadena );
-		
-		if (oci_execute ( $cadenaParser )) {
-			
-			unset ( $this->registro );
-			$this->campo = oci_num_fields ( $cadenaParser );
-			
-			$j = 0;
-			while ( $salida = oci_fetch_array ( $cadenaParser ) ) {
-				if ($j == 0) {
-					$this->keys = array_keys ( $salida );
-					$i = 0;
-					foreach ( $this->keys as $clave => $valor ) {
-						if (is_string ( $valor )) {
-							$this->claves [$i ++] = $valor;
-						}
-					}
-				}
-				
-				// $this->campo=count($salida);
-				
-				for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
-					$this->registro [$j] [$unCampo] = $salida [$unCampo];
-					$this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
-				}
-				$j ++;
-			}
-			
-			$this->conteo = $j;
-			
-			return $this->conteo;
-		} else {
-			
-			unset ( $this->registro );
-			$this->error = oci_error ( $this->enlace );
-			return 0;
-		}
-	
-	}
-	
-	// Fin del método registro_db
-	
-	/**
-	 *
-	 * @name getRegistroDb
-	 * @return registro []
-	 * @access public
-	 */
-	function getRegistroDb() {
-
-		if (isset ( $this->registro )) {
-			
-			return $this->registro;
-		} else {
-			return false;
-		}
-	
-	}
-	
-	// Fin del método getRegistroDb
-	
-	/**
-	 *
-	 * @name obtener_conteo_db
-	 * @return int conteo
-	 * @access public
-	 */
-	function getConteo() {
-
-		return $this->conteo;
-	
-	}
-	
-	// Fin del método obtener_conteo_db
-	
-	/**
-	 *
-	 * @name transaccion
-	 * @return boolean resultado
-	 * @access public
-	 */
-	function transaccion($insert, $delete) {
-
-		$this->instrucciones = count ( $insert );
-		
-		for($contador = 0; $contador < $this->instrucciones; $contador ++) {
-			/* echo $insert[$contador]; */
-			$acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
-			
-			if (! $acceso) {
-				
-				for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
-					@$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
-					/* echo $delete[$contador2]."<br>"; */
-				}
-				return FALSE;
-			}
-		}
-		return TRUE;
-	
-	}
-	
-	// Fin del método transaccion
-	function tratarCadena($cadena) {
-
-		return $cadena;
-	
-	}
-
-	/**
-	 *
-	 * @name db_admin
-	 *      
-	 */
-	function __construct($registro) {
-
-		$this->servidor = $registro ["dbdns"];
-		$this->db = $registro ["dbnombre"];
-		$this->puerto = isset ( $registro ['dbpuerto'] ) ? $registro ['dbpuerto'] : 5432;
-		$this->usuario = $registro ["dbusuario"];
-		$this->clave = $registro ["dbclave"];
-		$this->dbsys = $registro ["dbsys"];
-		
-		$this->enlace = $this->conectar_db ();
-	
-	}
-	
-	// Fin del método db_admin
-	function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
-
-		$this->registro_db ( $cadena, $numeroRegistros );
-		$registro = $this->getRegistroDb ();
-		return $registro;
-	
-	}
-
-	function limpiarVariables($variables) {
-
-		return $variables;
-	
-	}
-	
-	// Funcion para el acceso a las bases de datos
-	function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
-
-		if (! is_resource ( $this->enlace )) {
-			return FALSE;
-		}
-		
-		if ($tipo == "busqueda") {
-			
-			$this->ejecutar_busqueda ( $cadena, $numeroRegistros );
-			$esteRegistro = $this->getRegistroDb ();
-			return $esteRegistro;
-		} else {
-			$resultado = $this->ejecutar_acceso_db ( $cadena );
-			return $resultado;
-		}
-	
-	}
-
-	function logger($configuracion, $idUsuario, $evento) {
-
-	
-	}
-
-	function ultimo_insertado($unEnlace = "") {
-
-	
-	}
-
-	function obtenerCadenaListadoTablas($variable) {
-
-		return "";
-	
-	}
+    /* Atributos: ** */
+    
+    /**
+     *
+     * @access privado
+     */
+    var $servidor;
+    
+    var $db;
+    
+    var $usuario;
+    
+    var $clave;
+    
+    var $enlace;
+    
+    var $dbsys;
+    
+    var $cadenaSql;
+    
+    var $error;
+    
+    var $numero;
+    
+    var $conteo;
+    
+    var $registro;
+    
+    var $campo;
+    
+    /* Fin de sección Atributos: ** */
+    
+    /**
+     *
+     * @name especificar_db
+     * @param
+     *            string nombre_db
+     * @return void
+     * @access public
+     */
+    function especificar_db($nombreDb) {
+        
+        $this->db = $nombreDb;
+    
+    }
+    
+    // Fin del método especificar_db
+    
+    /**
+     *
+     * @name especificar_usuario
+     * @param
+     *            string usuario_db
+     * @return void
+     * @access public
+     */
+    function especificar_usuario($usuarioDb) {
+        
+        $this->usuario = $usuarioDb;
+    
+    }
+    
+    // Fin del método especificar_usuario
+    
+    /**
+     *
+     * @name especificar_clave
+     * @param
+     *            string nombre_db
+     * @return void
+     * @access public
+     */
+    function especificar_clave($claveDb) {
+        
+        $this->clave = $claveDb;
+    
+    }
+    
+    // Fin del método especificar_clave
+    
+    /**
+     *
+     * @name especificar_servidor
+     * @param
+     *            string servidor_db
+     * @return void
+     * @access public
+     */
+    function especificar_servidor($servidorDb) {
+        
+        $this->servidor = $servidorDb;
+    
+    }
+    
+    // Fin del método especificar_servidor
+    
+    /**
+     *
+     * @name especificar_dbms
+     * @param
+     *            string dbms
+     * @return void
+     * @access public
+     */
+    function especificar_dbsys($sistema) {
+        
+        $this->dbsys = $sistema;
+    
+    }
+    
+    // Fin del método especificar_dbsys
+    
+    /**
+     *
+     * @name especificar_enlace
+     * @param
+     *            resource enlace
+     * @return void
+     * @access public
+     */
+    function especificar_enlace($unEnlace) {
+        
+        if (is_resource ( $unEnlace )) {
+            $this->enlace = $unEnlace;
+        }
+    
+    }
+    
+    // Fin del método especificar_enlace
+    
+    /**
+     *
+     * @name obtener_enlace
+     * @return void
+     * @access public
+     */
+    function getEnlace() {
+        
+        return $this->enlace;
+    
+    }
+    
+    // Fin del método obtener_enlace
+    
+    /**
+     *
+     * @name conectar_db
+     * @return void
+     * @access public
+     */
+    function conectar_db() {
+        
+        $this->enlace = oci_connect ( $this->usuario, $this->clave, $this->db );
+        
+        if ($this->enlace) {
+            return $this->enlace;
+        } else {
+            $this->error = oci_error ();
+        }
+    
+    }
+    
+    // Fin del método conectar_db
+    
+    /**
+     *
+     * @name probar_conexion
+     * @return void
+     * @access public
+     */
+    function probar_conexion() {
+        
+        if ($this->enlace == TRUE) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    
+    }
+    
+    // Fin del método probar_conexion
+    
+    /**
+     *
+     * @name desconectar_db
+     * @param
+     *            resource enlace
+     * @return void
+     * @access public
+     */
+    function desconectar_db() {
+        
+        oci_close ( $this->enlace );
+    
+    }
+    
+    // Fin del método desconectar_db
+    
+    /**
+     *
+     * @name ejecutar_acceso_db
+     * @param
+     *            string cadena_sql
+     * @param
+     *            string conexion_id
+     * @return boolean
+     * @access public
+     */
+    private function ejecutar_acceso_db($cadena) {
+        
+        $cadenaParser = OCIParse ( $this->enlace, $cadena );
+        $busqueda = OCIExecute ( $cadenaParser );
+        if ($busqueda) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    
+    }
+    
+    /**
+     *
+     * @name obtener_error
+     * @param
+     *            string cadena_sql
+     * @param
+     *            string conexion_id
+     * @return boolean
+     * @access public
+     */
+    function obtener_error() {
+        
+        return $this->error;
+    
+    }
+    
+    // Fin del método obtener_error
+    
+    /**
+     *
+     * @name registro_db
+     * @param
+     *            string cadena_sql
+     * @param
+     *            int numero
+     * @return boolean
+     * @access public
+     */
+    function registro_db($cadena, $numeroRegistros = 0) {
+        
+        unset ( $this->registro );
+        if (! is_resource ( $this->enlace )) {
+            return FALSE;
+        }
+        
+        $cadenaParser = oci_parse ( $this->enlace, $cadena );
+        
+        if (oci_execute ( $cadenaParser )) {
+            
+            unset ( $this->registro );
+            $this->campo = oci_num_fields ( $cadenaParser );
+            
+            $j = 0;
+            while ( $salida = oci_fetch_array ( $cadenaParser ) ) {
+                if ($j == 0) {
+                    $this->keys = array_keys ( $salida );
+                    $i = 0;
+                    foreach ( $this->keys as $clave => $valor ) {
+                        if (is_string ( $valor )) {
+                            $this->claves [$i ++] = $valor;
+                        }
+                    }
+                }
+                
+                // $this->campo=count($salida);
+                
+                for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+                    $this->registro [$j] [$unCampo] = $salida [$unCampo];
+                    $this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
+                }
+                $j ++;
+            }
+            
+            $this->conteo = $j;
+            
+            return $this->conteo;
+        } else {
+            
+            unset ( $this->registro );
+            $this->error = oci_error ( $this->enlace );
+            return 0;
+        }
+    
+    }
+    
+    // Fin del método registro_db
+    
+    /**
+     *
+     * @name getRegistroDb
+     * @return registro []
+     * @access public
+     */
+    function getRegistroDb() {
+        
+        if (isset ( $this->registro )) {
+            
+            return $this->registro;
+        } else {
+            return false;
+        }
+    
+    }
+    
+    // Fin del método getRegistroDb
+    
+    /**
+     *
+     * @name obtener_conteo_db
+     * @return int conteo
+     * @access public
+     */
+    function getConteo() {
+        
+        return $this->conteo;
+    
+    }
+    
+    // Fin del método obtener_conteo_db
+    
+    /**
+     *
+     * @name transaccion
+     * @return boolean resultado
+     * @access public
+     */
+    function transaccion($insert, $delete) {
+        
+        $this->instrucciones = count ( $insert );
+        
+        for($contador = 0; $contador < $this->instrucciones; $contador ++) {
+            /* echo $insert[$contador]; */
+            $acceso = $this->ejecutar_acceso_db ( $insert [$contador] );
+            
+            if (! $acceso) {
+                
+                for($contador2 = 0; $contador2 < $this->instrucciones; $contador2 ++) {
+                    @$acceso = $this->ejecutar_acceso_db ( $delete [$contador2] );
+                    /* echo $delete[$contador2]."<br>"; */
+                }
+                return FALSE;
+            }
+        }
+        return TRUE;
+    
+    }
+    
+    // Fin del método transaccion
+    function tratarCadena($cadena) {
+        
+        return $cadena;
+    
+    }
+    
+    /**
+     *
+     * @name db_admin
+     *      
+     */
+    function __construct($registro) {
+        
+        $this->servidor = $registro ["dbdns"];
+        $this->db = $registro ["dbnombre"];
+        $this->puerto = isset ( $registro ['dbpuerto'] ) ? $registro ['dbpuerto'] : 5432;
+        $this->usuario = $registro ["dbusuario"];
+        $this->clave = $registro ["dbclave"];
+        $this->dbsys = $registro ["dbsys"];
+        
+        $this->enlace = $this->conectar_db ();
+    
+    }
+    
+    // Fin del método db_admin
+    function ejecutar_busqueda($cadena, $numeroRegistros = 0) {
+        
+        $this->registro_db ( $cadena, $numeroRegistros );
+        $registro = $this->getRegistroDb ();
+        return $registro;
+    
+    }
+    
+    function limpiarVariables($variables) {
+        
+        return $variables;
+    
+    }
+    
+    // Funcion para el acceso a las bases de datos
+    function ejecutarAcceso($cadena, $tipo = "", $numeroRegistros = 0) {
+        
+        if (! is_resource ( $this->enlace )) {
+            return FALSE;
+        }
+        
+        if ($tipo == "busqueda") {
+            
+            $this->ejecutar_busqueda ( $cadena, $numeroRegistros );
+            $esteRegistro = $this->getRegistroDb ();
+            return $esteRegistro;
+        } else {
+            $resultado = $this->ejecutar_acceso_db ( $cadena );
+            return $resultado;
+        }
+    
+    }
+    
+    function logger($configuracion, $idUsuario, $evento) {
+    
+    }
+    
+    function ultimo_insertado($unEnlace = "") {
+    
+    }
+    
+    function obtenerCadenaListadoTablas($variable) {
+        
+        return "";
+    
+    }
 
 }
 

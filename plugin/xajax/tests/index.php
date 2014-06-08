@@ -1,15 +1,7 @@
 <?php
 /*
-    File: index.php
-
-    Index of the available test scripts for testing various aspects of
-    the xajax server and client components.
-    
-    Title: Index of available test scripts
-    
-    Please see <copyright.inc.php> for a detailed description, copyright
-    and license information.
-*/
+ * File: index.php Index of the available test scripts for testing various aspects of the xajax server and client components. Title: Index of available test scripts Please see <copyright.inc.php> for a detailed description, copyright and license information.
+ */
 
 /*
     @package xajax

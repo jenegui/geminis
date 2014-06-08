@@ -2,59 +2,59 @@
 require_once ("../xajax_core/xajax.inc.php");
 
 function testRegularFunction($formData) {
-
-	$objResponse = new xajaxResponse ();
-	$objResponse->alert ( "formData: " . print_r ( $formData, true ) );
-	$objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    $objResponse->alert ( "formData: " . print_r ( $formData, true ) );
+    $objResponse->assign ( "submittedDiv", "innerHTML", nl2br ( print_r ( $formData, true ) ) );
+    return $objResponse;
 
 }
 
 function beforeProcessing(&$bEndRequest) {
-
-	$objResponse = new xajaxResponse ();
-	
-	$objArgumentManager = xajaxArgumentManager::getInstance ();
-	$args = $objArgumentManager->process ();
-	
-	if ($args [1] == 0) {
-		$get = print_r ( $_GET, true );
-		$post = print_r ( $_POST, true );
-		$objResponse->alert ( 'This is from the processing event handler, beforeProcessing, which will now allow the request to continue:' . "\n" . $get . $post );
-		return $objResponse;
-	}
-	
-	$bEndRequest = array (
-			true 
-	);
-	$objResponse->alert ( "This is from the pre-function, which will now end the request." );
-	return $objResponse;
+    
+    $objResponse = new xajaxResponse ();
+    
+    $objArgumentManager = xajaxArgumentManager::getInstance ();
+    $args = $objArgumentManager->process ();
+    
+    if ($args [1] == 0) {
+        $get = print_r ( $_GET, true );
+        $post = print_r ( $_POST, true );
+        $objResponse->alert ( 'This is from the processing event handler, beforeProcessing, which will now allow the request to continue:' . "\n" . $get . $post );
+        return $objResponse;
+    }
+    
+    $bEndRequest = array (
+            true 
+    );
+    $objResponse->alert ( "This is from the pre-function, which will now end the request." );
+    return $objResponse;
 
 }
 
 class myPreObject {
-
-	var $message = "This is from the pre-function object method";
-
-	function beforeProcessing($bEndRequest) {
-
-		$objResponse = new xajaxResponse ();
-		
-		$objArgumentManager = xajaxArgumentManager::getInstance ();
-		$args = $objArgumentManager->process ();
-		
-		if ($args [1] == 0) {
-			$get = print_r ( $_GET, true );
-			$post = print_r ( $_POST, true );
-			$objResponse->alert ( $this->message . ', which will now allow the request to continue:' . "\n" . $get . $post );
-			return $objResponse;
-		}
-		
-		$bEndRequest = true;
-		$objResponse->alert ( $this->message . ", which will now end the request." );
-		return $objResponse;
-	
-	}
+    
+    var $message = "This is from the pre-function object method";
+    
+    function beforeProcessing($bEndRequest) {
+        
+        $objResponse = new xajaxResponse ();
+        
+        $objArgumentManager = xajaxArgumentManager::getInstance ();
+        $args = $objArgumentManager->process ();
+        
+        if ($args [1] == 0) {
+            $get = print_r ( $_GET, true );
+            $post = print_r ( $_POST, true );
+            $objResponse->alert ( $this->message . ', which will now allow the request to continue:' . "\n" . $get . $post );
+            return $objResponse;
+        }
+        
+        $bEndRequest = true;
+        $objResponse->alert ( $this->message . ", which will now end the request." );
+        return $objResponse;
+    
+    }
 
 }
 
@@ -63,15 +63,15 @@ $xajax = new xajax ();
 // $xajax->configure("debug", true);
 
 if (isset ( $_GET ['useObjects'] )) {
-	if ('true' == $_GET ['useObjects']) {
-		$preObj = new myPreObject ();
-		$xajax->register ( XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_BEFORE, array (
-				$preObj,
-				"beforeProcessing" 
-		) );
-	}
+    if ('true' == $_GET ['useObjects']) {
+        $preObj = new myPreObject ();
+        $xajax->register ( XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_BEFORE, array (
+                $preObj,
+                "beforeProcessing" 
+        ) );
+    }
 } else {
-	$xajax->register ( XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_BEFORE, "beforeProcessing" );
+    $xajax->register ( XAJAX_PROCESSING_EVENT, XAJAX_PROCESSING_EVENT_BEFORE, "beforeProcessing" );
 }
 
 $xajax->register ( XAJAX_FUNCTION, "testRegularFunction" );

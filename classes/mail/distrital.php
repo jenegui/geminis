@@ -19,9 +19,9 @@ $mail->Subject = "el sujeto";
 $mail->AddAddress ( "ftorres@udistrital.edu.co" );
 
 if (! $mail->Send ()) {
-	header ( "Location: $redir?error_login=16" );
+    header ( "Location: $redir?error_login=16" );
 } else {
-	header ( "Location: $redir?error_login=18" );
+    header ( "Location: $redir?error_login=18" );
 }
 $mail->ClearAllRecipients ();
 
