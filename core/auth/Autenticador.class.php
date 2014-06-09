@@ -17,14 +17,6 @@ class Autenticador {
     private static $instancia;
     
     /**
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
      * Arreglo que contiene los datos de la página que se va revisar
      *
      * @var String[]
@@ -42,6 +34,8 @@ class Autenticador {
     var $tipoError;
     
     var $configurador;
+    
+    const NIVEL='nivel';
     
     private function __construct() {
         
@@ -114,7 +108,7 @@ class Autenticador {
             $totalRegistros = $this->configurador->conexionDB->getConteo ();
             
             if ($totalRegistros > 0) {
-                $this->pagina ["nivel"] = $registro [0] [0];
+                $this->pagina [self::NIVEL] = $registro [0] [0];
                 return true;
             }
         }
@@ -137,7 +131,7 @@ class Autenticador {
     function cargarSesionUsuario() {
         
         // Asignar el nivel de la sesión conforme al nivel de la página que se está visitando
-        $this->sesionUsuario->setSesionNivel ( $this->pagina ["nivel"] );
+        $this->sesionUsuario->setSesionNivel ( $this->pagina [self::NIVEL] );
         
         $verificar = $this->sesionUsuario->verificarSesion ();
         
@@ -152,7 +146,7 @@ class Autenticador {
     
     function verificarAutorizacionUsuario() {
         
-        if ($this->sesionUsuario->getSesionNivel () == $this->pagina ["nivel"]) {
+        if ($this->sesionUsuario->getSesionNivel () == $this->pagina [self::NIVEL]) {
             return true;
         }
         

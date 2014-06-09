@@ -6,6 +6,17 @@ class Sesion extends SesionBase {
     
     private static $instancia;
     
+    const SESIONID='sesionId';
+    
+    const EXPIRACION=self::EXPIRACION;
+    
+    const APLICATIVO='aplicativo';
+    
+    const ACCEDER='acceso';
+    
+    const BUSCAR='busqueda';
+    
+    
     /**
      *
      * @name sesiones
@@ -60,10 +71,10 @@ class Sesion extends SesionBase {
                     // Si no hubo errores se puede actualizar los valores
                     // Update, porque se tiene un identificador
                     /* Crear una nueva cookie */
-                    $parametro ['expiracion'] = time () + 60 * $this->tiempoExpiracion;
+                    $parametro [self::EXPIRACION] = time () + 60 * $this->tiempoExpiracion;
                     $parametro ['sesionId'] = $this->sesionId;
                     
-                    setcookie ( "aplicativo", $this->sesionId, ($parametro ['expiracion']), "/" );
+                    setcookie ( self::APLICATIVO, $this->sesionId, ($parametro [self::EXPIRACION]), "/" );
                     
                     $cadenaSql = $this->miSql->getCadenaSql ( "actualizarSesion", $parametro );
                     
@@ -71,7 +82,7 @@ class Sesion extends SesionBase {
                      * Ejecutar una consulta
                      */
                     
-                    $resultado = $this->miConexion->ejecutarAcceso ( $cadenaSql, "acceso" );
+                    $resultado = $this->miConexion->ejecutarAcceso ( $cadenaSql, self::ACCEDER );
                 }
             } else {
                 $resultado = false;
@@ -92,11 +103,11 @@ class Sesion extends SesionBase {
      */
     function numeroSesion() {
         
-        if (isset ( $_COOKIE ["aplicativo"] )) {
-            $this->sesionId = $_COOKIE ["aplicativo"];
+        if (isset ( $_COOKIE [self::APLICATIVO] )) {
+            $this->sesionId = $_COOKIE [self::APLICATIVO];
         } else {
-            if (isset ( $_REQUEST ["sesionID"] )) {
-                $this->sesionId = $_REQUEST ["sesionID"];
+            if (isset ( $_REQUEST [self::SESIONID] )) {
+                $this->sesionId = $_REQUEST [self::SESIONID];
             } else {
                 return false;
             }
@@ -135,7 +146,7 @@ class Sesion extends SesionBase {
                 $nivelPagina = $this->getSesionNivel ();
                 
                 $cadenaSql = $this->miSql->getCadenaSql ( "verificarNivelUsuario", $this->sesionUsuarioId );
-                $resultadoNivel = $this->miConexion->ejecutarAcceso ( $cadenaSql, "busqueda" );
+                $resultadoNivel = $this->miConexion->ejecutarAcceso ( $cadenaSql, self::BUSCAR );
                 
                 if ($nivelPagina == $resultadoNivel [0] ['tipo'] && ($this->sesionExpiracion > time ())) {
                     $resultado = true;
@@ -196,15 +207,15 @@ class Sesion extends SesionBase {
              * Borra todas las sesiones que existan con el id del computador
              */
             
-            if (isset ( $_COOKIE ["aplicativo"] )) {
-                $this->la_sesion = $_COOKIE ["aplicativo"];
+            if (isset ( $_COOKIE [self::APLICATIVO] )) {
+                $this->la_sesion = $_COOKIE [self::APLICATIVO];
                 $this->terminarSesion ( $this->la_sesion );
             }
             
             /* Actualizar la cookie, la sesión tiene un tiempo de 1 hora */
             
             $this->sesionExpiracion = time () + $this->tiempoExpiracion * 60;
-            setcookie ( "aplicativo", $this->sesionId, $this->sesionExpiracion, "/" );
+            setcookie ( self::APLICATIVO, $this->sesionId, $this->sesionExpiracion, "/" );
             
             // Insertar id_usuario
             $this->resultado = $this->guardarValorSesion ( 'idUsuario', $usuarioId, $this->sesionId, $this->sesionExpiracion );
@@ -226,15 +237,15 @@ class Sesion extends SesionBase {
      * @return boolean
      * @access public
      */
-    function guardarValorSesion($variable, $valor, $sesion, $expiracion) {
+    function guardarValorSesion($variable, $valor, $sesion='', $expiracion='') {
         
         $totalArgumentos = func_num_args ();
         if ($totalArgumentos == 0) {
             return FALSE;
         } else {
             if (strlen ( $sesion ) != 32) {
-                if (isset ( $_COOKIE ["aplicativo"] )) {
-                    $this->sesionId = $_COOKIE ["aplicativo"];
+                if (isset ( $_COOKIE [self::APLICATIVO] )) {
+                    $this->sesionId = $_COOKIE [self::APLICATIVO];
                 } else {
                     return FALSE;
                 }
@@ -244,13 +255,13 @@ class Sesion extends SesionBase {
             
             // Si el valor de sesión existe entonces se actualiza, si no se crea un registro con el valor.
             
-            $parametro ["sesionId"] = $this->sesionId;
+            $parametro [self::SESIONID] = $this->sesionId;
             $parametro ["variable"] = $variable;
             $parametro ["valor"] = $valor;
-            $parametro ["expiracion"] = $expiracion;
+            $parametro [self::EXPIRACION] = $expiracion;
             $cadenaSql = $this->miSql->getCadenaSql ( "buscarValorSesion", $parametro );
             
-            $resultado = $this->miConexion->ejecutarAcceso ( $cadenaSql, "busqueda" );
+            $resultado = $this->miConexion->ejecutarAcceso ( $cadenaSql, self::BUSCAR );
             
             if ($resultado) {
                 
@@ -259,38 +270,15 @@ class Sesion extends SesionBase {
                 $cadenaSql = $this->miSql->getCadenaSql ( "insertarValorSesion", $parametro );
             }
             
-            return $this->miConexion->ejecutarAcceso ( $cadenaSql, "acceso" );
+            return $this->miConexion->ejecutarAcceso ( $cadenaSql, self::ACCEDER );
         }
     
     }
     // Fin del método guardar_valor_sesion
     function setValorSesion($variable, $valor) {
+            
+            return $this->guardarValorSesion($variable, $valor);
         
-        $numArgs = func_num_args ();
-        if ($numArgs == 0) {
-            return FALSE;
-        } else {
-            
-            // Si el valor de sesión existe entonces se actualiza, si no se crea un registro con el valor.
-            
-            $parametro ["sesionId"] = $this->sesionId;
-            $parametro ["variable"] = $variable;
-            $parametro ["valor"] = $valor;
-            $parametro ["expiracion"] = $this->tiempoExpiracion;
-            $cadenaSql = $this->miSql->getCadenaSql ( "buscarValorSesion", $parametro );
-            
-            $resultado = $this->miConexion->ejecutarAcceso ( $cadenaSql, "busqueda" );
-            
-            if ($resultado) {
-                
-                $cadenaSql = $this->miSql->getCadenaSql ( "actualizarValorSesion", $parametro );
-            } else {
-                $cadenaSql = $this->miSql->getCadenaSql ( "insertarValorSesion", $parametro );
-            }
-            
-            return $this->miConexion->ejecutarAcceso ( $cadenaSql, "acceso" );
-        }
-    
     }
     // Fin del método guardar_valor_sesion
     
@@ -305,14 +293,14 @@ class Sesion extends SesionBase {
     function borrarValorSesion($variable, $sesion = "") {
         
         if (strlen ( $sesion ) != 32) {
-            if (isset ( $_COOKIE ["aplicativo"] )) {
-                $sesion = $_COOKIE ["aplicativo"];
+            if (isset ( $_COOKIE [self::APLICATIVO] )) {
+                $sesion = $_COOKIE [self::APLICATIVO];
             } else {
                 return false;
             }
         }
         
-        $parametro ["sesionId"] = $sesion;
+        $parametro [self::SESIONID] = $sesion;
         $parametro ["dato"] = $variable;
         
         if ($variable != 'TODOS') {
@@ -353,7 +341,7 @@ class Sesion extends SesionBase {
             return FALSE;
         }
         // Borrar cookies anteriores
-        setcookie ( "aplicativo", "", time () - 3600, "/" );
+        setcookie ( self::APLICATIVO, "", time () - 3600, "/" );
         
         $cadenaSql = $cadenaSql = $this->miSql->getCadenaSql ( "borrarSesion", $sesion );
         

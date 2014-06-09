@@ -26,6 +26,9 @@ class Pagina {
     
     var $cripto;
     
+    
+    const PARAMETRO='parametro';
+    
     function __construct() {
         
         $this->miConfigurador = Configurador::singleton ();
@@ -88,8 +91,8 @@ class Pagina {
         
         if ($totalRegistros > 0) {
             
-            if (isset ( $registro [0] ["parametro"] ) && trim ( $registro [0] ["parametro"] ) != "") {
-                $parametros = explode ( "&", trim ( $registro [0] ["parametro"] ) );
+            if (isset ( $registro [0] [self::PARAMETRO] ) && trim ( $registro [0] [self::PARAMETRO] ) != "") {
+                $parametros = explode ( "&", trim ( $registro [0] [self::PARAMETRO] ) );
             } else {
                 $parametros = array ();
             }

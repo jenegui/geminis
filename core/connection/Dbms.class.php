@@ -18,6 +18,8 @@ class Ddbms {
     
     private $dbsys;
     
+    const DBSYS='dbsys';
+    
     /**
      *
      * @name db_admin
@@ -25,13 +27,13 @@ class Ddbms {
      */
     function __construct($registro) {
         
-        if (isset ( $registro [0] ["dbsys"] )) {
+        if (isset ( $registro [0] [self::DBSYS] )) {
             $this->configuracion = $registro [0];
-            $this->dbsys = $registro [0] ["dbsys"];
+            $this->dbsys = $registro [0] [self::DBSYS];
         } else {
             $this->configuracion = $registro;
-            if (isset ( $registro ['dbsys'] )) {
-                $this->dbsys = $registro ['dbsys'];
+            if (isset ( $registro [self::DBSYS] )) {
+                $this->dbsys = $registro [self::DBSYS];
             } else {
                 $this->dbsys = null;
             }

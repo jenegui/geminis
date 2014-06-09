@@ -18,6 +18,16 @@ class ArmadorPagina {
     
     var $seccionesDeclaradas;
     
+    const SECCION='seccion';
+    
+    const GRUPO='grupo';
+    
+    const NOMBRE='nombre';
+    
+    const ARCHIVOBLOQUE='/bloque.php';
+    
+    const CARPETABLOQUES='/blocks/';
+    
     function __construct() {
         
         $this->miConfigurador = Configurador::singleton ();
@@ -102,8 +112,8 @@ class ArmadorPagina {
         
         foreach ( $this->bloques as $unBloque ) {
             
-            $posicion = ord ( $unBloque ["seccion"] ) - 65;
-            $this->seccionesDeclaradas [$posicion] = $unBloque ["seccion"];
+            $posicion = ord ( $unBloque [self::SECCION] ) - 65;
+            $this->seccionesDeclaradas [$posicion] = $unBloque [self::SECCION];
         }
         
         echo "<body>\n";
@@ -136,7 +146,7 @@ class ArmadorPagina {
         // Este tipo de secciones ocupan el ancho de la página
         echo "<div id='seccionAmplia'>\n";
         foreach ( $this->bloques as $unBloque ) {
-            if ($unBloque ["seccion"] == $seccion) {
+            if ($unBloque [self::SECCION] == $seccion) {
                 $this->incluirBloque ( $unBloque );
             }
         }
@@ -169,7 +179,7 @@ class ArmadorPagina {
         }
         
         foreach ( $this->bloques as $unBloque ) {
-            if ($unBloque ["seccion"] == $seccion) {
+            if ($unBloque [self::SECCION] == $seccion) {
                 $this->incluirBloque ( $unBloque );
             }
         }
@@ -194,7 +204,7 @@ class ArmadorPagina {
         }
         
         foreach ( $this->bloques as $unBloque ) {
-            if ($unBloque ["seccion"] == "C") {
+            if ($unBloque [self::SECCION] == "C") {
                 $this->incluirBloque ( $unBloque );
             }
         }
@@ -209,10 +219,10 @@ class ArmadorPagina {
             $unBloque [$clave] = trim ( $valor );
         }
         
-        if ($unBloque ["grupo"] == "") {
-            $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["nombre"] . "/bloque.php";
+        if ($unBloque [self::GRUPO] == "") {
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
         } else {
-            $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["grupo"] . "/" . $unBloque ["nombre"] . "/bloque.php";
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
         }
         
         include ($archivo);
@@ -225,10 +235,10 @@ class ArmadorPagina {
             $unBloque [$clave] = trim ( $valor );
         }
         
-        if ($unBloque ["grupo"] == "") {
-            $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["nombre"] . "/css/Estilo.php";
+        if ($unBloque [self::GRUPO] == "") {
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . "/css/Estilo.php";
         } else {
-            $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["grupo"] . "/" . $unBloque ["nombre"] . "/css/Estilo.php";
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . "/css/Estilo.php";
         }
         
         if (file_exists ( $archivo )) {
@@ -243,10 +253,10 @@ class ArmadorPagina {
             $esteBloque [$clave] = trim ( $valor );
         }
         
-        if ($esteBloque ["grupo"] == "") {
-            $archivo = $this->raizDocumentos . "/blocks/" . $esteBloque ["nombre"] . "/script/Script.php";
+        if ($esteBloque [self::GRUPO] == "") {
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $esteBloque [self::NOMBRE] . "/script/Script.php";
         } else {
-            $archivo = $this->raizDocumentos . "/blocks/" . $esteBloque ["grupo"] . "/" . $esteBloque ["nombre"] . "/script/Script.php";
+            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $esteBloque [self::GRUPO] . "/" . $esteBloque [self::NOMBRE] . "/script/Script.php";
         }
         
         if (file_exists ( $archivo )) {
@@ -273,12 +283,12 @@ class ArmadorPagina {
                 $unBloque [$clave] = trim ( $valor );
             }
             
-            if ($unBloque ["grupo"] == "") {
-                $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["nombre"] . "/script/ready.js";
-                $archivoPHP = $this->raizDocumentos . "/blocks/" . $unBloque ["nombre"] . "/script/ready.php";
+            if ($unBloque [self::GRUPO] == "") {
+                $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . "/script/ready.js";
+                $archivoPHP = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . "/script/ready.php";
             } else {
-                $archivo = $this->raizDocumentos . "/blocks/" . $unBloque ["grupo"] . "/" . $unBloque ["nombre"] . "/script/ready.js";
-                $archivoPHP = $this->raizDocumentos . "/blocks/" . $unBloque ["grupo"] . "/" . $unBloque ["nombre"] . "/script/ready.php";
+                $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . "/script/ready.js";
+                $archivoPHP = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . "/script/ready.php";
             }
             
             if (file_exists ( $archivo )) {
@@ -308,7 +318,7 @@ class ArmadorPagina {
                 
                 $this->id_bloque = $this->armar_registro [$this->contador] [0];
                 $this->incluir = $this->armar_registro [$this->contador] [4];
-                include ($this->miConfigurador->configuracion ["raiz_documento"] . $this->miConfigurador->configuracion ["bloques"] . "/" . $this->incluir . "/bloque.php");
+                include ($this->miConfigurador->configuracion ["raiz_documento"] . $this->miConfigurador->configuracion ["bloques"] . "/" . $this->incluir . self::ARCHIVOBLOQUE);
             }
         }
         return TRUE;

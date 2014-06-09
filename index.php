@@ -34,16 +34,19 @@ class Aplicacion {
      *
      */
     var $miLanzador;
+    
+    const RECARGAR='recargar';
+    
     function __construct() {
         $GLOBALS ["configuracion"] = TRUE;
         $this->miLanzador = new Bootstrap ();
         
         do {
-            if (isset ( $_REQUEST ["recargar"] )) {
-                unset ( $_REQUEST ["recargar"] );
+            if (isset ( $_REQUEST [self::RECARGAR] )) {
+                unset ( $_REQUEST [self::RECARGAR] );
             }
             $this->miLanzador->iniciar ();
-        } while ( isset ( $_REQUEST ["recargar"] ) );
+        } while ( isset ( $_REQUEST [self::RECARGAR] ) );
     }
 }
 

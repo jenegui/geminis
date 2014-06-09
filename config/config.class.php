@@ -1,5 +1,4 @@
-<?PHP
-
+<?php
 /**
  * IMPORTANTE
  * Este archivo debe generarse en el momento de la instalación
@@ -23,7 +22,7 @@
  *       registradas en el sistema operativo.
  *      
  */
-class ArchivoConfiguracion {
+class ConfiguracionDesenlace {
     
     private static $instance;
     
@@ -76,9 +75,9 @@ class ArchivoConfiguracion {
      */
     function variable() {
         
-        require_once ("core/crypto/Encriptador.class.php");
-        require_once ("core/crypto/aes.class.php");
-        require_once ("core/crypto/aesctr.class.php");
+        require_once ("../core/crypto/Encriptador.class.php");
+        require_once ("../core/crypto/aes.class.php");
+        require_once ("../core/crypto/aesctr.class.php");
         
         $this->cripto = Encriptador::singleton ();
         $this->abrirArchivoConfiguracion ();
@@ -88,46 +87,33 @@ class ArchivoConfiguracion {
     
     private function abrirArchivoConfiguracion($ruta = "") {
         
-        $this->fp = fopen ( "config/config.inc.php", "r" );
-        if (! $this->fp) {
-            return false;
+        if ($ruta == '') {
+            $ruta = '../config/';
         }
         
-        $this->i = 0;
-        while ( ! feof ( $this->fp ) ) {
-            $this->linea = $this->cripto->decodificar ( fgets ( $this->fp, 4096 ), "" );
-            $this->i ++;
-            switch ($this->i) {
-                case 3 :
-                    $this->conf ["dbsys"] = $this->linea;
-                    break;
-                
-                case 4 :
-                    $this->conf ["dbdns"] = $this->linea;
-                    break;
-                
-                case 5 :
-                    $this->conf ["dbpuerto"] = $this->linea;
-                    break;
-                
-                case 6 :
-                    $this->conf ["dbnombre"] = $this->linea;
-                    break;
-                case 7 :
-                    $this->conf ["dbusuario"] = $this->linea;
-                    break;
-                case 8 :
-                    $this->conf ["dbclave"] = $this->linea;
-                    break;
-                case 9 :
-                    $this->conf ["dbprefijo"] = $this->linea;
-                    break;
+        $fp = fopen ( $ruta . 'config.inc.php', "r" );
+        if ($fp) {
+            
+            $i = 0;
+            while ( ! feof ( $fp ) && $i<=9 ) {
+                $linea [$i] = $this->cripto->decodificar ( fgets ( $fp, 4096 ), "" );
+                $i ++;
             }
-            if ($this->i == 9) {
-                break;
-            }
+            
+            fclose ( $fp );
+            
+            $this->conf ["dbsys"] = $linea [3];
+            $this->conf ["dbdns"] = $linea [4];
+            $this->conf ["dbpuerto"] = $linea [5];
+            $this->conf ["dbnombre"] = $linea [6];
+            $this->conf ["dbusuario"] = $linea [7];
+            $this->conf ["dbclave"] = $linea [8];
+            $this->conf ["dbprefijo"] = $linea [9];
+            
+            return TRUE;
         }
-        fclose ( $this->fp );
+        
+        return FALSE;
     
     }
 

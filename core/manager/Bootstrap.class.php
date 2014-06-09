@@ -88,6 +88,14 @@ class Bootstrap {
      */
     var $cuadroMensaje;
     
+    
+    const PAGINA='pagina';
+    
+    const ERROR='error';
+    
+    const ENLACE='enlace';
+    
+    
     /**
      * Contructor
      *
@@ -174,7 +182,7 @@ class Bootstrap {
         
         $pagina = $this->determinarPagina ();
         
-        $this->miConfigurador->setVariableConfiguracion ( "pagina", $pagina );
+        $this->miConfigurador->setVariableConfiguracion ( self::PAGINA, $pagina );
         
         /**
          * Verificar que se tenga una sesión válida
@@ -212,9 +220,9 @@ class Bootstrap {
     
     private function mostrarMensajeError($mensaje, $tipoMensaje = '') {
         
-        $this->miConfigurador->setVariableConfiguracion ( "error", true );
+        $this->miConfigurador->setVariableConfiguracion ( self::ERROR, true );
         if ($tipoMensaje == '') {
-            $this->cuadroMensaje->mostrarMensaje ( $mensaje, "error" );
+            $this->cuadroMensaje->mostrarMensaje ( $mensaje, self::ERROR );
         } else {
             $this->cuadroMensaje->mostrarMensaje ( $mensaje, $tipoMensaje );
         }
@@ -224,7 +232,7 @@ class Bootstrap {
     private function mostrarMensajeRedireccion($mensaje, $tipoMensaje = '', $url) {
         
         if ($tipoMensaje == '') {
-            $this->cuadroMensaje->mostrarMensajeRedireccion ( $mensaje, "error", $url );
+            $this->cuadroMensaje->mostrarMensajeRedireccion ( $mensaje, self::ERROR, $url );
         } else {
             $this->cuadroMensaje->mostrarMensajeRedireccion ( $mensaje, $tipoMensaje, $url );
         }
@@ -238,16 +246,16 @@ class Bootstrap {
          */
         $respuesta = '';
         
-        if (isset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] )) {
-            $this->miConfigurador->fabricaConexiones->crypto->decodificar_url ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] );
-            unset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( "enlace" )] );
+        if (isset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] )) {
+            $this->miConfigurador->fabricaConexiones->crypto->decodificar_url ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] );
+            unset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] );
             
             if (isset ( $_REQUEST ["redireccionar"] )) {
                 $this->redireccionar ();
                 $respuesta = false;
             }
-            if (isset ( $_REQUEST ["pagina"] )) {
-                $respuesta = $_REQUEST ["pagina"];
+            if (isset ( $_REQUEST [self::PAGINA] )) {
+                $respuesta = $_REQUEST [self::PAGINA];
             }
         } else {
             
@@ -281,7 +289,7 @@ class Bootstrap {
      */
     function redireccionar($pagina = '', $opciones = '') {
         
-        $enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );
+        $enlace = $this->miConfigurador->getVariableConfiguracion ( self::ENLACE );
         $indice = $this->miConfigurador->configuracion ["host"] . $this->miConfigurador->configuracion ["site"] . "/index.php?";
         
         switch ($pagina) {

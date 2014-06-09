@@ -9,6 +9,14 @@ class ProcesadorPagina {
     
     var $unBloque;
     
+    const NOMBRE='nombre';
+    
+    const BLOQUEGRUPO='bloqueGrupo';
+    
+    const CARPETABLOQUES='/blocks/';
+    
+    const ARCHIVOBLOQUE='/bloque.php';
+    
     function __construct() {
         
         $this->miConfigurador = Configurador::singleton ();
@@ -25,24 +33,24 @@ class ProcesadorPagina {
          */
         if (isset ( $_REQUEST ["bloque"] )) {
             
-            $unBloque ["nombre"] = $_REQUEST ["action"];
+            $unBloque [self::NOMBRE] = $_REQUEST ["action"];
             $unBloque ["id_bloque"] = $_REQUEST ["bloque"];
             
-            if (isset ( $_REQUEST ["bloqueGrupo"] ) && $_REQUEST ["bloqueGrupo"] != "") {
-                $unBloque ["grupo"] = $_REQUEST ["bloqueGrupo"];
-                include_once ($this->raizDocumentos . "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $unBloque ["nombre"] . "/bloque.php");
+            if (isset ( $_REQUEST [self::BLOQUEGRUPO] ) && $_REQUEST [self::BLOQUEGRUPO] != "") {
+                $unBloque ["grupo"] = $_REQUEST [self::BLOQUEGRUPO];
+                include_once ($this->raizDocumentos . self::CARPETABLOQUES . $_REQUEST [self::BLOQUEGRUPO] . "/" . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE);
             } else {
-                $_REQUEST ["bloqueGrupo"] = "";
-                include_once ($this->raizDocumentos . "/blocks/" . $unBloque ["nombre"] . "/bloque.php");
+                $_REQUEST [self::BLOQUEGRUPO] = "";
+                include_once ($this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE);
             }
             return true;
         } else {
             
             if (isset ( $_REQUEST ["procesarAjax"] )) {
-                if ($_REQUEST ["bloqueGrupo"] == "") {
-                    include_once ($this->raizDocumentos . "/blocks/" . $_REQUEST ["bloqueNombre"] . "/bloque.php");
+                if ($_REQUEST [self::BLOQUEGRUPO] == "") {
+                    include_once ($this->raizDocumentos . self::CARPETABLOQUES . $_REQUEST ["bloqueNombre"] . self::ARCHIVOBLOQUE);
                 } else {
-                    include_once ($this->raizDocumentos . "/blocks/" . $_REQUEST ["bloqueGrupo"] . "/" . $_REQUEST ["bloqueNombre"] . "/bloque.php");
+                    include_once ($this->raizDocumentos . self::CARPETABLOQUES . $_REQUEST [self::BLOQUEGRUPO] . "/" . $_REQUEST ["bloqueNombre"] . self::ARCHIVOBLOQUE);
                 }
             }
         }

@@ -32,6 +32,8 @@ class FabricaDbConexion {
     
     private static $instance;
     
+    const CONFIGURACION='configuracion';
+    
     public static function singleton() {
         
         if (! isset ( self::$instance )) {
@@ -71,12 +73,12 @@ class FabricaDbConexion {
     public function setRecursoDB($nombre = "", $fuente = "tabla") {
         
         if ($nombre == "") {
-            $nombre = "configuracion";
+            $nombre = self::CONFIGURACION;
         }
         
         switch ($fuente) {
             
-            case "configuracion" :
+            case self::CONFIGURACION :
             case "instalacion" :
                 return $this->recursoConfiguracion ( $nombre );
                 break;
@@ -116,7 +118,7 @@ class FabricaDbConexion {
     
     private function recursoTabla($nombre) {
         
-        $recursoDB = $this->getRecursoDB ( "configuracion" );
+        $recursoDB = $this->getRecursoDB (self::CONFIGURACION);
         $cadena = $this->getClausulaSQL ( $nombre );
         
         $resultado = $recursoDB->ejecutarAcceso ( $cadena, "busqueda" );
