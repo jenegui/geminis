@@ -47,6 +47,8 @@ class Autenticador {
         $this->sesionUsuario->setConexion ( $this->configurador->fabricaConexiones->getRecursoDB ( "configuracion" ) );
         $this->sesionUsuario->setTiempoExpiracion ( $this->configurador->getVariableConfiguracion ( "expiracion" ) );
         $this->sesionUsuario->setPrefijoTablas ( $this->configurador->getVariableConfiguracion ( "prefijo" ) );
+        
+        
     
     }
     
@@ -103,7 +105,6 @@ class Autenticador {
         $clausulaSQL = $this->sesionUsuario->miSql->getCadenaSql ( "seleccionarPagina", $this->pagina ["nombre"] );
         
         if ($clausulaSQL) {
-            
             $registro = $this->configurador->conexionDB->ejecutarAcceso ( $clausulaSQL, "busqueda" );
             $totalRegistros = $this->configurador->conexionDB->getConteo ();
             

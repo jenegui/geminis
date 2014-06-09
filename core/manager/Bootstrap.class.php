@@ -25,10 +25,6 @@ class Bootstrap {
     
     /**
      *
-     *
-     *
-     *
-     *
      * Objeto.
      * Encargado de inicializar las variables globales. Su atributo $configuracion contiene los valores necesarios
      * para gestionar la aplicacion.
@@ -46,10 +42,6 @@ class Bootstrap {
     
     /**
      *
-     *
-     *
-     *
-     *
      * Objeto. Actua como controlador del modulo de instalación del framework/aplicativo
      *
      * @var Instalador
@@ -58,10 +50,6 @@ class Bootstrap {
     
     /**
      *
-     *
-     *
-     *
-     *
      * Objeto. Instancia de la pagina que se está visitando
      *
      * @var Pagina
@@ -69,10 +57,6 @@ class Bootstrap {
     var $miPagina;
     
     /**
-     *
-     *
-     *
-     *
      *
      * Arreglo.Ruta de acceso a los archivos, se utilizan porque aún no se ha rescatado las
      * variables de configuración.
@@ -143,10 +127,6 @@ class Bootstrap {
     
     /**
      *
-     *
-     *
-     *
-     *
      * Asigna los valores a las variables que indican las rutas predeterminadas.
      *
      * @param
@@ -160,10 +140,6 @@ class Bootstrap {
     }
     
     /**
-     *
-     *
-     *
-     *
      *
      * Ingresar al aplicativo.
      *

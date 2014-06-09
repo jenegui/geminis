@@ -84,12 +84,12 @@ class Pagina {
         $totalRegistros = 0;
         
         $cadenaSql = $this->generadorClausulas->cadenaSql ( "bloquesPagina", $this->pagina );
-        if ($cadenaSql) {
-            $registro = $this->recursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
-            $totalRegistros = $this->recursoDB->getConteo ();
-        }
         
-        if ($totalRegistros > 0) {
+        $registro = $this->recursoDB->ejecutarAcceso ( $cadenaSql, "busqueda" );
+        
+        if ($registro) {
+            
+            $totalRegistros = $this->recursoDB->getConteo ();
             
             if (isset ( $registro [0] [self::PARAMETRO] ) && trim ( $registro [0] [self::PARAMETRO] ) != "") {
                 $parametros = explode ( "&", trim ( $registro [0] [self::PARAMETRO] ) );

@@ -20,6 +20,8 @@ class SesionSql {
     function setPrefijoTablas($valor) {
         
         $this->prefijoTablas = $valor;
+        
+        return true;
     
     }
     

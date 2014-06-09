@@ -19,7 +19,7 @@ class Mysql extends ConectorDB {
      */
     function conectar_db() {
         
-        $this->enlace = mysqli_connect ( $this->servidor, $this->usuario, $this->clave );
+        $this->enlace = @mysqli_connect ( $this->servidor, $this->usuario, $this->clave );
         
         if ($this->enlace) {
             
@@ -31,7 +31,7 @@ class Mysql extends ConectorDB {
             }
         } else {
             
-            $this->error = mysqli_errno ();
+            $this->error = 'Unable to connect to Database';
         }
     
     }
@@ -149,7 +149,7 @@ class Mysql extends ConectorDB {
          */
         $salida = $busqueda->fetch_array ( MYSQLI_BOTH );
         
-        if ($j == 0) {
+        if ($salida) {
             $this->keys = array_keys ( $salida );
             $i = 0;
             foreach ( $this->keys as $clave => $valor ) {
@@ -160,7 +160,7 @@ class Mysql extends ConectorDB {
             }
         }
         
-        for($j = 1; $j < $numeroRegistros; $j ++) {
+        for($j = 0; $j < $numeroRegistros; $j ++) {
             
             $salida = $busqueda->fetch_array ( MYSQLI_BOTH );
             

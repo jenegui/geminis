@@ -361,7 +361,7 @@ class Instalador {
             $tablasEncontradas = $this->recurso->getRegistroDb ();
             
             $resultado = true;
-            if (isset ( $tablasEncontradas )) {
+            if (isset ( $tablasEncontradas ) && is_array($tablasEncontradas)) {
                 foreach ( $tablasEncontradas as $table_name ) {
                     
                     $sql = "DROP TABLE IF EXISTS " . $table_name [0];

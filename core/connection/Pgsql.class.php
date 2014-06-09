@@ -16,8 +16,10 @@
  *
  *
  *
+ *
  * @package clase
  * @copyright
+ *
  *
  *
  *
@@ -28,6 +30,7 @@
  */
 
 /**
+ *
  *
  *
  *
@@ -64,6 +67,7 @@
  */
 
 /**
+ *
  *
  *
  *
@@ -244,6 +248,7 @@ class Pgsql extends ConectorDb {
     
     private function procesarResultado($busqueda, $numeroRegistros) {
         unset ( $this->registro );
+        
         @$this->campo = pg_num_fields ( $busqueda );
         @$this->conteo = pg_num_rows ( $busqueda );
         
@@ -254,33 +259,41 @@ class Pgsql extends ConectorDb {
         
         $salida = pg_fetch_array ( $busqueda );
         
-        $this->keys = array_keys ( $salida );
-        $i = 0;
-        
-        /**
-         * Obtener el nombre de las columnas
-         */
-        foreach ( $this->keys as $clave => $valor ) {
-            if (is_string ( $valor )) {
-                $this->claves [$i] = $valor;
-                $i ++;
+        if ($salida) {
+            
+            $this->keys = array_keys ( $salida );
+            $i = 0;
+            
+            /**
+             * Obtener el nombre de las columnas
+             */
+            foreach ( $this->keys as $clave => $valor ) {
+                if (is_string ( $valor )) {
+                    $this->claves [$i] = $valor;
+                    $i ++;
+                }
             }
+            
+            // /Recorrer el resultado y guardarlo en un arreglo
+            $j=0;
+            do{
+                
+                for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
+                    $this->registro [$j] [$unCampo] = $salida [$unCampo];
+                    $this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
+                }
+                $j++;
+                
+            }while($salida = pg_fetch_array ( $busqueda ));
+            @pg_free_result ( $busqueda );
+            
+            return $this->conteo;
         }
         
-        // /Recorrer el resultado y guardarlo en un arreglo
-        
-        for($j = 1; $j < $numeroRegistros; $j ++) {
-            $salida = pg_fetch_array ( $busqueda );
-            for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
-                $this->registro [$j] [$unCampo] = $salida [$unCampo];
-                $this->registro [$j] [$this->claves [$unCampo]] = $salida [$unCampo];
-            }
-        }
-        @pg_free_result ( $busqueda );
-        return $this->conteo;
+        return false;
     }
     
-    function obtenerCadenaListadoTablas() {
+    function obtenerCadenaListadoTablas($variable = '') {
         
         return "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';";
     
@@ -377,9 +390,9 @@ class Pgsql extends ConectorDb {
      */
     private function ejecutar_acceso_db($cadena) {
         
-        if (! pg_query ( $this->enlace, $cadena )) {
+        if (!@pg_query ( $this->enlace, $cadena )) {
             $this->error = pg_last_error ( $this->enlace );
-            return FALSE;
+            return FALSE;            
         } else {
             return TRUE;
         }

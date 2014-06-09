@@ -22,7 +22,7 @@
  *       registradas en el sistema operativo.
  *      
  */
-class ConfiguracionDesenlace {
+class ArchivoConfiguracion {
     
     private static $instance;
     
@@ -35,11 +35,11 @@ class ConfiguracionDesenlace {
      */
     var $conf;
     
+    var $ruta;
+    
     private function __construct() {
         
-        $this->conf = array ();
-        $this->variable ();
-    
+        $this->conf = array ();    
     }
     
     public static function singleton() {
@@ -75,9 +75,9 @@ class ConfiguracionDesenlace {
      */
     function variable() {
         
-        require_once ("../core/crypto/Encriptador.class.php");
-        require_once ("../core/crypto/aes.class.php");
-        require_once ("../core/crypto/aesctr.class.php");
+        require_once ($this->ruta . "crypto/Encriptador.class.php");
+        require_once ($this->ruta . "crypto/aes.class.php");
+        require_once ($this->ruta . "crypto/aesctr.class.php");
         
         $this->cripto = Encriptador::singleton ();
         $this->abrirArchivoConfiguracion ();
@@ -85,35 +85,44 @@ class ConfiguracionDesenlace {
     
     }
     
+    function setRuta($valor) {
+        $this->ruta = $valor;
+        return true;
+    }
+    
     private function abrirArchivoConfiguracion($ruta = "") {
         
+        $respuesta=false;
         if ($ruta == '') {
-            $ruta = '../config/';
+            $ruta = 'config/';
         }
         
         $fp = fopen ( $ruta . 'config.inc.php', "r" );
         if ($fp) {
             
             $i = 0;
-            while ( ! feof ( $fp ) && $i<=9 ) {
+            while ( ! feof ( $fp ) && $i < 9 ) {
                 $linea [$i] = $this->cripto->decodificar ( fgets ( $fp, 4096 ), "" );
                 $i ++;
             }
             
             fclose ( $fp );
             
-            $this->conf ["dbsys"] = $linea [3];
-            $this->conf ["dbdns"] = $linea [4];
-            $this->conf ["dbpuerto"] = $linea [5];
-            $this->conf ["dbnombre"] = $linea [6];
-            $this->conf ["dbusuario"] = $linea [7];
-            $this->conf ["dbclave"] = $linea [8];
-            $this->conf ["dbprefijo"] = $linea [9];
+            if($i>8){
             
-            return TRUE;
+            $this->conf ["dbsys"] = $linea [2];
+            $this->conf ["dbdns"] = $linea [3];
+            $this->conf ["dbpuerto"] = $linea [4];
+            $this->conf ["dbnombre"] = $linea [5];
+            $this->conf ["dbusuario"] = $linea [6];
+            $this->conf ["dbclave"] = $linea [7];
+            $this->conf ["dbprefijo"] = $linea [8];
+            
+            $respuesta=true;
+            }
         }
         
-        return FALSE;
+        return $respuesta;
     
     }
 

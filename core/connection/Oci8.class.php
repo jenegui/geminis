@@ -232,7 +232,7 @@ class Oci8 extends ConectorDb {
         
         $j = 0;
         
-        while ( $salida = oci_fetch_array ( $cadenaParser ) ) {
+        do{
             
             for($unCampo = 0; $unCampo < $this->campo; $unCampo ++) {
                 $this->registro [$j] [$unCampo] = $salida [$unCampo];
@@ -244,7 +244,7 @@ class Oci8 extends ConectorDb {
             if ($numeroRegistros > 0 && $registrosProcesados >= $numeroRegistros) {
                 break;
             }
-        }
+        }while ( $salida = oci_fetch_array ( $cadenaParser ) ) ;
         
         $this->conteo = $j;
         

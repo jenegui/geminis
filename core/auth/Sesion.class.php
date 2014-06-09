@@ -1,6 +1,6 @@
 <?php
-require_once ("core/auth/sesionSql.class.php");
-require_once ("core/auth/sesionBase.class.php");
+require_once ("core/auth/SesionSql.class.php");
+require_once ("core/auth/SesionBase.class.php");
 
 class Sesion extends SesionBase {
     
@@ -8,7 +8,7 @@ class Sesion extends SesionBase {
     
     const SESIONID='sesionId';
     
-    const EXPIRACION=self::EXPIRACION;
+    const EXPIRACION='expiracion';
     
     const APLICATIVO='aplicativo';
     

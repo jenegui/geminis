@@ -11,18 +11,13 @@
  * @license  GPL Version 3 o posterior
  *
  */
-require_once ("config/config.class.php");
+require_once ("config/ArchivoConfiguracion.class.php");
 
 class Configurador {
     
     private static $instance;
     
     /**
-     *
-     *
-     *
-     *
-     *
      * Arreglo que contiene las variables de configuración globales para el aplicativo.
      * Las variables se extraen de la base de datos de acuerdo a los datos de acceso declarados
      * en config.inc.php.
@@ -32,11 +27,6 @@ class Configurador {
     public $configuracion;
     
     /**
-     *
-     *
-     *
-     *
-     *
      * Fabrica de Conexiones a la base de datos de estructura
      *
      * @var ConectorBasicoDB
@@ -109,6 +99,8 @@ class Configurador {
         
         $configuracionBasica = ArchivoConfiguracion::singleton ();
         
+        $configuracionBasica->setRuta('core/');
+        $configuracionBasica->variable();
         $conf = $configuracionBasica->getConf ();
         
         foreach ( $conf as $clave => $valor ) {
@@ -136,7 +128,6 @@ class Configurador {
             $cadenaSql .= " valor  ";
             $cadenaSql .= "FROM ";
             $cadenaSql .= $this->configuracion ["dbprefijo"] . "configuracion ";
-            
             $this->total = $this->conexionDB->registro_db ( $cadenaSql, 0 );
             
             if ($this->total > 0) {
@@ -145,8 +136,7 @@ class Configurador {
                     $this->configuracion [trim ( $this->registro [$j] ["parametro"] )] = trim ( $this->registro [$j] ["valor"] );
                 
                 }
-                
-                return true;
+               return true;
             } else {
                 
                 error_log ( "No se puede iniciar la aplicacion. Imposible rescatar las variables de configuracion!", 0 );

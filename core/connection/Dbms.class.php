@@ -4,7 +4,7 @@ require_once ("Mysql.class.php");
 require_once ("Oci8.class.php");
 require_once ("Pgsql.class.php");
 
-class Ddbms {
+class Dbms {
     
     private $servidor;
     
