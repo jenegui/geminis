@@ -1,5 +1,7 @@
 <?php
-class RadioButton{
+require_once ("core/builder/HtmlBase.class.php");
+
+class RadioButtonHtml extends HtmlBase{
     
     function campoBotonRadial($atributos) {
     

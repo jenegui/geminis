@@ -1,6 +1,6 @@
 <?php
-
-class Link {
+require_once ("core/builder/HtmlBase.class.php");
+class Link  extends HtmlBase {
     
     function enlace($atributos) {
     

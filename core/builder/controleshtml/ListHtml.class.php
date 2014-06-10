@@ -1,5 +1,6 @@
 <?php
-class ListHTML{
+require_once ("core/builder/HtmlBase.class.php");
+class ListHTML extends HtmlBase{
     
     
     function listaNoOrdenada($atributos) {

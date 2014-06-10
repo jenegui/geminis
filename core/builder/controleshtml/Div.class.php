@@ -1,6 +1,9 @@
 <?php
 
-class Div{
+require_once ("core/builder/HtmlBase.class.php");
+
+
+class Div extends HtmlBase{
     
     function division($tipo, $atributos = "") {
     

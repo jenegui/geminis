@@ -1,7 +1,8 @@
 <?php
+require_once ("core/builder/HtmlBase.class.php");
 
 
-class Img{
+class Img extends HtmlBase{
     
     function campoImagen($atributos) {
     

@@ -1,6 +1,7 @@
 <?php
+require_once ("core/builder/HtmlBase.class.php");
 
-class Input {
+class Input  extends HtmlBase {
     
     
     function campoCuadroTexto($atributos) {

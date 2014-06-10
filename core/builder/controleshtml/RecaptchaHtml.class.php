@@ -1,6 +1,9 @@
 <?php
+require_once ("core/builder/HtmlBase.class.php");
 
-class Recaptcha{
+
+class RecaptchaHtml extends HtmlBase{
+
     function recaptcha($atributos) {
     
         require_once ($this->configuracion ["raiz_documento"] . $this->configuracion ["clases"] . "/recaptcha/recaptchalib.php");

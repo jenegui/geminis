@@ -1,6 +1,8 @@
 <?php
-class CheckBox{
-    
+require_once ("core/builder/HtmlBase.class.php");
+
+
+class CheckBoxHtml extends HtmlBase{
     
     function campoCuadroSeleccion($atributos) {
     

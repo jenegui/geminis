@@ -1,5 +1,6 @@
 <?php
-class TextArea{
+require_once ("core/builder/HtmlBase.class.php");
+class TextArea  extends HtmlBase{
     
     
     function campoTextArea($atributos) {

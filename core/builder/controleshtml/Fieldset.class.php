@@ -1,6 +1,8 @@
 <?php
+require_once ("core/builder/HtmlBase.class.php");
 
-class Fieldset{
+
+class Fieldset  extends HtmlBase{
     
     function marcoAgrupacion($tipo, $atributos = "") {
     

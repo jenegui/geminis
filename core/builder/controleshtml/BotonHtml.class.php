@@ -1,5 +1,8 @@
 <?php
-class Boton{
+
+require_once ("core/builder/HtmlBase.class.php");
+
+class BotonHtml extends HtmlBase{
     
     function campoBoton($atributos) {
     

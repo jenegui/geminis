@@ -1,5 +1,9 @@
 <?php
-class Form {
+
+require_once ("core/builder/HtmlBase.class.php");
+
+
+class Form  extends HtmlBase {
     
     function marcoFormulario($tipo, $atributos) {
     

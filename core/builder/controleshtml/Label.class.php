@@ -1,5 +1,6 @@
 <?php
-class Label{
+require_once ("core/builder/HtmlBase.class.php");
+class Label extends HtmlBase{
     
     function etiqueta($misAtributos) {
     

@@ -1,6 +1,6 @@
 <?php
-
-class Select{
+require_once ("core/builder/HtmlBase.class.php");
+class Select  extends HtmlBase{
     
     
     

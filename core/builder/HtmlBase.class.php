@@ -29,11 +29,11 @@ class HtmlBase {
     
     var $miConfigurador;
     
-    const NOMBRE = self::NOMBRE;
+    const NOMBRE = 'nombre';
     
     const SELECCION = 'seleccion';
     
-    const EVENTO = self::EVENTO;
+    const EVENTO = 'evento';
     
     const DESHABILITADO = 'deshabilitado';
     
@@ -67,13 +67,9 @@ class HtmlBase {
     
     const HIDDEN = 'hidden';
     
-    const DESHABILITADO = 'deshabilitado';
-    
     const SELECCIONADO = 'seleccionado';
     
     const MAXIMOTAMANNO = 'maximoTamanno';
-    
-    const EVENTO = self::EVENTO;
     
     const ONCLICK = 'onClick';
     
@@ -102,11 +98,10 @@ class HtmlBase {
     const LEYENDA = 'leyenda';
     const ENLACE = 'enlace';
     const COLUMNAS = 'columnas';
-    const TAMANNO = self::TAMANNO;
+    const TAMANNO = 'tamanno';
     const MENSAJE = 'mensaje';
     const TEXTO = 'texto';
     
-    const HTMLTABINDEX = 'tabindex=';
     
     /**
      * Atributos HTML
