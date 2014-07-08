@@ -7,11 +7,11 @@
  * @author      Paulo Cesar Coronado - Karen Palacios
  *
  */
-require_once ("core/manager/Configurador.class.php");
-require_once ("core/auth/Sesion.class.php");
-require_once ("core/connection/FabricaDbConexion.class.php");
-require_once ("core/crypto/Encriptador.class.php");
-require_once ("core/builder/Mensaje.class.php");
+require_once ('core/manager/Configurador.class.php');
+require_once ('core/auth/Sesion.class.php');
+require_once ('core/connection/FabricaDbConexion.class.php');
+require_once ('core/crypto/Encriptador.class.php');
+require_once ('core/builder/Mensaje.class.php');
 
 class Bootstrap {
     
@@ -235,7 +235,13 @@ class Bootstrap {
             }
         } else {
             
-            $respuesta = 'index';
+            if (isset ( $_REQUEST ['development'] )) {
+            
+                $respuesta = 'development';
+                
+            }else{
+                $respuesta = 'index';
+            }
         }
         
         return $respuesta;

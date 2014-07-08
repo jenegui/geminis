@@ -38,52 +38,74 @@ class Instalador {
     function procesarInstalacion() {
         // Esta función se invoca si existe el indice instalador en el arreglo $_REQUEST
         $mensajeError = "";
-        if ($this->revisarFormulario ()) {
-            
+        $continuar = true;
+        
+        do {
+            if (! $this->revisarFormulario ()) {
+                $mensajeError = "Los datos recibidos est&aacute;n corruptos!!!";
+                break;
+            }
             // Los campos al parecer son válidos:
             // 1. determinar si se puede ingresar a la base de datos
             
-            if ($this->verificarConexionDB ()) {
-                
-                // 2. Verificar si existe un archivo con la estructura de la base de datos
-                if ($this->verificarEstructura ()) {
-                    
-                    // 3. Crear la estructura en la base de datos
-                    $this->limpiarDB ();
-                    if ($this->crearEstructura ()) {
-                        
-                        // 4. Guardar los datos de configuracion en la DB
-                        if ($this->guardarConfiguracionDB ()) {
-                            
-                            // 5. Guardar los datos en el archivo de configuracion
-                            if ($this->guardarDatosConfiguracion ()) {
-                                
-                                if ($this->guardarRegistroRecursoDB ()) {
-                                    
-                                    $this->mostrarMensajeExito ();
-                                    unset ( $_REQUEST );
-                                }
-                            } else {
-                                $mensajeError = "No se pudo guardar los datos de configuración!!!\nCambiar permisos de /configuracion/config.inc.php";
-                            }
-                        } else {
-                            $mensajeError = "No se pudo guardar los datos de configuración en la base de datos!!!";
-                        }
-                    } else {
-                        $mensajeError = "No se pudo crear la estructura de la base de datos!!!";
-                    }
-                } else {
-                    $mensajeError = "No se encontró la estructura de la base de datos!!!";
-                }
-            } else {
+            if (! $this->verificarConexionDB ()) {
                 $mensajeError = "No se puede conectar a la base de datos!!!";
+                break;
             }
-        } else {
-            $mensajeError = "Los datos recibidos est&aacute;n corruptos!!!";
-        }
+            
+            // 2. Verificar si existe un archivo con la estructura de la base de datos
+            
+            if (! $this->verificarEstructura ()) {
+                
+                $mensajeError = "No se encontró la estructura de la base de datos!!!";
+                break;
+            }
+            
+            // 3. Crear la estructura en la base de datos
+            $this->limpiarDB ();
+            if (! $this->poblar ('estructura')) {
+                $mensajeError = "No se pudo crear la estructura de la base de datos!!!";
+                break;
+            }
+            
+            // 4. Guardar los datos de configuracion en la DB
+            if (! $this->guardarConfiguracionDB ()) {
+                $mensajeError = "No se pudo guardar los datos de configuración en la base de datos!!!";
+                break;
+            }
+            
+            // 5. Guardar los datos en el archivo de configuracion
+            if (! $this->guardarDatosConfiguracion ()) {
+                $mensajeError = "No se pudo guardar los datos de configuración!!!\nCambiar permisos de /configuracion/config.inc.php";
+                break;
+            }
+            
+            // 6. Guardar los datos de la conexión principal en la base de datos
+            
+            if (! $this->guardarRegistroRecursoDB ()) {
+                
+                $mensajeError = 'No se pudo guardar los registros de acceso a DB';
+                break;    
+            }
+            
+            // 7. Guardar los datos del módulo de desarrollo
+            
+            if (! $this->poblar('moduloDesarrollo')) {
+                
+                $mensajeError = 'No se pudo guardar los datos del módulo de desarrollo';
+                break;
+            
+            }
+        
+        } while ( false );
         
         if ($mensajeError != "") {
             $this->mostrarFormularioDatosConexion ( $mensajeError );
+        } else {
+            
+            $this->mostrarMensajeExito ();
+            unset ( $_REQUEST );
+        
         }
     
     }
@@ -281,10 +303,13 @@ class Instalador {
         }
     
     }
-    
-    private function crearEstructura() {
+    private function poblar($opcion='') {
+        if($opcion=='estructura'){
         
         $arquitectura = $_REQUEST ["raizDocumento"] . $_REQUEST ["site"] . "/install/estructura" . $_REQUEST ["dbsys"] . ".sql";
+        }else{
+            $arquitectura = $_REQUEST ["raizDocumento"] . $_REQUEST ["site"] . "/install/desarrollo.sql";
+        }
         
         $arquitecturap = @fopen ( $arquitectura, "r" );
         if ($arquitecturap) {
@@ -361,7 +386,7 @@ class Instalador {
             $tablasEncontradas = $this->recurso->getRegistroDb ();
             
             $resultado = true;
-            if (isset ( $tablasEncontradas ) && is_array($tablasEncontradas)) {
+            if (isset ( $tablasEncontradas ) && is_array ( $tablasEncontradas )) {
                 foreach ( $tablasEncontradas as $table_name ) {
                     
                     $sql = "DROP TABLE IF EXISTS " . $table_name [0];
