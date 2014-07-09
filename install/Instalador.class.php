@@ -38,7 +38,8 @@ class Instalador {
     function procesarInstalacion() {
         // Esta función se invoca si existe el indice instalador en el arreglo $_REQUEST
         $mensajeError = "";
-        $continuar = true;
+        
+        
         
         do {
             if (! $this->revisarFormulario ()) {
@@ -63,6 +64,7 @@ class Instalador {
             
             // 3. Crear la estructura en la base de datos
             $this->limpiarDB ();
+            
             if (! $this->poblar ('estructura')) {
                 $mensajeError = "No se pudo crear la estructura de la base de datos!!!";
                 break;
@@ -90,11 +92,15 @@ class Instalador {
             
             // 7. Guardar los datos del módulo de desarrollo
             
+            
+            if(isset($_REQUEST['moduloDesarrollo'])){
+            
             if (! $this->poblar('moduloDesarrollo')) {
                 
                 $mensajeError = 'No se pudo guardar los datos del módulo de desarrollo';
                 break;
             
+            }
             }
         
         } while ( false );

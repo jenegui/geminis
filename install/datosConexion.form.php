@@ -286,6 +286,12 @@ echo $formulario;
 
 			<div class="spacer"></div>
 			<div class="spacer"></div>
+			<h1>Módulo de desarrollo</h1>
+			<p>Definir si el aplicativo incluirá módulos de desarrollo.</p>
+			<label>Instalar módulo de desarrollo</label><input type="checkbox"
+				name="moduloDesarrollo" value="moduloDesarrollo" checked="checked"/>
+			<div class="spacer"></div>
+			<div class="spacer"></div>
 			<h1>Servicios Web</h1>
 			<p>Llaves para algunos servicios Web.</p>
 
