@@ -39,6 +39,8 @@ class HtmlBase {
     
     const ANCHO = 'ancho';
     
+    const ALTO = 'alto';
+    
     const OTRAOPCIONETIQUETA = 'otraOpcionEtiqueta';
     
     const MULTIPLE = 'multiple';

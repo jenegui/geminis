@@ -2,6 +2,35 @@
 
 require_once ("core/builder/HtmlBase.class.php");
 
+/**
+ * Para elemento DIV:
+ * $atributos['estilo'] 
+ * $atributos['estiloEnLinea']
+ * $atributos['titulo']
+ * $atributos['id']
+ * 
+ * Para Cuadros de Mensaje
+ * $atributos['tipo']
+ * $atributos['mensaje']
+ *  
+ * Para campoTexto
+ * $atributos['texto'] (Requerido)
+ * $atributos['estilo'] (Opcional)
+ * $atributos['columnas'] (Opcional)
+ * $atributos['etiqueta'] (Opcional)
+ * 
+ * Para CampoMensaje
+ * $atributos['mensaje']
+ * $atributos['estilo'] 
+ * $atributos['estiloEnLinea']
+ * $atributos['etiqueta']
+ * $atributos['estiloEtiqueta']
+ * $atributos['contenido']
+ * $atributos['estiloContenido']
+ * $atributos['tamanno']
+ * $atributos['linea']: Define si se coloca una línea horizontal de separación
+ * 
+ */
 
 class Div extends HtmlBase{
     
@@ -63,7 +92,7 @@ class Div extends HtmlBase{
         }
     
         $this->cadenaHTML .= ">\n";
-        if (isset ( $atributos ['etiqueta'] )) {
+        if (isset ( $atributos [self::ETIQUETA] )) {
             $this->cadenaHTML .= "<div class='campoTextoEtiqueta'>\n";
             $this->cadenaHTML .= $atributos [self::ETIQUETA];
             $this->cadenaHTML .= "\n</div>\n";
@@ -108,7 +137,7 @@ class Div extends HtmlBase{
         if (isset ( $atributos [self::TAMANNO] )) {
     
             $atributos [self::TAMANNO] = ucfirst ( $atributos [self::TAMANNO] );
-            $inicioSpan = "<span class='texto" . $atributos ['tamanno'] . "'> ";
+            $inicioSpan = "<span class='texto" . $atributos [self::TAMANNO] . "'> ";
             $finSpan = '</span>';
         }
         $this->cadenaHTML .= $inicioSpan . $atributos [self::MENSAJE] . $finSpan;

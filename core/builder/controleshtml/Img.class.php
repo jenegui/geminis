@@ -1,6 +1,16 @@
 <?php
 require_once ("core/builder/HtmlBase.class.php");
 
+/**
+ * $atributos['imagen']: ruta de la imagen (requerido)
+ * $atributos['estilo']: Estilo que se aplicará ala división que contiene la imagen (opcional)
+ * $atributos['etiqueta']: Texto alternativo de la imagen (opcional)
+ * $atributos['borde']: Borde decorativo de la imagen (opcional) 
+ * $atributos['ancho']: Ancho de la imagen (opcional)
+ * $atributos['alto']: Altura de la imagen (opcional)
+ *
+ */
+
 
 class Img extends HtmlBase{
     
@@ -35,7 +45,7 @@ class Img extends HtmlBase{
     
         if (isset ( $atributos ["alto"] )) {
             if ($atributos ["alto"] != "") {
-                $this->cadenaHTML .= "height='" . $atributos ["alto"] . "' ";
+                $this->cadenaHTML .= "height='" . $atributos [self::ALTO] . "' ";
             }
         } else {
             $this->cadenaHTML .= "height='200px' ";
