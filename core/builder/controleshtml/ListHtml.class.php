@@ -14,7 +14,7 @@ class ListHTML extends HtmlBase{
         foreach ( $atributos ["items"] as $clave => $valor ) {
             $this->cadenaHTML .= "<li>";
     
-            $this->procesarValor ( $valor, $atributos );
+            $this->procesarValor ( $valor, $atributos,$clave );
     
             $this->cadenaHTML .= "</li>";
         }
@@ -25,7 +25,7 @@ class ListHTML extends HtmlBase{
     
     }
     
-    private function procesarValor($valor, $atributos) {
+    private function procesarValor($valor, $atributos,$clave) {
         if (is_array ( $valor )) {
     
             if (isset ( $valor ['icono'] )) {

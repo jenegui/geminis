@@ -1,4 +1,11 @@
 <?php
+/**
+ * $atributos['id']
+ * $atributos['enlace']
+ * $atributos['tabIndex']
+ * $atributos['estilo']
+ * $atributos['enlaceTexto']
+ */
 require_once ("core/builder/HtmlBase.class.php");
 class Link  extends HtmlBase {
     
@@ -13,6 +20,10 @@ class Link  extends HtmlBase {
     
         if (isset ( $atributos [self::ENLACE] ) && $atributos [self::ENLACE] != "") {
             $this->cadenaHTML .= "href='" . $atributos [self::ENLACE] . "' ";
+        }
+        
+        if (isset ( $atributos [self::ENLACECODIFICAR] ) && $atributos [self::ENLACECODIFICAR] != "") {
+            $this->cadenaHTML .= "href='" . $this->miConfigurador->fabricaConexiones->crypto->$atributos [self::ENLACE] . "' ";
         }
     
         if (isset ( $atributos ["tabIndex"] )) {

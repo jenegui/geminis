@@ -94,14 +94,25 @@ class HtmlBase {
     const NOMBREFORMULARIO = 'nombreFormulario';
     
     const INICIO = 'inicio';
+    
     const TIPOFORMULARIO = 'tipoFormulario';
+    
     const METODO = 'metodo';
+    
     const JQUERYUI = 'jqueryui';
+    
     const LEYENDA = 'leyenda';
+    
     const ENLACE = 'enlace';
+    
+    const ENLACECODIFICAR = 'enlaceCodificar';
+    
     const COLUMNAS = 'columnas';
+    
     const TAMANNO = 'tamanno';
+    
     const MENSAJE = 'mensaje';
+    
     const TEXTO = 'texto';
     
     

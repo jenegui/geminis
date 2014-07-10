@@ -37,11 +37,6 @@ class Encriptador {
     
     /**
      *
-     *
-     *
-     *
-     *
-     *
      * Método para decodificar la cadena GET para obtener las variables de la petición
      *
      * @param
