@@ -60,7 +60,6 @@ class FronteracontenidoCentral{
 		include_once($this->ruta."/formulario/panelIzquierdo.php");
 		include_once($this->ruta."/formulario/panelCentral.php");
 		include_once($this->ruta."/formulario/panelDerecho.php");
-		include_once($this->ruta."/formulario/panelNoticias.php");
 
 	}
 

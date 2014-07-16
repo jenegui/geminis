@@ -12,13 +12,12 @@ $urlBloque = $this->miConfigurador->getVariableConfiguracion ( 'rutaUrlBloque' )
 			<div class="iconoPanelCentral">
 			</div>			
 			<div class="tituloPanelCentral">
-				Proyectos de Desarrollo
+				¿Qué es SARA?
 			</div>
 			 <div class="cuerpoPanelCentral">
 			 <p>
-			 Actualmente se tienen estructurados más de 30 proyectos de desarrollo. La mayoría están en la fase de inicio y
-			 están disponibles para grupos de investigación, grupos de trabajo o estudiantes que deseen realizarlos como
-			 trabajo de grado. 
+			 SARA es un marco de trabajo para crear aplicaciones en PHP. Tiene los elemento necesarios para crear aplicaciones
+			 de manera ágil, gestionando varios aspectos relacionados con la seguridad, la estructura y la integración de módulos. 
 			 </p>			 
 			 </div>
 		</div>

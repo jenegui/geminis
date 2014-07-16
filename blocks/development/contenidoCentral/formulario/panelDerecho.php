@@ -8,12 +8,12 @@ $urlBloque = $this->miConfigurador->getVariableConfiguracion ( 'rutaUrlBloque' )
 <!--Division flotante para el panel-->
 <div id="divPanelDerecho">
 	<div class="iconoPanelDerecho"></div>
-	<div class="tituloPanelDerecho">SGSI</div>
+	<div class="tituloPanelDerecho">Seguridad</div>
 	<div class="cuerpoPanelDerecho">
-		<p>Para fomentar una modelo de gestión que garantice la seguridad de los datos personales, la
-		Universidad Distrital está en proceso de implementación de su Sistema de Gestión de Seguridad de 
-		la Información.
+		<p>SARA tiene mecanismos para minimizar los efectos de las vulnerabilidades más conocidas de las aplicaciones
+		orientadas a la web.
 		</p>
 	</div>
 </div>
 <!--Fin Division flotante para el Panel-->
+</div>

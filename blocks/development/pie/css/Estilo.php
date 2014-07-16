@@ -1,7 +1,11 @@
 <?php
 $indice=0;
-$estilo[$indice++]="estiloMenuImagenes.css";
 
+$estilo[$indice]="estiloMenuImagenes.css";
+$indice++;
+
+$estilo[$indice]="estiloPie.css";
+$indice++;
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");

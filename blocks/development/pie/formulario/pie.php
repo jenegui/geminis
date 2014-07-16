@@ -23,88 +23,14 @@ $enlace= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
 		</div>
 		<!--Grupo de Enlaces -->
 		<div class="footer_lista fleft">
-			<span class="listaEncabezado">Servicios</span>
+			<span class="listaEncabezado">SARA</span>
 			<p>
 				<br>
 			</p>
 			<p>
 				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Página Principal</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Sistema de Información</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Desarrollo de Software</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Servicios Web</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Virtualización</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Soporte</a>
+					href="https://github.com/cartago/sara" target="_blank" 
+					title="">Repositorio</a>
 			</p>
 			
 		</div>
@@ -113,65 +39,6 @@ $enlace= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
 		<div class="footer_division fleft">
 			<br> <img src="<? echo $urlBloque.'/imagen/' ?>bg_ulfooter.gif">
 		</div>
-
-		<!--Fin division entre secciones -->
-		<!--Grupo de Enlaces -->
-		<div class="footer_lista fleft">
-			<span class="listaEncabezado">Estandarización</span>
-			<p>
-				<br>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">SGSI</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Catálogo de Servicos OAS</a>
-			</p>
-			<p>
-				<img src="<? echo $urlBloque.'/imagen/' ?>arrow_footer.gif"> <a
-					href="<?
-					/*$variable = "pagina=informacion";
-					$variable .= "&imagenLateral=imagenInformacion";
-					$variable .= "&tema=informacion";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;*/
-					$variable = "pagina=index";
-					$variable = $this->miConfigurador->fabricaConexiones->crypto->codificar_url ( $variable,$enlace );
-					echo $indice . $variable;
-					?>"
-					title="">Acceso e Identidad</a>
-			</p>
-			<p>
-				<br>
-			</p>
-		</div>
-		<!--Fin del grupo de Enlaces -->
-		<!--Division entre secciones -->
-		<div class="footer_division fleft">
-			<br> <img src="<?echo $urlBloque.'/imagen/' ?>bg_ulfooter.gif">
-		</div>
 		<!--Fin division entre secciones -->
 		<!--Mensaje en grupo enlaces -->
 		<div class="footer_mensajeLista fleft">
@@ -179,9 +46,9 @@ $enlace= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
 				<br>
 			</p>
 			<p style="padding-right: 0px; text-align: justify;">
-				<span class="listaEncabezado">OAS</span>
+				<span class="listaEncabezado">SARA Framework</span>
 			</p>
-			<p class="textoPie" style="color:#555555">(R)2013.Se autoriza la reproducci&oacute;n total o parcial,
+			<p class="textoPie" style="color:#555555">(R)2013 -2014.Se autoriza la reproducci&oacute;n total o parcial,
 				as&iacute; como su traducci&oacute;n a cualquier idioma.</p>
 			<p class="textoPie" style="color:#555555">
 				Powered by: SARA Framework<br>
@@ -192,7 +59,7 @@ $enlace= $this->miConfigurador->getVariableConfiguracion ( 'enlace' );
 	</div>
 	<div class="footer_messages  fleft">
 	<p>
-		2013. UNIVERSIDAD DISTRITAL Francisco Jos&eacute; de Caldas.<br> Cr 7
+		2013 - 2014. UNIVERSIDAD DISTRITAL Francisco Jos&eacute; de Caldas.<br> Cr 7
 		No 40 - 53<br> Tel: 3239300<br> <a
 			href="mailto:computo@udistrital.edu.co">computo@udistrital.edu.co</a><br>
 		Bogot&aacute;, D.C. - Colombia<br>

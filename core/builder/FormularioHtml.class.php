@@ -8,7 +8,6 @@ require_once ("core/builder/controleshtml/Fieldset.class.php");
 require_once ("core/builder/controleshtml/Form.class.php");
 require_once ("core/builder/controleshtml/Img.class.php");
 require_once ("core/builder/controleshtml/Input.class.php");
-require_once ("core/builder/controleshtml/Label.class.php");
 require_once ("core/builder/controleshtml/Link.class.php");
 require_once ("core/builder/controleshtml/ListHtml.class.php");
 require_once ("core/builder/controleshtml/RadioButtonHtml.class.php");
@@ -28,7 +27,6 @@ class FormularioHtml extends Agregador{
         $this->aggregate('Form');
         $this->aggregate('Img');
         $this->aggregate('Input');
-        $this->aggregate('Label');
         $this->aggregate('Link');
         $this->aggregate('ListHtml');
         $this->aggregate('RadioButtonHtml');

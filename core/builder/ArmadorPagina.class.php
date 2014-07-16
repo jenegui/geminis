@@ -269,10 +269,11 @@ class ArmadorPagina {
     function incluirFuncionReady($unBloque) {
         
         /**
-         * Esta función registra funciones javascript para la página.
-         * Tales funciones están declartadas en cada bloque
-         * y pueden venir directamente en un archivo ready.js o procesadas a partir de un archivo ready.php. Depende
-         * del programador decidir cual de las dos opciones (o las dos) implementar.
+         * Esta función registra funciones las opciones de la función ready (jquery) para la página
+         * Tales funciones están declaradas en cada bloque y pueden venir directamente en un archivo
+         * llamado ready.js o en un archivo ready.php. 
+         * 
+         * El archivo ready.php se utiliza cuando se tenga que crear de manera dinámica el js.
          */
         echo "<script type='text/javascript'>\n";
         echo "$(document).ready(function(){\n";

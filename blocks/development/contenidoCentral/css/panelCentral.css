@@ -2,14 +2,11 @@
   {
         position:relative;
         top:20px;
-        width:220px;
+        width:440px;
         height:300px;
         padding:10px;
         font-size: 12px;
         font-family: "Arial", Verdana, Trebuchet MS, Helvetica, sans-serif;
-        border-width: 2px 0px 0px 0px;
-		border-style:solid ;
-        border-color:#AAAAAA;
         z-index:21;
         float:left;
         

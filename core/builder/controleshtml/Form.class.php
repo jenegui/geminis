@@ -1,20 +1,36 @@
 <?php
+/**
+ * $tipo : Si es el inicio o el final del formulario. values:'inicio', 'fin'
+ * $atributos['id']
+ * $atributos['nombre']
+ * $atributos['tipoFormulario'] : Como se codificará los datos del formulario al enviar. values: 'multipart/form-data'[1],'application/x-www-form-urlencoded', 'text/plain' 
+ * $atributos['metodo'] : values: 'GET', 'POST'
+ * $atributos['action'] 
+ * $atributos['titulo']
+ * $atributos['estilo']
+ * $atributos['marco'] : especifica si se coloca una división alrededor del formulario, esto facilita su maquetación. values: 'false', 'true'
+ * 
+ * [1] 'multipart/form-data' es necesario cunado se tienen controles tipo file.
+ *  
+ */
 
 require_once ("core/builder/HtmlBase.class.php");
 
 
 class Form  extends HtmlBase {
     
-    function marcoFormulario($tipo, $atributos) {
+    var $cadenaHTML;
     
-        if ($tipo == self::INICIO) {
+    function formularioConMarco($atributos='') {
+    
+        if ($atributos['tipoEtiqueta'] == self::INICIO) {
     
             if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] != "") {
                 $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . "'>\n";
             } else {
                 $this->cadenaHTML = "<div class='formulario'>\n";
             }
-            $this->procesarAtributosForm();
+            $this->cadenaHTML.=$this->procesarAtributosFormulario($atributos);
     
         } else {
             $this->cadenaHTML = "</form>\n";
@@ -33,11 +49,11 @@ class Form  extends HtmlBase {
      * @return Ambigous <string, unknown>
      *
      */
-    function formulario($tipo, $atributos = "") {
+    function formularioSinMarco($atributos = '') {
     
-        if ($tipo == self::INICIO) {
+        if ($atributos['tipoEtiqueta']  == self::INICIO) {
     
-            $this->procesarAtributosForm();
+            $this->cadenaHTML=$this->procesarAtributosFormulario($atributos);
     
         } else {
             $this->cadenaHTML = "</form>\n";
@@ -47,33 +63,63 @@ class Form  extends HtmlBase {
     
     }
     
+    
+    function formulario($atributos){
+        
+        if(!isset($atributos['tipoEtiqueta'])){
+            $atributos['tipoEtiqueta']='fin';
+            
+        }
+        
+        if (isset($atributos['marco']) && $atributos['marco']) {
+        
+            $this->cadenaHTML=$this->formularioConMarco($atributos);
+        
+        } else {
+            $this->cadenaHTML=$this->formularioSinMarco($atributos);
+        }
+        
+        return $this->cadenaHTML;
+    }
+    
+    
     private function procesarAtributosFormulario($atributos){
     
-        $this->cadenaHTML = "<form ";
+        $cadena= "<form ";
+        $nombre='';
     
-        if (isset ( $atributos ["id"] )) {
-            $this->cadenaHTML .= "id='" . $atributos ["id"] . "' ";
+        if (isset ( $atributos ['id'] )) {
+            $cadena .= "id='" . $atributos ['id'] . "' ";
+            $nombre=$atributos ['id'];
         }
     
-        if (isset ( $atributos [self::TIPOFORMULARIO] )) {
-            $this->cadenaHTML .= "enctype='" . $atributos [self::TIPOFORMULARIO] . "' ";
+        if (isset ( $atributos [self::TIPOFORMULARIO] ) && $atributos [self::TIPOFORMULARIO]!='') {
+            $cadena .= "enctype='" . $atributos [self::TIPOFORMULARIO] . "' ";
         }
     
         if (isset ( $atributos [self::METODO] )) {
-            $this->cadenaHTML .= "method='" . strtolower ( $atributos [self::METODO] ) . "' ";
+            $cadena.= "method='" . strtolower ( $atributos [self::METODO] ) . "' ";
         }
     
         if (isset ( $atributos ["action"] )) {
-            $this->cadenaHTML .= "action='index.php' ";
+            $cadena .= "action='".$atributos ["action"]."' ";
+        }else{
+            $cadena.= "action='index.php' ";
         }
     
         if (isset ( $atributos [self::TITULO] )) {
-            $this->cadenaHTML .= "title='" . $atributos [self::TITULO] . "' ";
+            $cadena .= "title='" . $atributos [self::TITULO] . "' ";
         }else{
-            $this->cadenaHTML .= "title='Formulario' ";
+            $cadena.= "title='Formulario' ";
         }
     
-        $this->cadenaHTML .= "name='" . $atributos ["nombreFormulario"] . "'>\n";
+        if (isset ( $atributos ['nombre'] )) {
+            $cadena.= "name='" . $atributos ["nombre"] . "'>\n";
+        }else{
+            $cadena.= "name='" . $nombre. "'>\n";
+        }
+        
+        return $cadena;
     }
     
     
