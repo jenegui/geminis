@@ -29,7 +29,7 @@ class Input  extends HtmlBase {
     
     
     function campoCuadroTexto($atributos) {
-    
+       
         $this->cadenaHTML = '';
     
         $final = '';
@@ -128,14 +128,21 @@ class Input  extends HtmlBase {
         if (isset ( $this->atributos [self::DESHABILITADO] ) && $this->atributos [self::DESHABILITADO]) {
             $cadena .= "readonly='readonly' ";
         }
+        
+        if(isset($atributos['campoSeguro']) && $atributos['campoSeguro']){
+        
+            $this->atributos [self::ID]=sha1($this->atributos [self::ID].$_REQUEST['tiempo']);
+            $this->atributos [self::NOMBRE]=$this->atributos [self::ID];
+        
+        }
     
-        if (isset ( $this->atributos [self::NOMBRE] ) && $this->atributos [self::NOMBRE] != "") {
+        $cadena .= "id='" . $this->atributos [self::ID] . "' ";
+        
+        if ($this->atributos [self::NOMBRE] != "") {
             $cadena .= self::HTMLNAME . "'" . $this->atributos [self::NOMBRE] . "' ";
         } else {
             $cadena .= self::HTMLNAME . "'" . $this->atributos [self::ID] . "' ";
         }
-    
-        $cadena .= "id='" . $this->atributos [self::ID] . "' ";
     
         if (isset ( $this->atributos [self::VALOR] )) {
             $cadena .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
