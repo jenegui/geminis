@@ -76,7 +76,8 @@ $atributos ["tabIndex"] = $tab;
 $atributos ["tipo"] = 'boton';
 //submit: no se coloca si se desea un tipo button genérico
 $atributos ['submit'] = true; 
-$atributos ["estilo"] = '';
+$atributos ["estiloMarco"] = '';
+$atributos ["estiloBoton"] = 'jqueryui';
 // verificar: true para verificar el formulario antes de pasarlo al servidor.
 $atributos ["verificar"] = ''; 
 $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js

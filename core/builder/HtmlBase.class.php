@@ -65,6 +65,10 @@ class HtmlBase {
     
     const ESTILOCONTENIDO = 'estiloContenido';
     
+    const ESTILOMARCO = 'estiloMarco';
+    
+    const ESTILOBOTON = 'estiloBoton';
+    
     const SINDIVISION = 'sinDivision';
     
     const HIDDEN = 'hidden';

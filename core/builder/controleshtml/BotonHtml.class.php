@@ -9,23 +9,24 @@ class BotonHtml extends HtmlBase{
 
     function campoBoton($atributos) {
     
-        $this->cadenaHTML = "";
-    
+        $this->cadenaHTML = '';
+        
+        $final='';
+        
+        if(!isset ( $atributos [self::ESTILOMARCO] ) || $atributos [self::ESTILOMARCO] == '' || $atributos [self::ESTILOMARCO] == 'jqueryui' ){
+            $atributos [self::ESTILO]='campoBoton';
+        }
+        
         if (! isset ( $atributos [self::SINDIVISION] )) {
     
-            if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] != "") {
-                $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILO] . "'>\n";
-            } else {
-                $this->cadenaHTML .= "<div class='campoBoton'>\n";
-            }
+            $this->cadenaHTML .= "<div class='" . $atributos [self::ESTILO] . "'>\n";
+            
+            $final='</div>';
         }
     
         $this->cadenaHTML .= $this->boton ( $this->configuracion, $atributos );
-        if (! isset ( $atributos [self::SINDIVISION] )) {
-            $this->cadenaHTML .= "</div>\n";
-        }
-    
-        return $this->cadenaHTML;
+        
+        return $this->cadenaHTML.$final;
     
     }
     
@@ -45,9 +46,13 @@ class BotonHtml extends HtmlBase{
     function boton($datosConfiguracion, $misAtributos) {
         
         $this->setAtributos ( $misAtributos );
-    
+        
+        if($misAtributos [self::ESTILOBOTON]=='jqueryui'){
+            $misAtributos [self::ESTILOBOTON]='ui-button ui-state-default ui-corner-all ui-button-text-only';
+        }
         if ($this->atributos [self::TIPO] == "boton") {
             $this->cadenaBoton = "<button ";
+            $this->cadenaBoton .= "class='".$misAtributos [self::ESTILOBOTON]."' ";
             $this->cadenaBoton .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
             $this->cadenaBoton .= "id='" . $this->atributos [self::ID] . "A' ";
             $this->cadenaBoton .= self::HTMLTABINDEX . "'" . $this->atributos [self::TABINDEX] . "' ";
