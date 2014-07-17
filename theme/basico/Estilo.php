@@ -12,11 +12,6 @@ $indice ++;
 $host = $this->miConfigurador->getVariableConfiguracion ( "host" );
 $sitio = $this->miConfigurador->getVariableConfiguracion ( "site" );
 
-if (isset ( $_REQUEST ["jquery-ui"] )) {
-    $estilo [$indice] = 'jquery-ui.css';
-    $indice ++;
-}
-
 foreach ( $estilo as $nombre ) {
     echo "<link rel='stylesheet' type='text/css' href='" . $host . $sitio . "/theme/basico/css/" . $nombre . "'>\n";
 }

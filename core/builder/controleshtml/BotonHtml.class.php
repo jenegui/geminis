@@ -2,8 +2,11 @@
 
 require_once ("core/builder/HtmlBase.class.php");
 
+require_once ("core/builder/controleshtml/Input.class.php");
+
+
 class BotonHtml extends HtmlBase{
-    
+
     function campoBoton($atributos) {
     
         $this->cadenaHTML = "";
@@ -26,8 +29,21 @@ class BotonHtml extends HtmlBase{
     
     }
     
-    function boton($datosConfiguracion, $misAtributos) {
+    function cuadroAsociado(){
+        
+        $cuadroTexto=new Input();
+        
+        $this->atributos [self::ID] = $this->atributos [self::ID];
+        $this->atributos [self::TIPO] = self::HIDDEN;
+        $this->atributos ["obligatorio"] = false;
+        $this->atributos [self::ETIQUETA] = "";
+        $this->atributos [self::VALOR] = "false";
+        return $cuadroTexto->cuadro_texto($this->atributos );
+        
+    }
     
+    function boton($datosConfiguracion, $misAtributos) {
+        
         $this->setAtributos ( $misAtributos );
     
         if ($this->atributos [self::TIPO] == "boton") {
@@ -47,12 +63,10 @@ class BotonHtml extends HtmlBase{
                 }
                 $this->cadenaBoton .= "}else{this.disabled=false;false}\">" . $this->atributos [self::VALOR] . '</button>\n';
                 // El cuadro de Texto asociado
-                $this->atributos [self::ID] = $this->atributos [self::ID];
-                $this->atributos [self::TIPO] = self::HIDDEN;
-                $this->atributos ["obligatorio"] = false;
-                $this->atributos [self::ETIQUETA] = "";
-                $this->atributos [self::VALOR] = "false";
-                $this->cadenaBoton .= $this->cuadro_texto ( $datosConfiguracion, $this->atributos );
+                $this->cadenaBoton .= $this->cuadroAsociado();
+                
+                
+                
             } else {
     
                 $this->cadenaBoton .= $this->atributoOnclickBoton ();
@@ -60,12 +74,7 @@ class BotonHtml extends HtmlBase{
                 $this->cadenaBoton .= "\">" . $this->atributos [self::VALOR] . "</button>\n";
     
                 // El cuadro de Texto asociado
-                $this->atributos [self::ID] = $this->atributos [self::ID];
-                $this->atributos [self::TIPO] = self::HIDDEN;
-                $this->atributos ["obligatorio"] = false;
-                $this->atributos [self::ETIQUETA] = "";
-                $this->atributos [self::VALOR] = "false";
-                $this->cadenaBoton .= $this->cuadro_texto ( $datosConfiguracion, $this->atributos );
+                $this->cadenaBoton .= $this->cuadroAsociado();
             }
         } else {
     

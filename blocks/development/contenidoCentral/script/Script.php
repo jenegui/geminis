@@ -9,7 +9,6 @@
 
 $indice=0;
 
-$funcion[$indice++]="jqueryui.js";
 $funcion[$indice++]="jquery.validationEngine.js";
 $funcion[$indice++]="jquery.validationEngine-es.js";
 

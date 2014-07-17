@@ -1,4 +1,8 @@
 <?php 
+/**
+ * IMPORTANTE: Este formulario está utilizando jquery. Por tanto en el archivo ready.php se delaran algunas funciones js
+ * que lo complementan.
+ */
 
 // Rescatar los datos de este bloque
 $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
@@ -108,7 +112,8 @@ $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 /**
  * SARA permite que los nombres de los campos sean dinámicos. Para ello utiliza la hora en que es creado el formulario para
  * codificar el nombre de cada campo. Si se utiliza esta técnica es necesario pasar dicho tiempo como una variable:
- * 
+ * (a) invocando a la variable $_REQUEST ['tiempo'] que se ha declarado en ready.php o
+ * (b) asociando el tiempo en que se está creando el formulario
  */ 
 $valorCodificado .= "&tiempo=" . $_REQUEST ['tiempo'];
 //Paso 2: codificar la cadena resultante

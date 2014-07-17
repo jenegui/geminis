@@ -66,7 +66,7 @@ class Input  extends HtmlBase {
     
     }
     
-    private function cuadro_texto($misAtributos) {
+    function cuadro_texto($misAtributos) {
     
         $this->setAtributos ( $misAtributos );
         

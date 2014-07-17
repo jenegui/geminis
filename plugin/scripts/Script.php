@@ -1,19 +1,27 @@
 <?php
-$host = $this->miConfigurador->getVariableConfiguracion ( "host" );
-$sitio = $this->miConfigurador->getVariableConfiguracion ( "site" );
+$host = $this->miConfigurador->getVariableConfiguracion ( 'host' );
+$sitio = $this->miConfigurador->getVariableConfiguracion ( 'site' );
+$estiloPredeterminado = $this->miConfigurador->getVariableConfiguracion ( 'estiloPredeterminado' );
+
 $indice = 0;
-$funcion [$indice ++] = "funciones.js";
+$estilo=array();
 
-if (isset ( $_REQUEST ["jquery"] )) {
-    $funcion [$indice ++] = "jquery.js";
-}
+$funcion [$indice] = "funciones.js";
+$indice++;
 
-if (isset ( $_REQUEST ["jquery-ui"] )) {
-    $funcion [$indice ++] = "jquery-ui/jquery-ui.js";
+if (isset ( $_REQUEST ['jquery'] )) {
+    $funcion [$indice] = 'javascript/jquery.js';
+    $indice++;
+    $funcion [$indice] = 'javascript/jquery-ui/jquery-ui.js';
+    $estilo [$indice] = 'javascript/jquery-ui/jquery-ui-themes/themes/'.$estiloPredeterminado.'/jquery-ui.css';
+    $indice++;
 }
 
 foreach ( $funcion as $nombre ) {
-    echo "<script type='text/javascript' src='" . $host . $sitio . "/plugin/scripts/javascript/" . $nombre . "'></script>";
+    echo "<script type='text/javascript' src='" . $host . $sitio .'/plugin/scripts/'. $nombre . "'></script>\n";
 }
 
+foreach ( $estilo as $nombre ) {
+    echo "<link rel='stylesheet' type='text/css' href='" . $host . $sitio .'/plugin/scripts/'. $nombre . "'>\n";
+}
 ?>

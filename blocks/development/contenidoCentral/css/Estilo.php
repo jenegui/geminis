@@ -3,7 +3,6 @@ $indice=0;
 $estilo[$indice++]="panelIzquierdo.css";
 $estilo[$indice++]="panelDerecho.css";
 $estilo[$indice++]="panelCentral.css";
-$estilo[$indice++]="jquery-ui.css";
 
 $rutaBloque=$this->miConfigurador->getVariableConfiguracion("host");
 $rutaBloque.=$this->miConfigurador->getVariableConfiguracion("site");
