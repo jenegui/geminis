@@ -1,10 +1,6 @@
 {
 	"name" : "udistrital/saraAcademico",
-	"repositories" : [{
-			"type" : "vcs",
-			"url" : "https://github.com/paulocoronado/geminis"
-		}
-	],
+	
 	"require" : {
 		"namshi/notificator" : "~1.1"
 	},
