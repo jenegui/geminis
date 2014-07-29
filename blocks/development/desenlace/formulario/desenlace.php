@@ -108,6 +108,7 @@ echo $this->miFormulario->campoBoton ( $atributos );
 
 // Paso 1: crear el listado de variables
 $valorCodificado = "action=" . $esteBloque ["nombre"];
+$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
 $valorCodificado .= "&bloque=" . $esteBloque ["id_bloque"];
 $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
 /**
@@ -121,12 +122,25 @@ $valorCodificado .= "&tiempo=" . $_REQUEST ['tiempo'];
 $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
 
 
+$atributos ["id"] = "formSaraData"; // No cambiar este nombre
+$atributos ["tipo"] = "hidden";
+$atributos ['estilo']='';
+$atributos ["obligatorio"] = false;
+$atributos ['marco']=true;
+$atributos ["etiqueta"] = "";
+$atributos ["valor"] = $valorCodificado;
+echo $this->miFormulario->campoCuadroTexto ( $atributos );
+unset ( $atributos );
+
+
 // ----------------FIN SECCION: Paso de variables -------------------------------------------------
 
 
 //---------------- FIN SECCION: Controles del Formulario -------------------------------------------
 
 //----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
+//Se debe declarar el mismo atributo de marco con que se inició el formulario.
+$atributos['marco']=true;
 $atributos['tipoEtiqueta']='fin';
 echo $this->miFormulario->formulario($atributos);
 

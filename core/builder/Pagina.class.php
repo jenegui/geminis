@@ -51,22 +51,41 @@ class Pagina {
         
         $this->recursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( "configuracion" );
         
-        if ($this->recursoDB) {
+        if ($this->recursoDB) {            
+
+            
+            // La variable POST formSaraData contiene información codificada
+            if (isset ( $_REQUEST ["formSaraData"] )) {
+                $this->cripto->decodificar_url ( $_REQUEST ["formSaraData"] );
+            }            
+            
             
             $this->especificar_pagina ( $laPagina );
             
-            // La variable POST formSaraData contiene información codificada
+            /**
+             * En este punto pueden ocurrir tres cosas:
+             * a) No existe una variable action por tanto se muestra la página
+             * b) Existe una variable action por tanto se ejecuta solo el bloque que procesa la petición
+             * c) Existe una variable actionBloque por tanto se carga la página y se incluye el resultado del 
+             *    procesamiento del bloque. IMPORTANTE: Se espera que el bloque no realice ningún redirect, incluir
+             *    esa funcionalidad podría acarrear comportamientos no especificados.
+             */
             
-            if (isset ( $_REQUEST ["formSaraData"] )) {
-                $this->cripto->decodificar_url ( $_REQUEST ["formSaraData"] );
-            }
+            if(isset ( $_REQUEST ['actionBloque'] )){
+                //(c)
+                $resultado=$this->mostrarPagina();
+            }elseif(isset ( $_REQUEST ['action'] )){
+                //(b)
+                $resultado=$this->procesarPagina();
+            }else{
+                //(a)
+                $resultado= $this->mostrarPagina ();
+            }            
             
-            if (! isset ( $_REQUEST ['action'] )) {
-                return $this->mostrar_pagina ();
-            } else {
+            return $resultado;
+            
                 
-                return $this->procesar_pagina ();
-            }
+            
         }
         
         return false;
@@ -75,11 +94,15 @@ class Pagina {
     
     function especificar_pagina($nombre) {
         
-        $this->pagina = $nombre;
+        if(isset($_REQUEST['pagina']) && $_REQUEST['pagina']!=''){
+            $this->pagina = $_REQUEST['pagina'];
+        }else{
+            $this->pagina = $nombre;
+        }
     
     }
     
-    function mostrar_pagina() {
+    function mostrarPagina() {
         // 1. Buscar los bloques que constituyen la página
         $totalRegistros = 0;
         
@@ -111,12 +134,17 @@ class Pagina {
     
     }
     
-    function procesar_pagina() {
-        
-        $this->procesadorPagina->procesarPagina ();
-        
-        return true;
+    function procesarPagina(){
     
+        $this->procesadorPagina->procesarPagina();
+    
+        return true;
+    }
+    
+    
+    
+    function procesarBloque(){
+        
     }
     
     function getError() {

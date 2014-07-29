@@ -40,7 +40,6 @@ class Aplicacion {
     function __construct() {
         $GLOBALS ["configuracion"] = TRUE;
         $this->miLanzador = new Bootstrap ();
-        
         do {
             if (isset ( $_REQUEST [self::RECARGAR] )) {
                 unset ( $_REQUEST [self::RECARGAR] );

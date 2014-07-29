@@ -67,7 +67,6 @@ function action() {
     // en la carpeta funcion
     
     // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-    
     if (isset ( $_REQUEST ['action'] )) {
         
         // Realizar una validación específica para los campos de este formulario:

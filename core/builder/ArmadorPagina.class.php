@@ -18,15 +18,15 @@ class ArmadorPagina {
     
     var $seccionesDeclaradas;
     
-    const SECCION='seccion';
+    const SECCION = 'seccion';
     
-    const GRUPO='grupo';
+    const GRUPO = 'grupo';
     
-    const NOMBRE='nombre';
+    const NOMBRE = 'nombre';
     
-    const ARCHIVOBLOQUE='/bloque.php';
+    const ARCHIVOBLOQUE = '/bloque.php';
     
-    const CARPETABLOQUES='/blocks/';
+    const CARPETABLOQUES = '/blocks/';
     
     function __construct() {
         
@@ -219,13 +219,20 @@ class ArmadorPagina {
             $unBloque [$clave] = trim ( $valor );
         }
         
-        if ($unBloque [self::GRUPO] == "") {
-            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
-        } else {
-            $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
+        if (! isset ( $_REQUEST ['actionBloque'] ) ||(isset ( $_REQUEST ['actionBloque'] ) && $unBloque [self::NOMBRE]!=$_REQUEST ['actionBloque'] ) ) {
+            if ($unBloque [self::GRUPO] == '') {
+                $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
+            } else {
+                $archivo = $this->raizDocumentos . self::CARPETABLOQUES . $unBloque [self::GRUPO] . "/" . $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE;
+            }
+            include ($archivo);
+            
+            return true;
+        }else{
+            
+            echo 'Aquí proceso el bloque';
         }
         
-        include ($archivo);
     
     }
     
@@ -271,8 +278,9 @@ class ArmadorPagina {
         /**
          * Esta función registra funciones las opciones de la función ready (jquery) para la página
          * Tales funciones están declaradas en cada bloque y pueden venir directamente en un archivo
-         * llamado ready.js o en un archivo ready.php. 
-         * 
+         * llamado ready.js o en un archivo ready.php.
+         *
+         *
          * El archivo ready.php se utiliza cuando se tenga que crear de manera dinámica el js.
          */
         echo "<script type='text/javascript'>\n";

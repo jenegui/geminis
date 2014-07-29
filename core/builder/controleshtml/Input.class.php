@@ -105,7 +105,7 @@ class Input  extends HtmlBase {
             if (isset ( $this->atributos [self::VALOR] )) {
                 $this->mi_cuadro .= self::HTMLVALUE . "'" . $this->atributos [self::VALOR] . "' ";
             }
-            $this->mi_cuadro .= ">\n";
+            $this->mi_cuadro .= ">";
         }
         return $this->mi_cuadro;
     
