@@ -142,11 +142,6 @@ class Pagina {
     }
     
     
-    
-    function procesarBloque(){
-        
-    }
-    
     function getError() {
         
         return $this->tipoError;
