@@ -22,6 +22,8 @@ class ArmadorPagina {
     
     const GRUPO = 'grupo';
     
+    const BLOQUEGRUPO = 'bloqueGrupo';
+    
     const NOMBRE = 'nombre';
     
     const ARCHIVOBLOQUE = '/bloque.php';
@@ -230,7 +232,23 @@ class ArmadorPagina {
             return true;
         }else{
             
-            echo 'Aquí proceso el bloque';
+            $carpeta='';
+            if (isset ( $_REQUEST [self::BLOQUEGRUPO] ) && $_REQUEST [self::BLOQUEGRUPO] != "") {
+                $carpeta=$_REQUEST [self::BLOQUEGRUPO].'/';
+                $unBloque ['grupo']=$carpeta;
+            }
+            if (isset ( $_REQUEST ["bloque"] )) {
+                $unBloque [self::NOMBRE] = $_REQUEST ['actionBloque'];
+                $_REQUEST ['action']=$_REQUEST ['actionBloque'];
+                $unBloque ["id_bloque"] = $_REQUEST ["bloque"];
+                include_once ($this->raizDocumentos . self::CARPETABLOQUES . $carpeta. $unBloque [self::NOMBRE] . self::ARCHIVOBLOQUE);
+                unset($_REQUEST ['action']);                
+            } elseif (isset ( $_REQUEST ["procesarAjax"] )) {
+            
+                include_once ($this->raizDocumentos . self::CARPETABLOQUES . $carpeta. $_REQUEST ["bloqueNombre"] . self::ARCHIVOBLOQUE);
+            
+            }
+            
         }
         
     

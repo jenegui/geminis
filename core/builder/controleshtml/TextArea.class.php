@@ -1,5 +1,14 @@
 <?php
 require_once ("core/builder/HtmlBase.class.php");
+/**
+ * 
+ * @author paulo
+ * 
+ * $atributos['estilo']
+ * $atributos['filas']
+ * $atributos['columnas']
+ *
+ */
 class TextArea  extends HtmlBase{
     
     
