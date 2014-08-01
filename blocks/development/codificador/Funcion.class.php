@@ -54,6 +54,8 @@ function codificador() {
 
 }
 
+
+
 function action() {
     
     // Evitar que se ingrese codigo HTML y PHP en los campos de texto

@@ -62,6 +62,12 @@ $atributos=  array_merge($atributos,$atributosGlobales);
 echo $this->miFormulario->campoTextArea($atributos);
 // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
 
+// ------------------Division para los botones-------------------------
+$atributos ["id"] = "botones";
+$atributos ["estilo"] = "marcoBotones";
+echo $this->miFormulario->division ( "inicio", $atributos );
+
+
 //-----------------CONTROL: Botón  ----------------------------------------------------------------
 $esteCampo = 'botonCodificar';
 $atributos ["id"] = $esteCampo;
@@ -103,6 +109,10 @@ $tab++;
 $atributos=  array_merge($atributos,$atributosGlobales);
 echo $this->miFormulario->campoBoton ( $atributos );
 //-----------------FIN CONTROL: Botón  -----------------------------------------------------------
+
+// ------------------Fin Division para los botones-------------------------
+echo $this->miFormulario->division ( "fin" );
+
 
 // ------------------- SECCION: Paso de variables ------------------------------------------------
 
