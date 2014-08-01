@@ -40,10 +40,6 @@ if (class_exists ( 'Bloquedesenlace' ) === false) {
 
         function __construct($esteBloque, $lenguaje = "") {
             
-<<<<<<< HEAD
-            
-=======
->>>>>>> branch 'master' of https://github.com/paulocoronado/geminis.git
             // El objeto de la clase Configurador debe ser único en toda la aplicación
             $this->miConfigurador = Configurador::singleton ();
             
