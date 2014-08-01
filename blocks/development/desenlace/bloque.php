@@ -40,6 +40,10 @@ if (class_exists ( 'Bloquedesenlace' ) === false) {
 
         function __construct($esteBloque, $lenguaje = "") {
             
+<<<<<<< HEAD
+            
+=======
+>>>>>>> branch 'master' of https://github.com/paulocoronado/geminis.git
             // El objeto de la clase Configurador debe ser único en toda la aplicación
             $this->miConfigurador = Configurador::singleton ();
             
@@ -98,6 +102,7 @@ if (class_exists ( 'Bloquedesenlace' ) === false) {
 // @ Crear un objeto bloque especifico
 // El arreglo $unBloque está definido en el objeto de la clase ArmadorPagina o en la clase ProcesadorPagina
 $estaClase = "Bloque" . $unBloque ["nombre"];
+
 
 $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
 

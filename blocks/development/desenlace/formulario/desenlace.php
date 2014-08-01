@@ -107,7 +107,7 @@ echo $this->miFormulario->campoBoton ( $atributos );
 //En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
 
 // Paso 1: crear el listado de variables
-$valorCodificado = "action=" . $esteBloque ["nombre"];
+$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
 $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
 $valorCodificado .= "&bloque=" . $esteBloque ["id_bloque"];
 $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];

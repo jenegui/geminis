@@ -5,13 +5,17 @@ if (isset ( $_REQUEST ['botonAceptar'] )) {
     
     $this->miConfigurador->fabricaConexiones->crypto->decodificar_url ( $_REQUEST ['campoCadena'] );
     
-    echo "<b>Variables</b><br>";
+    
+    echo "<div style='padding:20px;font-family:arial'> <span class='textoElegante textoEnorme textoAzul'>Variables</span><hr>";
+    echo '<table  style="table-layout: fixed; width: 100%">';
     foreach ( $_REQUEST as $key => $value ) {
         if ($key != 'botonAceptar') {
-            echo $key . "=>" . $value . "<br>";
+            echo '<tr><td style="width:20%"><span class="textoAzul">'.$key . "</span> </td><td>
+                    <div style='width: 100%; word-wrap: break-word'><span class='textoGris'>" . $value . "</span></div></td></tr>";
         }
     }
-    echo "<hr>";
+    echo '</table>';
+    echo '<br>';
     if (isset ( $_REQUEST ["pagina"] )) {
         $pagina = $_REQUEST ["pagina"];
         
@@ -19,13 +23,18 @@ if (isset ( $_REQUEST ['botonAceptar'] )) {
         $esteRecursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
         
         
-        echo "<b>P&aacute;gina</b><br><b>" . $pagina . "</b><br>";
+        echo "<span class='textoElegante textoEnorme textoAzul'>P&aacute;gina</span><hr>";
+        echo '<table style="width:100%">';
+        echo '<tr><td style="width:20%"><span class="textoAzul">Nombre</td><td><span class="textoGris">' . $pagina . "</span></td></tr>";
         $cadenaSql = "SELECT id_pagina,parametro FROM " . $this->miConfigurador->getVariableConfiguracion('prefijo') . "pagina WHERE nombre='" . $pagina . "' LIMIT 1";
         $registro = $esteRecursoDB->ejecutarAcceso($cadenaSql,'busqueda');
         if ($registro) {
-            echo "id_pagina: " . $registro [0] [0] . "<br>";
-            echo "parametros: " . $registro [0] [1] . "<br><hr>";
-            echo "Bloques que componen esta p&aacute;gina:<br>";
+            
+            echo "<tr><td style='width:20%'><span class='textoAzul'>id_pagina</span></td><td><span class='textoGris'>" . $registro [0] [0] . "</span></td></tr>";
+            echo "<tr><td style='width:20%'><span class='textoAzul'>parametros</span></td><td><span class='textoGris'>" . $registro [0] [1] . "</span></td></tr>";
+            echo '</table><br><br>';
+            
+            echo "<span class='textoElegante textoEnorme textoAzul'>Bloques que componen esta p&aacute;gina:</span><hr>";
             $prefijo=$this->miConfigurador->getVariableConfiguracion('prefijo');
             
             $cadenaSql = "SELECT ";
@@ -40,7 +49,7 @@ if (isset ( $_REQUEST ['botonAceptar'] )) {
             $cadenaSql .= "" . $prefijo . "bloque_pagina.id_pagina='" . $registro [0] [0] . "' ";
             $cadenaSql .= "AND ";
             $cadenaSql .= "" . $prefijo . "bloque_pagina.id_bloque=" . $prefijo . "bloque.id_bloque";
-            // echo $cadenaSql."<br>";
+           
            $registro = $esteRecursoDB->ejecutarAcceso($cadenaSql,'busqueda');
             if ($registro) {
                 ?>
@@ -64,15 +73,7 @@ if (isset ( $_REQUEST ['botonAceptar'] )) {
                 }
                 ?>
                                 </table>
-                    <hr>
-                    P&aacute;gina generada autom&aacute;ticamente el: <? echo @date("d/m/Y", time()) ?><br>
-                    Ambiente de desarrollo para aplicaciones web. - Software amparado por
-                    licencia GPL. Copyright (c) 2004-2006.
-                    <br>
-                    Paulo Cesar Coronado - Universidad Distrital Francisco Jos&eacute; de
-                    Caldas.
-                    <br>
-                    <hr>
+                    </div>
 
 <?
             }
