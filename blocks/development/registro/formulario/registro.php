@@ -51,7 +51,7 @@ $atributos['columnas']=1;
 $atributos['nombre']=$esteCampo;
 $atributos['id']=$esteCampo;
 $atributos['seleccion']=-1;
-$atributos['evento']='';
+$atributos['evento']='submit';
 $atributos['deshabilitado']=false;
 $atributos['tab']=$tab;
 $atributos['tamanno']=1;
@@ -70,70 +70,27 @@ $atributos['matrizItems']=$matrizItems;
 
 
 // Utilizar lo siguiente cuando no se pase un arreglo:
-//$atributos['baseDatos']='estructura';
-//$atributos ['cadena_sql']='';
+//$atributos['baseDatos']='ponerAquiElNombreDeLaConexión';
+//$atributos ['cadena_sql']='ponerLaCadenaSqlAEjecutar';
 $tab++;
 echo $this->miFormulario->campoCuadroLista($atributos);
 unset($atributos);
 
 
-
-
-
-
-
 // --------------- FIN CONTROL : Cuadro Lista --------------------------------------------------
 
-// ------------------Division para los botones-------------------------
-$atributos ["id"] = "botones";
-$atributos ["estilo"] = "marcoBotones";
+//----------------  SECCION: División ----------------------------------------------------------
+$esteCampo='division1';
+$atributos ['id'] = $esteCampo;
+$atributos ['estilo'] = '';
 echo $this->miFormulario->division ( "inicio", $atributos );
 
 
-//-----------------CONTROL: Botón  ----------------------------------------------------------------
-$esteCampo = 'botonCodificar';
-$atributos ["id"] = $esteCampo;
-$atributos ["tabIndex"] = $tab;
-$atributos ["tipo"] = 'boton';
-//submit: no se coloca si se desea un tipo button genérico
-$atributos ['submit'] = true; 
-$atributos ["estiloMarco"] = '';
-$atributos ["estiloBoton"] = 'jqueryui';
-// verificar: true para verificar el formulario antes de pasarlo al servidor.
-$atributos ["verificar"] = ''; 
-$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-$tab++;
+//----------------  FIN SECCION: División ----------------------------------------------------------
+echo $this->miFormulario->division ( 'fin' );
 
-//Aplica atributos globales al control
-$atributos=  array_merge($atributos,$atributosGlobales);
-echo $this->miFormulario->campoBoton ( $atributos );
-//-----------------FIN CONTROL: Botón  -----------------------------------------------------------
 
-//-----------------CONTROL: Botón  ----------------------------------------------------------------
-$esteCampo = 'botonDecodificar';
-$atributos ["id"] = $esteCampo;
-$atributos ["tabIndex"] = $tab;
-$atributos ["tipo"] = 'boton';
-//submit: no se coloca si se desea un tipo button genérico
-$atributos ['submit'] = true;
-$atributos ["estiloMarco"] = '';
-$atributos ["estiloBoton"] = 'jqueryui';
-// verificar: true para verificar el formulario antes de pasarlo al servidor.
-$atributos ["verificar"] = '';
-$atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
-$atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
-$atributos ['nombreFormulario'] = $esteBloque ['nombre'];
-$tab++;
 
-//Aplica atributos globales al control
-$atributos=  array_merge($atributos,$atributosGlobales);
-echo $this->miFormulario->campoBoton ( $atributos );
-//-----------------FIN CONTROL: Botón  -----------------------------------------------------------
-
-// ------------------Fin Division para los botones-------------------------
-echo $this->miFormulario->division ( "fin" );
 
 
 // ------------------- SECCION: Paso de variables ------------------------------------------------
@@ -189,33 +146,4 @@ $atributos['tipoEtiqueta']='fin';
 echo $this->miFormulario->formulario($atributos);
 
 
-
-
-
-?>
-
-
-
-
-<?php
-
-
-/*
-
-
-
-
-
-$cadenaHTML = "<div class='marcoBoton'>";
-$cadenaHTML .= "<form  method='post'>";
-$cadenaHTML .= "<select id='seleccionador'>";
-$cadenaHTML .= "<option>Seleccionar actividad...</option>";
-$cadenaHTML .= "<option value='pagina'>Registrar Página</option>";
-$cadenaHTML .= "<option value='bloque'>Registrar Bloque</option>";
-$cadenaHTML .= "<option value='disennarPagina'>Diseñar Página</option>";
-$cadenaHTML .= "</select>";
-$cadenaHTML .= "<input type='hidden' name='action' id='action' value='true'>";
-$cadenaHTML .= "</form>";
-$cadenaHTML .= "</div>";
-*/
 ?>

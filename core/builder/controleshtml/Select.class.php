@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Genera listas (<select>)
+ * Genera cuadros de selección (<select>)
  * 
  * Listado de atributos que se requieren para definir el control:
  * 
@@ -77,14 +77,9 @@ class Select extends HtmlBase {
      * @return void
      * @access public
      */
-    
-    /**
-     * Cuando se pase un registro explicito debe ser una matriz de tres dimensiones.
-     * En cada dimension
-     * debe tener:
-     * $resultado[indice][valor][etiqueta_a_mostrar]
-     */
-    function cuadro_lista($misAtributos) {
+     
+     
+     function cuadro_lista($misAtributos) {
         
         $this->setAtributos ( $misAtributos );
         
@@ -157,36 +152,13 @@ class Select extends HtmlBase {
         }
         
         $this->listadoInicialCuadroLista ();
-        $this->opcionesCuadroLista ();
-        
+        $this->ArmarListado();        
         $this->cadena_html .= "</select>\n";
     
-    }
+    }   
     
-    private function atributoClassSelect() {
-        
-        $this->cadena_html .= " class='";
-        
-        if (isset ( $this->atributos [self::ESTILO] ) && $this->atributos [self::ESTILO] == self::JQUERYUI) {
-            
-            $this->cadena_html .= "selectboxdiv ";
-        }
-        
-        // Si se especifica que puede ser multiple
-        if (isset ( $this->atributos [self::MULTIPLE] ) && $this->atributos [self::MULTIPLE]) {
-            $this->cadena_html .= " multiple \n";
-        }
-        
-        // Si se utiliza jQuery-Validation-Engine
-        if (isset ( $this->atributos [self::VALIDAR] )) {
-            $this->cadena_html .= " validate[" . $this->atributos [self::VALIDAR] . "] ";
-        }
-        
-        $this->cadena_html .= "'";
     
-    }
-    
-    function opcionesCuadroLista() {
+    private function ArmarListado() {
         
         if (isset ( $this->atributos [self::SELECCION] )) {
             $seleccion = $this->atributos [self::SELECCION];
@@ -268,10 +240,11 @@ class Select extends HtmlBase {
     
     }
     
-    function definirEvento() {
+    private function definirEvento() {
         
         switch ($this->atributos [self::EVENTO]) {
             case 1 :
+            case 'submit':    
                 $miEvento = 'onchange="this.form.submit()"';
                 break;
             
@@ -280,17 +253,22 @@ class Select extends HtmlBase {
                 break;
             
             default :
-                $miEvento = "";
+                $miEvento = '';
         }
         
         return $miEvento;
     
     }
     
-    function armarEvento() {
+    /**
+     * 
+     * @return string
+     */
+    
+    private function armarEvento() {
         
-        $this->control = explode ( "|", $this->configuracion ["ajax_control"] );
-        $miEvento = "onchange=\"" . $this->configuracion ["ajax_function"];
+        $this->control = explode ( "|", $this->atributos ["ajax_control"] );
+        $miEvento = "onchange=\"" . $this->atributos ["ajax_function"];
         $miEvento .= "(";
         foreach ( $this->control as $miControl ) {
             $miEvento .= "document.getElementById('" . $miControl . "').value,";
@@ -460,6 +438,29 @@ class Select extends HtmlBase {
         }
         
         return $cadena;
+    
+    }
+    
+    private function atributoClassSelect() {
+    
+        $this->cadena_html .= " class='";
+    
+        if (isset ( $this->atributos [self::ESTILO] ) && $this->atributos [self::ESTILO] == self::JQUERYUI) {
+    
+            $this->cadena_html .= "selectboxdiv ";
+        }
+    
+        // Si se especifica que puede ser multiple
+        if (isset ( $this->atributos [self::MULTIPLE] ) && $this->atributos [self::MULTIPLE]) {
+            $this->cadena_html .= " multiple \n";
+        }
+    
+        // Si se utiliza jQuery-Validation-Engine
+        if (isset ( $this->atributos [self::VALIDAR] )) {
+            $this->cadena_html .= " validate[" . $this->atributos [self::VALIDAR] . "] ";
+        }
+    
+        $this->cadena_html .= "'";
     
     }
 
