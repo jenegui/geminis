@@ -1,58 +1,59 @@
-<?php
-require_once ('Registrador.class.php');
+<?
+/**
+ * index.php
+ *
+ * Para tratar de implementar un log de los intentos de ingresos no permitidos a la aplicacion.
+ */
 
-class Disparador {
-    
-    var $miRegistrador;
-    
-    function iniciarRegistro() {
-        
-        $pagina = "<html>";
-        $pagina .= "<head>";
-        $pagina .= "<meta charset='utf-8'>";
-        $pagina .= "<script type='text/javascript' src='jquery.js'></script>";
-        $pagina .= "<script type='text/javascript' src='jquery-ui.js'></script>";
-        $pagina .= "<script type='text/javascript' src='ready.js'></script>";
-        $pagina .= "<script type='text/javascript' src='select2.js'></script>";
-        $pagina .= "<script type='text/javascript' src='select2_locale_es.js'></script>";
-        $pagina .= "<link rel='stylesheet' href='jquery-ui-themes/themes/smoothness/jquery-ui.css' />";
-        $pagina .= "<link rel='stylesheet' href='estilo.css' />";
-        $pagina .= "<link rel='stylesheet' href='select2.css' />";
-        $pagina .= "<title>";
-        $pagina .= "Registro de elementos";
-        $pagina .= "</title>";
-        $pagina .= "</head>";
-        $pagina .= "<body>";
-        $pagina .= "<div id='marcoPrincipal'>";
-        $pagina .= $this->miRegistrador->formSeleccionarAccion ();
-        $pagina .= $this->miRegistrador->formRegistrarBloque ();
-        $pagina .= $this->miRegistrador->formRegistrarPagina ();
-        $pagina .= $this->miRegistrador->formAsociarBloque ();
-        $pagina .= "</div>";
-        $pagina .= "</body>";
-        $pagina .= "</html>";
-        
-        echo $pagina;
-    
-    }
-    
-    function procesarFormulario() {
-        
-        $this->miRegistrador->procesarFormulario ( $_REQUEST ["action"] );
-    
-    }
-    
-    function __construct() {
-        
-        $this->miRegistrador = new RegistradorElemento ();
-        if (isset ( $_REQUEST ["action"] )) {
-            $this->procesarFormulario ();
-        }
-        
-        $this->iniciarRegistro ();
-    
-    }
+// Listado de posibles fuentes para la dirección IP, en orden de prioridad
+$fuentes_ip = array (
+        "HTTP_X_FORWARDED_FOR",
+        "HTTP_X_FORWARDED",
+        "HTTP_FORWARDED_FOR",
+        "HTTP_FORWARDED",
+        "HTTP_X_COMING_FROM",
+        "HTTP_COMING_FROM",
+        "REMOTE_ADDR" 
+);
 
+foreach ( $fuentes_ip as $fuentes_ip ) {
+    // Si la fuente existe captura la IP
+    if (isset ( $_SERVER [$fuentes_ip] )) {
+        $proxy_ip = $_SERVER [$fuentes_ip];
+        break;
+    }
 }
 
-$miIniciador = new Disparador ();
+$proxy_ip = (isset ( $proxy_ip )) ? $proxy_ip : @getenv ( "REMOTE_ADDR" );
+// Regresa la IP
+
+?>
+<html>
+<head>
+<title>Acceso no autorizado.</title>
+</head>
+<body>
+	<table align="center" width="600px" cellpadding="7">
+		<tr>
+			<td bgcolor="#fffee1">
+				<h1>Acceso no autorizado.</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h3>
+					Se ha creado un registro de acceso ilegal desde la
+					direcci&oacute;n: <b><? echo $proxy_ip ?></b>.
+				</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>Si considera que esto es un error por favor comuniquese con el
+				administrador del sistema.</td>
+		</tr>
+		<tr>
+			<td style="font-size: 12;"></td>
+		</tr>
+	</table>
+</body>
+<html>
