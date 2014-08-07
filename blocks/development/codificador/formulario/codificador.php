@@ -1,7 +1,7 @@
 <?php 
 /**
  * IMPORTANTE: Este formulario está utilizando jquery. Por tanto en el archivo ready.php se delaran algunas funciones js
- * que lo complementan.
+ * que lo complementan. La variable $_REQUEST['tiempo'] se declara en dicho archivo ya que es el primero que se procesa. 
  */
 
 // Rescatar los datos de este bloque

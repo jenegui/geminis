@@ -51,7 +51,7 @@ $atributos['columnas']=1;
 $atributos['nombre']=$esteCampo;
 $atributos['id']=$esteCampo;
 $atributos['seleccion']=-1;
-$atributos['evento']='submit';
+$atributos['evento']='';
 $atributos['deshabilitado']=false;
 $atributos['tab']=$tab;
 $atributos['tamanno']=1;
@@ -88,9 +88,6 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 
 //----------------  FIN SECCION: División ----------------------------------------------------------
 echo $this->miFormulario->division ( 'fin' );
-
-
-
 
 
 // ------------------- SECCION: Paso de variables ------------------------------------------------

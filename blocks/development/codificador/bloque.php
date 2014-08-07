@@ -98,7 +98,14 @@ if (class_exists ( 'Bloquecodificador' ) === false) {
 }
 // @ Crear un objeto bloque especifico
 // El arreglo $unBloque está definido en el objeto de la clase ArmadorPagina o en la clase ProcesadorPagina
-$estaClase = "Bloque" . $unBloque ["nombre"];
+if(isset($_REQUEST["procesarAjax"])){
+    $estaClase="Bloque".$_REQUEST["bloqueNombre"];
+    $unBloque["nombre"]=$_REQUEST["bloqueNombre"];
+    $unBloque["grupo"]=$_REQUEST["bloqueGrupo"];
+}else{
+    $estaClase="Bloque".$unBloque["nombre"];
+    $this->miConfigurador->setVariableConfiguracion("esteBloque",$unBloque);
+}
 
 
 $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
