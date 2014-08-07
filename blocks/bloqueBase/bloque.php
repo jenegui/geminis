@@ -1,10 +1,11 @@
 <?php
+namespace <directorio\nombreBloque>;
 
-// Evitar un acceso directo a este archivo
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
 }
+
 
 // Todo bloque debe implementar la interfaz Bloque
 include_once ("core/builder/Bloque.interface.php");
@@ -30,8 +31,7 @@ include_once ("Lenguaje.class.php");
 // Para evitar redefiniciones de clases el nombre de la clase del archivo bloque debe corresponder al nombre del bloque
 // precedida por la palabra Bloque
 
-if (class_exists ( 'Bloque<nombreBloque>' ) === false) {
-	class Bloque<nombreBloque> implements Bloque {
+class Bloque implements \Bloque {
 		var $nombreBloque;
 		var $miFuncion;
 		var $miSql;
@@ -99,25 +99,22 @@ if (class_exists ( 'Bloque<nombreBloque>' ) === false) {
     
     }
 }
-}
 // @ Crear un objeto bloque especifico
 // El arreglo $unBloque está definido en el objeto de la clase ArmadorPagina o en la clase ProcesadorPagina
 
 if(isset($_REQUEST["procesarAjax"])){
-    $estaClase="Bloque".$_REQUEST["bloqueNombre"];
     $unBloque["nombre"]=$_REQUEST["bloqueNombre"];
     $unBloque["grupo"]=$_REQUEST["bloqueGrupo"];
 }else{
-    $estaClase="Bloque".$unBloque["nombre"];
     $this->miConfigurador->setVariableConfiguracion("esteBloque",$unBloque);
 }
 
 $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
 
 if (isset ( $lenguaje )) {
-	$esteBloque = new $estaClase ( $unBloque, $lenguaje );
+	$esteBloque = new Bloque($unBloque, $lenguaje );
 } else {
-	$esteBloque = new $estaClase ( $unBloque );
+	$esteBloque = new Bloque( $unBloque );
 }
 
 $esteBloque->bloque ();

@@ -1,4 +1,6 @@
 <?php
+namespace <directorio\nombreBloque>;
+
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
@@ -15,7 +17,7 @@ include_once ("core/crypto/Encriptador.class.php");
 //Para evitar redefiniciones de clases el nombre de la clase del archivo funcion debe corresponder al nombre del bloque
 //en camel case precedido por la palabra Funcion
 
-class Funcion<nombreBloque>
+class Funcion
 {
 
 	var $sql;
@@ -89,13 +91,13 @@ function action() {
 
 function __construct() {
     
-    $this->miConfigurador = Configurador::singleton ();
+    $this->miConfigurador = \Configurador::singleton ();
     
-    $this->miInspectorHTML = InspectorHTML::singleton ();
+    $this->miInspectorHTML = \InspectorHTML::singleton ();
     
     $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
     
-    $this->miMensaje = Mensaje::singleton ();
+    $this->miMensaje = \Mensaje::singleton ();
     
     $conexion = "aplicativo";
     $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
