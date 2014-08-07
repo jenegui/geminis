@@ -1,6 +1,28 @@
 <?php
 
-    echo 'Esta es una petición resuelta por ajax'; 
+namespace registro;
 
+
+
+class procesarAjax{
+
+
+    function __construct(){
+        
+    switch ($_REQUEST['funcion']){
+        
+        case 'nombre':
+            
+            echo 'Nombre';
+            
+        
+        }
+    
+    }
+
+}
+
+
+$miProcesarAjax=new procesarAjax();
 
 ?>

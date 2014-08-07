@@ -1,4 +1,6 @@
 <?php
+namespace development\registro;
+
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
@@ -10,20 +12,12 @@ include_once ("core/connection/Sql.class.php");
 //Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 //en camel case precedida por la palabra sql
 
-class Sqlregistro extends sql {
+class Sql extends \Sql {
 	
 	
-	var 
-
-
-$miConfigurador;
-
-function __construct() {
-    
-    $this->miConfigurador = Configurador::singleton ();
-
-}
-
+	var $miConfigurador;
+	
+	
 function cadena_sql($tipo, $variable = "") {
     
     /**

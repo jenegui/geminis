@@ -14,7 +14,7 @@ $cadenaACodificar .= "&procesarAjax=true";
 $cadenaACodificar .= "&action=index.php";
 $cadenaACodificar .= "&bloqueNombre=" . $esteBloque ["nombre"];
 $cadenaACodificar .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-$cadenaACodificar .= $cadenaACodificar . "&funcion='nombre'";
+$cadenaACodificar .= $cadenaACodificar . "&funcion=nombre";
 
 // Codificar las variables
 $enlace = $this->miConfigurador->getVariableConfiguracion ( "enlace" );

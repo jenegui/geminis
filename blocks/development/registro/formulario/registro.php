@@ -82,7 +82,7 @@ unset($atributos);
 //----------------  SECCION: División ----------------------------------------------------------
 $esteCampo='division1';
 $atributos ['id'] = $esteCampo;
-$atributos ['estilo'] = '';
+$atributos ['estilo'] = 'general';
 echo $this->miFormulario->division ( "inicio", $atributos );
 
 

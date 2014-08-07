@@ -1,6 +1,13 @@
 <?php
 
-class Lenguajeregistro{
+namespace development\registro;
+
+if (! isset ( $GLOBALS ["autorizado"] )) {
+    include ("../index.php");
+    exit ();
+}
+
+class Lenguaje{
 
 	private $idioma;
 	
@@ -10,7 +17,7 @@ class Lenguajeregistro{
 
 function __construct() {
     
-    $this->miConfigurador = Configurador::singleton ();
+    $this->miConfigurador = \Configurador::singleton ();
     
     $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
     $this->nombreBloque = $esteBloque ["nombre"];

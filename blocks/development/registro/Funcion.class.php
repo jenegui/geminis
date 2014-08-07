@@ -1,4 +1,7 @@
 <?php
+
+namespace development\registro;
+
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
@@ -15,7 +18,7 @@ include_once ("core/crypto/Encriptador.class.php");
 //Para evitar redefiniciones de clases el nombre de la clase del archivo funcion debe corresponder al nombre del bloque
 //en camel case precedido por la palabra Funcion
 
-class Funcionregistro
+class Funcion
 {
 
 	var $sql;
@@ -50,8 +53,12 @@ function redireccionar($opcion, $valor = "") {
 
 function registro() {
     
-    include_once ($this->ruta . "/funcion/registro.php");
+    include_once ($this->ruta . "funcion/registro.php");
 
+}
+
+function procesarAjax(){
+    include_once($this->ruta."funcion/procesarAjax.php");
 }
 
 
@@ -69,9 +76,9 @@ function action() {
     // en la carpeta funcion
     
     // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
-    if (isset ( $_REQUEST ['action'] )) {
-        
-        // Realizar una validación específica para los campos de este formulario:
+    if (isset ( $_REQUEST ['procesarAjax'] )) {        
+        $this->procesarAjax();
+    }else {
         $this->registro();
     }
 
@@ -79,13 +86,13 @@ function action() {
 
 function __construct() {
     
-    $this->miConfigurador = Configurador::singleton ();
+    $this->miConfigurador = \Configurador::singleton ();
     
-    $this->miInspectorHTML = InspectorHTML::singleton ();
+    $this->miInspectorHTML = \InspectorHTML::singleton ();
     
     $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
     
-    $this->miMensaje = Mensaje::singleton ();
+    $this->miMensaje = \Mensaje::singleton ();
     
     $conexion = "aplicativo";
     $this->miRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );

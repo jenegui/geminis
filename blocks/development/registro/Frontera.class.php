@@ -1,7 +1,15 @@
 <?
+
+namespace development\registro;
+
+if (! isset ( $GLOBALS ["autorizado"] )) {
+    include ("../index.php");
+    exit ();
+}
+
 include_once ("core/manager/Configurador.class.php");
 
-class Fronteraregistro {
+class Frontera{
     
     var $ruta;
     var $sql;
@@ -15,7 +23,7 @@ class Fronteraregistro {
     
     function __construct() {
         
-        $this->miConfigurador = Configurador::singleton ();
+        $this->miConfigurador = \Configurador::singleton ();
     
     }
     
@@ -51,7 +59,7 @@ class Fronteraregistro {
         
         $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
         
-        $this->miFormulario = new formularioHtml ();
+        $this->miFormulario = new \FormularioHtml();
         include_once ($this->ruta . "/formulario/registro.php");
     
     }
