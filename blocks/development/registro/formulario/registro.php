@@ -1,6 +1,6 @@
 <?php 
 /**
- * IMPORTANTE: Este formulario está utilizando jquery. Por tanto en el archivo ready.php se delaran algunas funciones js
+ * IMPORTANTE: Este formulario está utilizando jquery. Por tanto en el archivo ready.php se declaran algunas funciones js
  * que lo complementan.
  */
 
@@ -88,51 +88,6 @@ echo $this->miFormulario->division ( "inicio", $atributos );
 
 //----------------  FIN SECCION: División ----------------------------------------------------------
 echo $this->miFormulario->division ( 'fin' );
-
-
-// ------------------- SECCION: Paso de variables ------------------------------------------------
-
-/**
- * En algunas ocasiones es útil pasar variables entre las diferentes páginas. SARA permite realizar esto a través de tres
- * mecanismos:
- * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
- * la base de datos.
- * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
- * formsara, cuyo valor será una cadena codificada que contiene las variables.
- * (c) a través de campos ocultos en los formularios. (deprecated)
- */
-
-//En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
-
-// Paso 1: crear el listado de variables
-$valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
-$valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion('pagina');
-$valorCodificado .= "&bloque=" . $esteBloque ["id_bloque"];
-$valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
-/**
- * SARA permite que los nombres de los campos sean dinámicos. Para ello utiliza la hora en que es creado el formulario para
- * codificar el nombre de cada campo. Si se utiliza esta técnica es necesario pasar dicho tiempo como una variable:
- * (a) invocando a la variable $_REQUEST ['tiempo'] que se ha declarado en ready.php o
- * (b) asociando el tiempo en que se está creando el formulario
- */ 
-$valorCodificado .= "&tiempo=" . $_REQUEST ['tiempo'];
-//Paso 2: codificar la cadena resultante
-$valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
-
-
-$atributos ["id"] = "formSaraData"; // No cambiar este nombre
-$atributos ["tipo"] = "hidden";
-$atributos ['estilo']='';
-$atributos ["obligatorio"] = false;
-$atributos ['marco']=true;
-$atributos ["etiqueta"] = "";
-$atributos ["valor"] = $valorCodificado;
-echo $this->miFormulario->campoCuadroTexto ( $atributos );
-unset ( $atributos );
-
-
-// ----------------FIN SECCION: Paso de variables -------------------------------------------------
-
 
 //---------------- FIN SECCION: Controles del Formulario -------------------------------------------
 

@@ -1,9 +1,13 @@
 <?php
-$this->idioma ['formularioDesenlace'] = 'Ingresar la cadena a analizar.';
-$this->idioma ['campoCadena'] = 'Cadenas (una por línea): ';
-$this->idioma ['campoCadenaTitulo'] = 'Cadena a analizar';
-$this->idioma ['botonCodificar'] = 'Codificar';
-$this->idioma ['botonDecodificar'] = 'Decodificar';
-$this->idioma ['seleccionar'] = 'Seleccionar Actividad:';
+$this->idioma ['nombrePagina'] = 'Nombre de la página:';
+$this->idioma ['descripcionPagina'] = 'Descripción:';
+$this->idioma ['parametroPagina'] = 'Parámetros predeterminados:';
+$this->idioma ['moduloPagina'] = 'Módulo al que pertenece:';
+$this->idioma ['nivelPagina'] = 'Nivel de acceso:';
+$this->idioma ['botonAceptar'] = 'Aceptar';
+$this->idioma ['botonCancelar'] = 'Cancelar';
+
+
+
 $this->idioma ['noDefinido'] = 'Etiqueta No definida';
 ?>

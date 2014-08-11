@@ -12,6 +12,7 @@ require_once ('core/auth/Sesion.class.php');
 require_once ('core/connection/FabricaDbConexion.class.php');
 require_once ('core/crypto/Encriptador.class.php');
 require_once ('core/builder/Mensaje.class.php');
+require_once ('core/builder/InspectorHTML.class.php');
 
 class Bootstrap {
     
@@ -73,6 +74,9 @@ class Bootstrap {
     var $cuadroMensaje;
     
     
+    var $miInspectorHtml;
+    
+    
     const PAGINA='pagina';
     
     const ERROR='error';
@@ -105,6 +109,8 @@ class Bootstrap {
          * El objeto del a clase Sesion es el último que se debe crear.
          */
         $this->sesionUsuario = Sesion::singleton ();
+        
+        $this->miInspectorHtml=InspectorHTML::singleton();
     
     }
     
@@ -173,6 +179,18 @@ class Bootstrap {
             /**
              * Procesa la página solicitada por el usuario
              */
+            
+            /**
+             * Evitar que se ingrese codigo HTML y PHP en los campos de texto
+             * Campos que se quieren excluir de la limpieza de código. Formato: nombreCampo1|nombreCampo2|nombreCampo3
+             */
+            
+            $excluir = '';
+            $_REQUEST = $this->miInspectorHtml->limpiarPHPHTML ( $_REQUEST );           
+            //Evitar que se ingrese código malicioso SQL
+            
+            $_REQUEST=$this->miInspectorHtml->limpiarSQL($_REQUEST);
+            
             require_once ($this->miConfigurador->getVariableConfiguracion ( "raizDocumento" ) . "/core/builder/Pagina.class.php");
             $this->miPagina = new Pagina ();
             

@@ -2,25 +2,31 @@
 
 namespace registro;
 
+use development\registro\Lenguaje;
 
-
-class procesarAjax{
+class procesarAjax {
     
     var $miConfigurador;
-    var $miBloque;
-
-
-    function __construct(){
-
+    var $lenguaje;
+    var $miFormulario;
+    
+    function __construct($lenguaje) {
         
-    $this->miConfigurador=\Configurador::singleton();
-            
-    switch ($_REQUEST['funcion']){
+        include_once ("core/builder/FormularioHtml.class.php");
         
-        case 'nombre':
+        $this->miConfigurador = \Configurador::singleton ();
+        
+        $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
+        
+        $this->miFormulario = new \FormularioHtml ();
+        
+        $this->lenguaje = $lenguaje;
+        
+        switch ($_REQUEST ['funcion']) {
             
-            include($this->miConfigurador->getVariableConfiguracion('rutaBloque').'formulario/registrarPagina.php');
-            
+            case 'nombre' :
+                
+                include ($this->miConfigurador->getVariableConfiguracion ( 'rutaBloque' ) . 'formulario/registrarPagina.php');
         
         }
     
@@ -28,7 +34,6 @@ class procesarAjax{
 
 }
 
-
-$miProcesarAjax=new procesarAjax();
+$miProcesarAjax = new procesarAjax ( $this->lenguaje);
 
 ?>
