@@ -121,6 +121,7 @@ class Bootstrap {
         
         // Poblar el atributo miConfigurador->configuracion
         $this->miConfigurador->variable ();
+        $this->miConfigurador->variablesCodificadas();
         
         if (! $this->miConfigurador->getVariableConfiguracion ( "instalado" )) {
             $this->instalarAplicativo ();
@@ -240,6 +241,8 @@ class Bootstrap {
          */
         $respuesta = '';
         
+        
+        
         if (isset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] )) {
             $this->miConfigurador->fabricaConexiones->crypto->decodificar_url ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] );
             unset ( $_REQUEST [$this->miConfigurador->getVariableConfiguracion ( self::ENLACE )] );
@@ -248,10 +251,12 @@ class Bootstrap {
                 $this->redireccionar ();
                 $respuesta = false;
             }
-            if (isset ( $_REQUEST [self::PAGINA] )) {
-                $respuesta = $_REQUEST [self::PAGINA];
-            }
-        } else {
+            
+        } 
+        
+        if (isset ( $_REQUEST [self::PAGINA] )) {
+            $respuesta = $_REQUEST [self::PAGINA];
+        }else {
             
             if (isset ( $_REQUEST ['development'] )) {
             

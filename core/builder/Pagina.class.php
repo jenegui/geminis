@@ -54,12 +54,6 @@ class Pagina {
         if ($this->recursoDB) {            
 
             
-            // La variable POST formSaraData contiene información codificada
-            if (isset ( $_REQUEST ["formSaraData"] )) {
-                $this->cripto->decodificar_url ( $_REQUEST ["formSaraData"] );
-            }            
-            
-            
             $this->especificar_pagina ( $laPagina );
             
             /**

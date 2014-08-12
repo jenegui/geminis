@@ -154,17 +154,15 @@ $atributos ["valor"] = $valorCodificado;
 echo $this->miFormulario->campoCuadroTexto ( $atributos );
 unset ( $atributos );
 
-
 // ----------------FIN SECCION: Paso de variables -------------------------------------------------
 
+// ---------------- FIN SECCION: Controles del Formulario -------------------------------------------
 
-//---------------- FIN SECCION: Controles del Formulario -------------------------------------------
-
-//----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
-//Se debe declarar el mismo atributo de marco con que se inició el formulario.
-$atributos['marco']=true;
-$atributos['tipoEtiqueta']='fin';
-echo $this->miFormulario->formulario($atributos);
+// ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
+// Se debe declarar el mismo atributo de marco con que se inició el formulario.
+$atributos ['marco'] = true;
+$atributos ['tipoEtiqueta'] = 'fin';
+echo $this->miFormulario->formulario ( $atributos );
 
 
 

@@ -72,18 +72,30 @@ class Bloque implements \Bloque {
                 $this->miFuncion->redireccionar ( "paginaPrincipal" );
             } else {
                 
+                $this->miFrontera->setSql ( $this->miSql );
+                $this->miFrontera->setFuncion ( $this->miFuncion );
+                $this->miFrontera->setLenguaje ( $this->miLenguaje );
+                
+                $this->miFuncion->setSql ( $this->miSql );
+                $this->miFuncion->setFuncion ( $this->miFuncion );
+                $this->miFuncion->setLenguaje ( $this->miLenguaje );
+                
+                
                 if (! isset ( $_REQUEST ['action'] )) {
                     
-                    $this->miFrontera->setSql ( $this->miSql );
-                    $this->miFrontera->setFuncion ( $this->miFuncion );
-                    $this->miFrontera->setLenguaje ( $this->miLenguaje );
                     $this->miFrontera->frontera ();
                 } else {
                     
-                    $this->miFuncion->setSql ( $this->miSql );
-                    $this->miFuncion->setFuncion ( $this->miFuncion );
-                    $this->miFuncion->setLenguaje ( $this->miLenguaje );
-                    $this->miFuncion->action ();
+                    $respuesta=$this->miFuncion->action ();
+                    //Si la respuesta es false, entonces se debe recargar el formulario y mostrar un mensaje de error.
+                    if(!$respuesta){
+                        
+                        $miBloque=$this->miConfigurador->getVariableConfiguracion('esteBloque');
+                        $this->miConfigurador->setVariableConfiguracion('errorFormulario',$miBloque['nombre']);
+                        $this->miFrontera->frontera ();
+                    }
+                    
+                    
                 }
             }
         
@@ -95,11 +107,9 @@ class Bloque implements \Bloque {
 if(isset($_REQUEST["procesarAjax"])){
     $unBloque["nombre"]=$_REQUEST["bloqueNombre"];
     $unBloque["grupo"]=$_REQUEST["bloqueGrupo"];
-}else{
-    $this->miConfigurador->setVariableConfiguracion("esteBloque",$unBloque);
-}
+}   
 
-$this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
+$this->miConfigurador->setVariableConfiguracion("esteBloque",$unBloque);
 
 if (isset ( $lenguaje )) {
     $esteBloque = new Bloque($unBloque, $lenguaje );

@@ -88,6 +88,20 @@ class Configurador {
     }
     
     /**
+     * Rescata las variables que vienen codificadas en el atributo formSaraData.
+     */
+    
+    function variablesCodificadas(){
+        
+        // La variable POST formSaraData contiene información codificada
+        if (isset ( $_REQUEST ["formSaraData"] )) {
+            $this->fabricaConexiones->crypto->decodificar_url ( $_REQUEST ["formSaraData"] );
+        }
+        
+        
+    }
+    
+    /**
      * Método.
      * Obtiene los datos de acceso a la base de datos principal del
      * aplicativo.
@@ -187,9 +201,9 @@ class Configurador {
      * @param string $cadena            
      * @return boolean
      */
-    function setVariableConfiguracion($variable = "", $cadena = "") {
+    function setVariableConfiguracion($variable = '', $cadena = '') {
         
-        if ($variable != "" && $cadena != "") {
+        if ($variable != '' && $cadena != '') {
             $this->configuracion [$variable] = $cadena;
         } else {
             if (isset ( $this->configuracion [$variable] ) && $cadena == null) {

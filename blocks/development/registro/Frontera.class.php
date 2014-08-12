@@ -9,7 +9,7 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
 
 include_once ("core/manager/Configurador.class.php");
 
-class Frontera{
+class Frontera {
     
     var $ruta;
     var $sql;
@@ -58,10 +58,21 @@ class Frontera{
         include_once ("core/builder/FormularioHtml.class.php");
         
         $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
+        $this->miFormulario = new \FormularioHtml ();
         
-        $this->miFormulario = new \FormularioHtml();
-        include_once ($this->ruta . "/formulario/registro.php");
-    
+        
+        $miBloque=$this->miConfigurador->getVariableConfiguracion('esteBloque');
+        $resultado=$this->miConfigurador->getVariableConfiguracion('errorFormulario');
+        
+        if($resultado && $resultado==$miBloque['nombre'] ){
+            include_once ($this->ruta . "/formulario/registrarPagina.php");
+        }else{
+
+            include_once ($this->ruta . "/formulario/registro.php");
+        }
+        
+        
+        
     }
 
 }

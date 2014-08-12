@@ -28,13 +28,13 @@ class Form  extends HtmlBase {
             if (isset ( $atributos [self::ESTILO] ) && $atributos [self::ESTILO] != "") {
                 $this->cadenaHTML = "<div class='" . $atributos [self::ESTILO] . "'>\n";
             } else {
-                $this->cadenaHTML = "<div class='formulario'>\n";
+                $this->cadenaHTML = "<!-- Inicio marco del Formulario --><div class='formulario'>\n";
             }
             $this->cadenaHTML.=$this->procesarAtributosFormulario($atributos);
     
         } else {
-            $this->cadenaHTML = "</form>\n";
-            $this->cadenaHTML .= "</div>\n";
+            $this->cadenaHTML = "</form><!-- Fin del Formulario -->";
+            $this->cadenaHTML .= "</div><!-- Fin del marco del Formulario -->";
         }
     
         return $this->cadenaHTML;
@@ -85,7 +85,7 @@ class Form  extends HtmlBase {
     
     private function procesarAtributosFormulario($atributos){
     
-        $cadena= "<form ";
+        $cadena= "<!-- Inicio del Formulario -->\n<form ";
         $nombre='';
     
         if (isset ( $atributos ['id'] )) {
