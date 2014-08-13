@@ -230,7 +230,7 @@ class Sesion extends SesionBase {
     // Fin del método crear_sesion
     
     /**
-     * @METHOD guardar_valor_sesion
+     * @METHOD guardarValorSesion
      * @PARAM variable
      * @PARAM valor
      *
@@ -283,7 +283,7 @@ class Sesion extends SesionBase {
     // Fin del método guardar_valor_sesion
     
     /**
-     * @METHOD borrar_valor_sesion
+     * @METHOD borrarValorSesion
      * @PARAM variable
      * @PARAM valor
      *

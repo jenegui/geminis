@@ -8,6 +8,7 @@ class RegistradorPagina {
     var $lenguaje;
     var $miFormulario;
     var $miSql;
+    var $conexion;
     
     function __construct($lenguaje, $sql) {
         
@@ -28,16 +29,14 @@ class RegistradorPagina {
                 ! isset ( $_REQUEST ['nivelPagina'] ) || 
                 ! isset ( $_REQUEST ['parametroPagina'] )|| 
                 $_REQUEST ['nombrePagina']=='' || 
-                $_REQUEST ['descripcionPagina'] =='' || 
-                $_REQUEST ['moduloPagina']=='' || 
                 $_REQUEST ['nivelPagina']=='')
         {
             $error = true;
         }else
         
         {
-            $conexion = $this->miConfigurador->fabricaConexiones->getRecursoDB ( 'estructura' );
-            if (! $conexion) {
+            $this->conexion = $this->miConfigurador->fabricaConexiones->getRecursoDB ( 'estructura' );
+            if (! $this->conexion) {
                 error_log ( "No se conectó" );
                 $error = true;
             }
@@ -47,26 +46,65 @@ class RegistradorPagina {
             $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorDatos');
             return false;
         } else {
+                    $resultado=$this->getPagina();
+                   
+                    
+                    if(!$resultado){
+                        
+                        $this->setPagina();
+                        return true;
+                    }else {
+                        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorNombre');
+                        
+                    }
+                    
+                    return false;
             
-            switch ($_REQUEST ['opcion']) {
-                
-                case 'registrarPagina' :
-                    $cadenaSql = $this->miSql->getCadenaSql ( "insertarPagina" );
-                    echo $cadenaSql;
-                    exit ();
-                    $conexion->ejecutarAcceso ( $cadenaSql, "insertar" );
-                    break;
-                
-                case 'registrarBloque' :
-                    $cadenaSql = $this->miFabricaConexiones->getCadenaSql ( "insertarBloque", $this->misDatosConexion->getPrefijo () );
-                    $conexion->ejecutarAcceso ( $cadenaSql, "insertar" );
-                    break;
-            }
         }
     
     }
+    
+    function resetForm(){
+        foreach($_REQUEST as $clave=>$valor){
+             
+            if($clave !='pagina' && $clave!='development' && $clave !='jquery' &&$clave !='tiempo'){
+                unset($_REQUEST[$clave]);
+            }
+        }
+    }
+    
+    function getPagina(){
+        
+        $cadenaSql = $this->miSql->getCadenaSql ( 'buscarPagina' );
+        return $this->conexion->ejecutarAcceso ( $cadenaSql, 'busqueda' );        
+    }
+    
+    function setPagina(){
+        $cadenaSql = $this->miSql->getCadenaSql ( "insertarPagina" );
+        $this->conexion->ejecutarAcceso ( $cadenaSql, 'insertar' );
+        
+        $resultado=$this->getPagina();
+        
+        if(is_array($resultado)){
+            //Armar un mensaje codificado en json
+            $mensaje=json_encode($resultado);
+            
+        }
+        
+        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje',$mensaje);
+        $this->miConfigurador->setVariableConfiguracion('tipoMensaje','json');
+        /**
+         * Después de realizar esto se borran todas las variables relacionadas con este
+         * Formulario
+        */
+        $this->resetForm();
+    }
+    
 }
 
 $miRegistrador = new RegistradorPagina ( $this->lenguaje, $this->sql );
 
-echo $miRegistrador->procesarFormulario ();
+$resultado= $miRegistrador->procesarFormulario ();
+
+
+

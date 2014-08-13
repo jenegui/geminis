@@ -50,6 +50,21 @@ class Sql extends \Sql {
                 $cadenaSql .= '\''.$_REQUEST['parametroPagina'].'\'';
                 $cadenaSql .= ') ';
                 break;
+                
+            case 'buscarPagina':
+                
+                $cadenaSql = 'SELECT ';
+                $cadenaSql .= 'id_pagina as PAGINA, ';
+                $cadenaSql .= 'nombre as NOMBRE, ';
+                $cadenaSql .= 'descripcion as DESCRIPCION,';
+                $cadenaSql .= 'modulo as MODULO,';
+                $cadenaSql .= 'nivel as NIVEL,';
+                $cadenaSql .= 'parametro as PARAMETRO ';
+                $cadenaSql .= 'FROM ';
+                $cadenaSql .= $prefijo.'pagina ';
+                $cadenaSql .= 'WHERE ';
+                $cadenaSql .= 'nombre=\''.$_REQUEST['nombrePagina'].'\' ';
+                break;
             
         
         }

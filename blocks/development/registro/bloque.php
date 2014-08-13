@@ -87,15 +87,16 @@ class Bloque implements \Bloque {
                 } else {
                     
                     $respuesta=$this->miFuncion->action ();
-                    //Si la respuesta es false, entonces se debe recargar el formulario y mostrar un mensaje de error.
+                    
+                    //Si $respuesta==false, entonces se debe recargar el formulario y mostrar un mensaje de error.
                     if(!$respuesta){
                         
                         $miBloque=$this->miConfigurador->getVariableConfiguracion('esteBloque');
                         $this->miConfigurador->setVariableConfiguracion('errorFormulario',$miBloque['nombre']);
-                        $this->miFrontera->frontera ();
+                        
                     }
                     
-                    
+                    $this->miFrontera->frontera ();
                 }
             }
         

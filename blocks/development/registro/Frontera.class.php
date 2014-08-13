@@ -67,7 +67,6 @@ class Frontera {
         if($resultado && $resultado==$miBloque['nombre'] ){
             include_once ($this->ruta . "/formulario/registrarPagina.php");
         }else{
-
             include_once ($this->ruta . "/formulario/registro.php");
         }
         

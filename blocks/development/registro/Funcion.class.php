@@ -49,7 +49,8 @@ class Funcion {
     function registrarPagina() {
         
         include_once ($this->ruta . "funcion/RegistradorPagina.class.php");
-    
+
+        return $resultado;
     }
     
     function procesarAjax() {
@@ -66,23 +67,21 @@ class Funcion {
         // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
         
         if (isset ( $_REQUEST ['procesarAjax'] )) {
-            $this->procesarAjax ();
+            $resultado=$this->procesarAjax ();
         } elseif (isset ( $_REQUEST ['opcion'] )) {
             
-            switch ($_REQUEST ['opcion']) {
-                case 'registrarPagina' :
-                    $this->registrarPagina ();
-                    break;
-                default :
-            }
+            $resultado = $this->registrarPagina ();
+            
         }
+        
+        return $resultado;
+        
     
     }
     
     function __construct() {
         
         $this->miConfigurador = \Configurador::singleton ();
-        
         
         $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
         

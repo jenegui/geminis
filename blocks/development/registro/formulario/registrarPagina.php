@@ -81,7 +81,12 @@ class RegistradorPagina {
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['validar'] = '';
-        $atributos ['valor'] = '';
+        
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
         $atributos ['deshabilitado'] = false;
         $atributos ['tamanno'] = 50;
@@ -100,6 +105,11 @@ class RegistradorPagina {
         $atributos ['estilo'] = '';
         $atributos ['columnas'] = 100;
         $atributos ['filas'] = 10;
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
@@ -123,7 +133,11 @@ class RegistradorPagina {
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['validar'] = '';
-        $atributos ['valor'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
         $atributos ['deshabilitado'] = false;
         $atributos ['tamanno'] = 50;
@@ -147,7 +161,11 @@ class RegistradorPagina {
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['validar'] = '';
-        $atributos ['valor'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
         $atributos ['deshabilitado'] = false;
         $atributos ['tamanno'] = 50;
@@ -171,7 +189,11 @@ class RegistradorPagina {
         $atributos ['tabIndex'] = $tab;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
         $atributos ['validar'] = '';
-        $atributos ['valor'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
         $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
         $atributos ['deshabilitado'] = false;
         $atributos ['tamanno'] = 50;
@@ -293,18 +315,22 @@ class RegistradorPagina {
         
         // Si existe algun tipo de error en el login aparece el siguiente mensaje
         $mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
+        $this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
         
         if ($mensaje) {
             
-            $atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
+            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
             
-            // ------------------Division para los botones-------------------------
-            $atributos ['id'] = 'divMensaje';
-            $atributos ['estilo'] = 'marcoBotones';
-            echo $this->miFormulario->division ( "inicio", $atributos );
-            
+            if ($tipoMensaje == 'json') {
+                
+                $atributos ['mensaje'] = $mensaje;
+                $atributos ['json'] = true;
+            } else {
+                $atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
+            }
             // -------------Control texto-----------------------
-            $esteCampo = 'mostrarMensaje';
+            $esteCampo = 'divMensaje';
+            $atributos ['id'] = $esteCampo;
             $atributos ["tamanno"] = '';
             $atributos ["estilo"] = 'information';
             $atributos ["etiqueta"] = '';
@@ -312,8 +338,7 @@ class RegistradorPagina {
             echo $this->miFormulario->campoMensaje ( $atributos );
             unset ( $atributos );
             
-            // ------------------Fin Division para los botones-------------------------
-            echo $this->miFormulario->division ( "fin" );
+         
         }
     
     }
@@ -322,7 +347,8 @@ class RegistradorPagina {
 
 $miRegistrador = new RegistradorPagina ( $this->lenguaje, $this->miFormulario );
 
-echo $miRegistrador->mensaje ();
-echo $miRegistrador->formRegistrarPagina ();
+
+$miRegistrador->formRegistrarPagina ();
+$miRegistrador->mensaje ();
 
 ?>
