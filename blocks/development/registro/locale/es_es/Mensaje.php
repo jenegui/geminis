@@ -8,6 +8,8 @@ $this->idioma ['botonAceptar'] = 'Aceptar';
 $this->idioma ['botonCancelar'] = 'Cancelar';
 $this->idioma ['errorDatos'] = '<p>Algunos datos del formulario no se han podido procesar. Por favor corríjalos e intente la operación de nuevo.</p>';
 $this->idioma ['errorNombre'] = '<p>Ya existe una página registrada con ese nombre. Por favor cambie el nombre de la página e intente la operación de nuevo.</p>';
+$this->idioma ['seleccionar'] = 'Seleccionar acción:';
+
 
 $this->idioma ['noDefinido'] = 'Etiqueta No definida';
 ?>

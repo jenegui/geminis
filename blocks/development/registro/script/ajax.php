@@ -32,7 +32,8 @@ $(document).ready(function() {
 
 	//Quien procesará la petición ajax	
 	  $.ajax({ 
-		  url: "<?php echo $urlFinal?>", 
+		  url: "<?php echo $urlFinal?>",
+		  data: {opcion : $( "#seleccionar" ).val()}, 
 		  dataType: "html"	  
 	    })
 	    

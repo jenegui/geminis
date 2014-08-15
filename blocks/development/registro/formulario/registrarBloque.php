@@ -1,156 +1,302 @@
 <?php
-require_once ('configDesenlace.class.php');
-require_once ("../connection/FabricaDbConexion.class.php");
-require_once ('DatoConexion.php');
+namespace development\registro\formulario;
 
-class RegistradorElemento {
-    
-    var $miSql;
+class RegistradorBloque {
     
     var $miConfigurador;
+    var $lenguaje;
+    var $miFormulario;
     
-    var $misDatosConexion;
-    
-    var $miFabricaConexiones;
-    
-    function __construct() {
+    function __construct($lenguaje, $formulario) {
         
-        $this->miSql = new Sql ();
-        $this->miConfigurador = ConfiguracionDesenlace::singleton ();
-        $this->miConfigurador->variable ();
+        $this->miConfigurador = \Configurador::singleton ();
         
-        $this->misDatosConexion = new DatoConexion ();
-        $this->misDatosConexion->setDatosConexion ( $this->miConfigurador->getConf () );
+        $this->miConfigurador->fabricaConexiones->setRecursoDB ( 'principal' );
         
-        $this->miFabricaConexiones = new FabricaDbConexion ();
+        $this->lenguaje = $lenguaje;
         
-        $this->miFabricaConexiones->setRecursoDB ( "principal", $this->misDatosConexion );
-    
-    }
-    
-    function formRegistrarPagina() {
-        
-        $cadenaHTML = "<div id='registrarPagina' class='marcoFormulario'>";
-        $cadenaHTML .= "<form method='post'>";
-        $cadenaHTML .= "<label for='nombrePagina' >Nombre de la página:</label>";
-        $cadenaHTML .= "<input type='text' name='nombrePagina' id='nombrePagina' /><br>";
-        $cadenaHTML .= "<label for='descripcionPagina'>Descripción:</label>";
-        $cadenaHTML .= "<textarea rows='4' cols='50'name='descripcionPagina' id='descripcionPagina'></textarea><br>";
-        $cadenaHTML .= "<label for='moduloPagina'>Módulo al que pertenece:</label>";
-        $cadenaHTML .= "<input type='text' name='moduloPagina' id='moduloPagina' />";
-        $cadenaHTML .= "<label for='nivelPagina'>Nivel de acceso:</label>";
-        $cadenaHTML .= "<input type='text' name='nivelPagina' id='nivelPagina' />";
-        $cadenaHTML .= "<label for='parametroPagina'>Parámetros predeterminados:</label>";
-        $cadenaHTML .= "<input type='text' name='parametroPagina' id='parametroPagina' />";
-        $cadenaHTML .= "<div class='marcoBoton'>";
-        $cadenaHTML .= "<button type='submit'>Guardar</button>";
-        $cadenaHTML .= "<input type='hidden' name='action' id='action' value='pagina'>";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "</form>";
-        $cadenaHTML .= "</div>";
-        
-        return $cadenaHTML;
+        $this->miFormulario = $formulario;
     
     }
     
     function formRegistrarBloque() {
         
-        $cadenaHTML = "<div id='registrarBloque'  class='marcoFormulario'>";
-        $cadenaHTML .= "<form  method='post'>";
-        $cadenaHTML .= "<label for='nombreBloque' >Nombre del Bloque:</label>";
-        $cadenaHTML .= "<input type='text' name='nombreBloque' id='nombreBloque' /><br>";
-        $cadenaHTML .= "<label for='descripcionBloque'>Descripción:</label>";
-        $cadenaHTML .= "<textarea rows='4' cols='50'name='descripcionBloque' id='descripcionBloque'></textarea><br>";
-        $cadenaHTML .= "<label for='grupoBloque'>Grupo del Bloque:</label>";
-        $cadenaHTML .= "<input type='text' name='grupoBloque' id='grupoBloque' />";
-        $cadenaHTML .= "<div class='marcoBoton'>";
-        $cadenaHTML .= "<button type='submit'>Guardar</button>";
-        $cadenaHTML .= "<input type='hidden' name='action' id='action' value='bloque'>";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "</form>";
-        $cadenaHTML .= "</div>";
+        /**
+         * IMPORTANTE: Este formulario está utilizando jquery.
+         * Por tanto en el archivo ready.php se delaran algunas funciones js
+         * que lo complementan.
+         */
         
-        return $cadenaHTML;
+        // Rescatar los datos de este bloque
+        $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
+        
+        // ---------------- SECCION: Parámetros Globales del Formulario ----------------------------------
+        /**
+         * Atributos que deben ser aplicados a todos los controles de este formulario.
+         * Se utiliza un arreglo
+         * independiente debido a que los atributos individuales se reinician cada vez que se declara un campo.
+         *
+         * Si se utiliza esta técnica es necesario realizar un mezcla entre este arreglo y el específico en cada control:
+         * $atributos= array_merge($atributos,$atributosGlobales);
+         */
+        $atributosGlobales ['campoSeguro'] = 'true';
+        
+        // -------------------------------------------------------------------------------------------------
+        
+        // ---------------- SECCION: Parámetros Generales del Formulario ----------------------------------
+        $esteCampo = $esteBloque ['nombre'];
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        
+        // Si no se coloca, entonces toma el valor predeterminado 'application/x-www-form-urlencoded'
+        $atributos ['tipoFormulario'] = '';
+        
+        // Si no se coloca, entonces toma el valor predeterminado 'POST'
+        $atributos ['metodo'] = 'POST';
+        
+        // Si no se coloca, entonces toma el valor predeterminado 'index.php' (Recomendado)
+        $atributos ['action'] = 'index.php';
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo );
+        
+        // Si no se coloca, entonces toma el valor predeterminado.
+        $atributos ['estilo'] = '';
+        $atributos ['marco'] = true;
+        $tab = 1;
+        // ---------------- FIN SECCION: de Parámetros Generales del Formulario ----------------------------
+        
+        // ----------------INICIAR EL FORMULARIO ------------------------------------------------------------
+        $atributos ['tipoEtiqueta'] = 'inicio';
+        echo $this->miFormulario->formulario ( $atributos );
+        
+        // ---------------- SECCION: Controles del Formulario -----------------------------------------------
+        
+        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+        $esteCampo = 'nombreBloque';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = 'text';
+        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['marco'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['dobleLinea'] = false;
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['validar'] = '';
+        
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $atributos ['tamanno'] = 50;
+        $atributos ['maximoTamanno'] = '';
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        
+        // ---------------- CONTROL: Área de Texto --------------------------------------------------------
+        $esteCampo = 'descripcionBloque';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['estilo'] = '';
+        $atributos ['columnas'] = 100;
+        $atributos ['filas'] = 10;
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoTextArea ( $atributos );
+        // --------------- FIN CONTROL : Área de Texto --------------------------------------------------
+        
+        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+        $esteCampo = 'grupoBloque';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = 'text';
+        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['marco'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['dobleLinea'] = false;
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['validar'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $atributos ['tamanno'] = 50;
+        $atributos ['maximoTamanno'] = '';
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        
+        // ------------------Division para los botones-------------------------
+        $atributos ["id"] = "botones";
+        $atributos ["estilo"] = "marcoBotones";
+        echo $this->miFormulario->division ( "inicio", $atributos );
+        
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'botonAceptar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = '';
+        $atributos ["estiloBoton"] = 'jqueryui';
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBoton ( $atributos );
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+        
+        // -----------------CONTROL: Botón ----------------------------------------------------------------
+        $esteCampo = 'botonCancelar';
+        $atributos ["id"] = $esteCampo;
+        $atributos ["tabIndex"] = $tab;
+        $atributos ["tipo"] = 'boton';
+        // submit: no se coloca si se desea un tipo button genérico
+        $atributos ['submit'] = true;
+        $atributos ["estiloMarco"] = '';
+        $atributos ["estiloBoton"] = 'jqueryui';
+        // verificar: true para verificar el formulario antes de pasarlo al servidor.
+        $atributos ["verificar"] = '';
+        $atributos ["tipoSubmit"] = 'jquery'; // Dejar vacio para un submit normal, en este caso se ejecuta la función submit declarada en ready.js
+        $atributos ["valor"] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['nombreFormulario'] = $esteBloque ['nombre'];
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoBoton ( $atributos );
+        // -----------------FIN CONTROL: Botón -----------------------------------------------------------
+        
+        // ------------------Fin Division para los botones-------------------------
+        echo $this->miFormulario->division ( "fin" );
+        
+        // ------------------- SECCION: Paso de variables ------------------------------------------------
+        
+        /**
+         * En algunas ocasiones es útil pasar variables entre las diferentes páginas.
+         * SARA permite realizar esto a través de tres
+         * mecanismos:
+         * (a). Registrando las variables como variables de sesión. Estarán disponibles durante toda la sesión de usuario. Requiere acceso a
+         * la base de datos.
+         * (b). Incluirlas de manera codificada como campos de los formularios. Para ello se utiliza un campo especial denominado
+         * formsara, cuyo valor será una cadena codificada que contiene las variables.
+         * (c) a través de campos ocultos en los formularios. (deprecated)
+         */
+        
+        // En este formulario se utiliza el mecanismo (b) para pasar las siguientes variables:
+        
+        // Paso 1: crear el listado de variables
+        
+        $valorCodificado = "actionBloque=" . $esteBloque ["nombre"];
+        $valorCodificado .= "&pagina=" . $this->miConfigurador->getVariableConfiguracion ( 'pagina' );
+        $valorCodificado .= "&bloque=" . $esteBloque ['nombre'];
+        $valorCodificado .= "&bloqueGrupo=" . $esteBloque ["grupo"];
+        $valorCodificado .= "&opcion=registrarBloque";
+        /**
+         * SARA permite que los nombres de los campos sean dinámicos.
+         * Para ello utiliza la hora en que es creado el formulario para
+         * codificar el nombre de cada campo. Si se utiliza esta técnica es necesario pasar dicho tiempo como una variable:
+         * (a) invocando a la variable $_REQUEST ['tiempo'] que se ha declarado en ready.php o
+         * (b) asociando el tiempo en que se está creando el formulario
+         */
+        $valorCodificado .= "&tiempo=" . time ();
+        // Paso 2: codificar la cadena resultante
+        $valorCodificado = $this->miConfigurador->fabricaConexiones->crypto->codificar ( $valorCodificado );
+        
+        $atributos ["id"] = "formSaraData"; // No cambiar este nombre
+        $atributos ["tipo"] = "hidden";
+        $atributos ['estilo'] = '';
+        $atributos ["obligatorio"] = false;
+        $atributos ['marco'] = true;
+        $atributos ["etiqueta"] = "";
+        $atributos ["valor"] = $valorCodificado;
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        unset ( $atributos );
+        
+        // ----------------FIN SECCION: Paso de variables -------------------------------------------------
+        
+        // ---------------- FIN SECCION: Controles del Formulario -------------------------------------------
+        
+        // ----------------FINALIZAR EL FORMULARIO ----------------------------------------------------------
+        // Se debe declarar el mismo atributo de marco con que se inició el formulario.
+        $atributos ['marco'] = true;
+        $atributos ['tipoEtiqueta'] = 'fin';
+        echo $this->miFormulario->formulario ( $atributos );
+        
+        return true;
     
     }
     
-    function formAsociarBloque() {
+    function mensaje() {
         
-        $cadenaHTML = "<div id='seleccionarPagina' class='marcoDisenno'>";
+        // Si existe algun tipo de error en el login aparece el siguiente mensaje
+        $mensaje = $this->miConfigurador->getVariableConfiguracion ( 'mostrarMensaje' );
+        $this->miConfigurador->setVariableConfiguracion ( 'mostrarMensaje', null );
         
-        $cadenaHTML .= "</div>";
-        
-        $cadenaHTML .= "<div id='disennarPagina' class='marcoDisenno'>";
-        $cadenaHTML .= "<form  method='post'>";
-        $cadenaHTML .= "<div class='seccionA'>";
-        $cadenaHTML .= "<input class='seccion' type='text' name='seccionA' id='seccionA' />";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "<div class='seccionB'>";
-        $cadenaHTML .= "<input class='seccion' type='text' name='seccionB' id='seccionB' />";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "<div class='seccionC'>";
-        $cadenaHTML .= "<input class='seccion' type='text' name='seccionC' id='seccionC' />";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "<div class='seccionD'>";
-        $cadenaHTML .= "<input class='seccion' type='text' name='seccionD' id='seccionD' />";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "<div class='seccionE'>";
-        $cadenaHTML .= "<input class='seccion' type='text' name='seccionE' id='seccionE' />";
-        $cadenaHTML .= "<input type='hidden' name='action' id='action' value='disenno'>";
-        $cadenaHTML .= "</div>";
-        $cadenaHTML .= "</form>";
-        $cadenaHTML .= "</div>";
-        
-        return $cadenaHTML;
-    
-    }
-    
-    function formSeleccionarAccion() {
-        
-        $cadenaHTML = "<div class='marcoBoton'>";
-        $cadenaHTML .= "<form  method='post'>";
-        $cadenaHTML .= "<select id='seleccionador'>";
-        $cadenaHTML .= "<option>Seleccionar actividad...</option>";
-        $cadenaHTML .= "<option value='pagina'>Registrar Página</option>";
-        $cadenaHTML .= "<option value='bloque'>Registrar Bloque</option>";
-        $cadenaHTML .= "<option value='disennarPagina'>Diseñar Página</option>";
-        $cadenaHTML .= "</select>";
-        $cadenaHTML .= "<input type='hidden' name='action' id='action' value='true'>";
-        $cadenaHTML .= "</form>";
-        $cadenaHTML .= "</div>";
-        
-        return $cadenaHTML;
-    
-    }
-    
-    function procesarFormulario($opcion) {
-        
-        $conexion = $this->miFabricaConexiones->getRecursoDB ( 'principal' );
-        
-        if (! $conexion) {
-            error_log ( "No se conectó" );
-            return false;
+        if ($mensaje) {
+            
+            $tipoMensaje = $this->miConfigurador->getVariableConfiguracion ( 'tipoMensaje' );
+            
+            if ($tipoMensaje == 'json') {
+                
+                $atributos ['mensaje'] = $mensaje;
+                $atributos ['json'] = true;
+            } else {
+                $atributos ['mensaje'] = $this->lenguaje->getCadena ( $mensaje );
+            }
+            // -------------Control texto-----------------------
+            $esteCampo = 'divMensaje';
+            $atributos ['id'] = $esteCampo;
+            $atributos ["tamanno"] = '';
+            $atributos ["estilo"] = 'information';
+            $atributos ["etiqueta"] = '';
+            $atributos ["columnas"] = ''; // El control ocupa 47% del tamaño del formulario
+            echo $this->miFormulario->campoMensaje ( $atributos );
+            unset ( $atributos );
+            
+         
         }
         
-        switch ($opcion) {
-            
-            case 'pagina' :
-                $cadenaSql = $this->miFabricaConexiones->getCadenaSql ( "insertarPagina", $this->misDatosConexion->getPrefijo () );
-                $conexion->ejecutarAcceso ( $cadenaSql, "insertar" );
-                break;
-            
-            case 'bloque' :
-                $cadenaSql = $this->miFabricaConexiones->getCadenaSql ( "insertarBloque", $this->misDatosConexion->getPrefijo () );
-                $conexion->ejecutarAcceso ( $cadenaSql, "insertar" );
-                break;
-        }
-    
-    }
-    
-    function buscarDatos() {
+        return true;
     
     }
 
 }
+
+$miRegistrador = new RegistradorBloque ( $this->lenguaje, $this->miFormulario );
+
+
+$miRegistrador->formRegistrarBloque ();
+$miRegistrador->mensaje ();
 
 ?>

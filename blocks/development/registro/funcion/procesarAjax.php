@@ -22,11 +22,21 @@ class procesarAjax {
         
         $this->lenguaje = $lenguaje;
         
-        switch ($_REQUEST ['funcion']) {
+        switch ($_REQUEST ['opcion']) {
             
-            case 'nombre' :
+            case '1' :
                 
                 include ($this->miConfigurador->getVariableConfiguracion ( 'rutaBloque' ) . 'formulario/registrarPagina.php');
+                break;
+            
+            case '2' :
+                include ($this->miConfigurador->getVariableConfiguracion ( 'rutaBloque' ) . 'formulario/registrarBloque.php');
+                break;
+            
+            case '3' :
+                
+                include ($this->miConfigurador->getVariableConfiguracion ( 'rutaBloque' ) . 'formulario/armarPagina.php');
+                break;
         
         }
     
@@ -34,6 +44,7 @@ class procesarAjax {
 
 }
 
-$miProcesarAjax = new procesarAjax ( $this->lenguaje);
+$miProcesarAjax = new procesarAjax ( $this->lenguaje );
+
 
 ?>

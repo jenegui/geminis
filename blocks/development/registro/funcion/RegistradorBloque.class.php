@@ -2,7 +2,7 @@
 
 namespace development\registro\funcion;
 
-class RegistradorPagina {
+class RegistradorBloque {
     
     var $miConfigurador;
     var $lenguaje;
@@ -23,17 +23,13 @@ class RegistradorPagina {
         
         $resultado=true;
         // 1. Verificar la integridad de las variables        
-        if (! isset ( $_REQUEST ['nombrePagina'] ) || 
-                ! isset ( $_REQUEST ['descripcionPagina'] ) || 
-                ! isset ( $_REQUEST ['moduloPagina'] ) || 
-                ! isset ( $_REQUEST ['nivelPagina'] ) || 
-                ! isset ( $_REQUEST ['parametroPagina'] )|| 
-                $_REQUEST ['nombrePagina']=='' || 
-                $_REQUEST ['nivelPagina']=='')
+        if (! isset ( $_REQUEST ['nombreBloque'] ) || 
+                ! isset ( $_REQUEST ['descripcionBloque'] ) ||
+                ! isset ( $_REQUEST ['grupoBloque'] )|| 
+                $_REQUEST ['nombreBloque']=='')
         {
             $resultado = false;
-        }else
-        
+        }else        
         {
             $this->conexion = $this->miConfigurador->fabricaConexiones->getRecursoDB ( 'estructura' );
             if (! $this->conexion) {
@@ -46,9 +42,9 @@ class RegistradorPagina {
             $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorDatos');
             return $resultado;
         } else {
-                    $resultado=$this->getPagina();
+                    $resultado=$this->getBloque();
                     if(!$resultado){
-                        $resultado=$this->setPagina();                        
+                        $resultado=$this->setBloque();                        
                     }else {
                         $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorNombre');
                         $resultado=false;                        
@@ -69,17 +65,17 @@ class RegistradorPagina {
         }
     }
     
-    function getPagina(){
+    function getBloque(){
         
-        $cadenaSql = $this->miSql->getCadenaSql ( 'buscarPagina' );
+        $cadenaSql = $this->miSql->getCadenaSql ( 'buscarBloque' );
         return $this->conexion->ejecutarAcceso ( $cadenaSql, 'busqueda' );        
     }
     
-    function setPagina(){
-        $cadenaSql = $this->miSql->getCadenaSql ( "insertarPagina" );
+    function setBloque(){
+        $cadenaSql = $this->miSql->getCadenaSql ( 'insertarBloque' );
         $this->conexion->ejecutarAcceso ( $cadenaSql, 'insertar' );
         
-        $resultado=$this->getPagina();
+        $resultado=$this->getBloque();
         
         if(is_array($resultado)){
             //Armar un mensaje codificado en json
@@ -100,7 +96,7 @@ class RegistradorPagina {
     
 }
 
-$miRegistrador = new RegistradorPagina ( $this->lenguaje, $this->sql );
+$miRegistrador = new RegistradorBloque ( $this->lenguaje, $this->sql );
 
 $resultado= $miRegistrador->procesarFormulario ();
 

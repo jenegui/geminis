@@ -81,6 +81,7 @@ class Registrador {
         $atributos ['validar'] = '';
         $atributos ['limitar'] = true;
         $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['anchoEtiqueta'] = 150;
         // Valores a mostrar en el control
         $matrizItems = array (
                 array (

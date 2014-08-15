@@ -86,17 +86,20 @@ class Bloque implements \Bloque {
                     $this->miFrontera->frontera ();
                 } else {
                     
-                    $respuesta=$this->miFuncion->action ();
+                    $respuesta=$this->miFuncion->action (); 
                     
                     //Si $respuesta==false, entonces se debe recargar el formulario y mostrar un mensaje de error.
                     if(!$respuesta){
                         
                         $miBloque=$this->miConfigurador->getVariableConfiguracion('esteBloque');
                         $this->miConfigurador->setVariableConfiguracion('errorFormulario',$miBloque['nombre']);
-                        
+                           
+                    }
+                    if(!isset($_REQUEST['procesarAjax'])){
+                    $this->miFrontera->frontera ();
                     }
                     
-                    $this->miFrontera->frontera ();
+                    
                 }
             }
         

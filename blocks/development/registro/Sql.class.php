@@ -66,6 +66,35 @@ class Sql extends \Sql {
                 $cadenaSql .= 'nombre=\''.$_REQUEST['nombrePagina'].'\' ';
                 break;
             
+                
+                case 'insertarBloque' :
+                    $cadenaSql = 'INSERT INTO ';
+                    $cadenaSql .= $prefijo.'bloque ';
+                    $cadenaSql .= '( ';
+                    $cadenaSql .= 'nombre,';
+                    $cadenaSql .= 'descripcion,';
+                    $cadenaSql .= 'grupo';
+                    $cadenaSql .= ') ';
+                    $cadenaSql .= 'VALUES ';
+                    $cadenaSql .= '( ';
+                    $cadenaSql .= '\''.$_REQUEST['nombreBloque'].'\', ';
+                    $cadenaSql .= '\''.$_REQUEST['descripcionBloque'].'\', ';
+                    $cadenaSql .= '\''.$_REQUEST['grupoBloque'].'\' ';
+                    $cadenaSql .= ') ';
+                    break;
+                
+                case 'buscarBloque':
+                
+                    $cadenaSql = 'SELECT ';
+                    $cadenaSql .= 'id_bloque as BLOQUE, ';
+                    $cadenaSql .= 'nombre as NOMBRE, ';
+                    $cadenaSql .= 'descripcion as DESCRIPCION,';
+                    $cadenaSql .= 'grupo as GRUPO ';
+                    $cadenaSql .= 'FROM ';
+                    $cadenaSql .= $prefijo.'bloque ';
+                    $cadenaSql .= 'WHERE ';
+                    $cadenaSql .= 'nombre=\''.$_REQUEST['nombreBloque'].'\' ';
+                    break;
         
         }
         

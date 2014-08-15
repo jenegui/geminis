@@ -4,11 +4,9 @@ include_once ("core/manager/Configurador.class.php");
 /**
  * Contiene las definiciones de los diferentes controles HTML
  *
- * @author Paulo Cesar Coronado
- * @version 1.0.0.0, 29/12/2011
- * @package framework:BCK:estandar
- * @copyright Universidad Distrital F.J.C
- * @license GPL Version 3.0 o posterior
+  * Listado de atributos que se requieren para definir el control:
+ * 
+ * $atributos['anchoEtiqueta']:        Entero. Define el ancho de la etqiueta en pixeles. 
  *         
  */
 class HtmlBase {
@@ -87,6 +85,8 @@ class HtmlBase {
     
     const ETIQUETA = 'etiqueta';
     
+    const ANCHOETIQUETA = 'anchoEtiqueta';
+    
     const TITULO = 'titulo';
     
     const ESTILOAREA = 'estiloArea';
@@ -161,11 +161,11 @@ class HtmlBase {
         $this->mi_etiqueta = "";
     
         if (! isset ( $this->atributos [self::SINDIVISION] )) {
-            if (isset ( $this->atributos ["anchoEtiqueta"] )) {
+            if (isset ( $this->atributos [self::ANCHOETIQUETA] )) {
     
-                $this->mi_etiqueta .= "<div style='float:left; width:" . $this->atributos ["anchoEtiqueta"] . "px' ";
+                $this->mi_etiqueta .= "<div style='float:left; width:" . $this->atributos [self::ANCHOETIQUETA] . "px' ";
             } else {
-                $this->mi_etiqueta .= "<div style='float:left; width:120px' ";
+                $this->mi_etiqueta .= "<div style='float:left; width:150px' ";
             }
     
             $this->mi_etiqueta .= ">";

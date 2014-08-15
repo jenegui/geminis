@@ -60,18 +60,30 @@ class Frontera {
         $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
         $this->miFormulario = new \FormularioHtml ();
         
+        $miBloque = $this->miConfigurador->getVariableConfiguracion ( 'esteBloque' );
+        $resultado = $this->miConfigurador->getVariableConfiguracion ( 'errorFormulario' );
         
-        $miBloque=$this->miConfigurador->getVariableConfiguracion('esteBloque');
-        $resultado=$this->miConfigurador->getVariableConfiguracion('errorFormulario');
+        if ($resultado && $resultado == $miBloque ['nombre']) {
+            
+            switch ($_REQUEST ['seleccionar']) {
+                
+                case '1' :
+                    include_once ($this->ruta . "/formulario/registrarPagina.php");
+                    break;
+                case '2' :
+                    include_once ($this->ruta . "/formulario/registrarBloque.php");
+                    break;
+                
+                case '3' :
+                    include_once ($this->ruta . "/formulario/armarPagina.php");
+                    break;
+            
+            }
         
-        if($resultado && $resultado==$miBloque['nombre'] ){
-            include_once ($this->ruta . "/formulario/registrarPagina.php");
-        }else{
+        } else {
             include_once ($this->ruta . "/formulario/registro.php");
         }
-        
-        
-        
+    
     }
 
 }

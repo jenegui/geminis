@@ -49,7 +49,14 @@ class Funcion {
     function registrarPagina() {
         
         include_once ($this->ruta . "funcion/RegistradorPagina.class.php");
-
+        
+        return $resultado;
+    }
+    
+    function registrarBloque() {
+    
+        include_once ($this->ruta . "funcion/RegistradorBloque.class.php");
+    
         return $resultado;
     }
     
@@ -59,6 +66,8 @@ class Funcion {
     
     function action() {
         
+        $resultado = true;
+        
         // Aquí se coloca el código que procesará los diferentes formularios que pertenecen al bloque
         // aunque el código fuente puede ir directamente en este script, para facilitar el mantenimiento
         // se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
@@ -67,15 +76,28 @@ class Funcion {
         // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
         
         if (isset ( $_REQUEST ['procesarAjax'] )) {
-            $resultado=$this->procesarAjax ();
+            $this->procesarAjax ();
         } elseif (isset ( $_REQUEST ['opcion'] )) {
             
-            $resultado = $this->registrarPagina ();
-            
+            switch ($_REQUEST ['opcion']) {
+                
+                case 'registrarPagina' :
+                    
+                    $resultado = $this->registrarPagina ();
+                    break;
+                
+                case 'registrarBloque' :
+                    $resultado = $this->registrarBloque ();
+                    break;
+                
+                case 'armarPagina' :
+                    $resultado = $this->armarPagina ();
+                    break;
+            }
+        
         }
         
         return $resultado;
-        
     
     }
     
@@ -119,4 +141,5 @@ class Funcion {
     }
 
 }
+
 ?>

@@ -7,7 +7,7 @@
  * 
  * $atributos['nombre']:        Nombre del control. Corresponde al atributo name en html.
  * $atributos['id']:            id del control. Equivale al atributo id de html.
- * $atributos['etiqueta']:      Etiqueta qeu acompaña al control.
+ * $atributos['etiqueta']:      Etiqueta que acompaña al control.
  * $atributos['tab']:           orden de tabulador dentro del formulario. (Requerido).   
  * $atributos['seleccion']:     -1 muestra una linea vacia al inicio de la lista, <-1 entonces se seleccciona 
  *                              el primer registro devuelto en la busqueda. >0 muestra el registro correspondiente en la lista.
