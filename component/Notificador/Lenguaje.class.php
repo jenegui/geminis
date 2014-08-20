@@ -1,11 +1,11 @@
 <?php
-
-namespace pruebas\notificador;
+namespace component\Notificador;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
 }
+
 
 class Lenguaje{
 
@@ -17,10 +17,11 @@ class Lenguaje{
 
 function __construct() {
     
-    $this->miConfigurador = \Configurador::singleton ();
+    $this->miConfigurador = Configurador::singleton ();
     
     $esteBloque = $this->miConfigurador->getVariableConfiguracion ( "esteBloque" );
     $this->nombreBloque = $esteBloque ["nombre"];
+    
     $this->ruta = $this->miConfigurador->getVariableConfiguracion ( "rutaBloque" );
     
     if ($this->miConfigurador->getVariableConfiguracion ( "idioma" )) {
@@ -28,8 +29,7 @@ function __construct() {
     } else {
         $idioma = "es_es";
     }
-    
-    include ($this->ruta . "locale/" . $idioma . "/Mensaje.php");
+    include ($this->ruta . "/locale/" . $idioma . "/Mensaje.php");
 
 }
 	
