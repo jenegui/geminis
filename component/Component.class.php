@@ -5,6 +5,15 @@ namespace component;
 
 class Component{
     
+    var $miConfigurador;
+    
+    function __construct(){
+        
+        $this->miConfigurador = \Configurador::singleton ();
+        
+        
+    }
+    
     /**
      * Función para inicializar el componente
      */
