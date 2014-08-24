@@ -1,5 +1,5 @@
 <?php
-namespace <directorio\nombreBloque>;
+namespace general\presentacionPrincipal;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");

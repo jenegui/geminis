@@ -6,7 +6,6 @@ if (! isset ( $GLOBALS ["autorizado"] )) {
     exit ();
 }
 
-
 // Todo bloque debe implementar la interfaz Bloque
 include_once ("core/builder/Bloque.interface.php");
 
@@ -32,14 +31,12 @@ include_once ("Lenguaje.class.php");
 // precedida por la palabra Bloque
 
 class Bloque implements \Bloque {
-		var $nombreBloque;
-		var $miFuncion;
-		var $miSql;
-		var $miConfigurador;
-		public 
+    var $nombreBloque;
+    var $miFuncion;
+    var $miSql;
+    var $miConfigurador;
+    public 
 
-	
-    
     function __construct($esteBloque, $lenguaje = "") {
         
         // El objeto de la clase Configurador debe ser único en toda la aplicación
@@ -59,24 +56,13 @@ class Bloque implements \Bloque {
         $this->miConfigurador->setVariableConfiguracion ( "rutaBloque", $ruta );
         $this->miConfigurador->setVariableConfiguracion ( "rutaUrlBloque", $rutaURL );
         
-        $nombreClaseFuncion = "Funcion" . $esteBloque ["nombre"];
-        $this->miFuncion = new $nombreClaseFuncion ();
-        
-        $nombreClaseSQL = "Sql" . $esteBloque ["nombre"];
-        $this->miSql = new $nombreClaseSQL ();
-        
-        $nombreClaseFrontera = "Frontera" . $esteBloque ["nombre"];
-        $this->miFrontera = new $nombreClaseFrontera ();
-        
-        $nombreClaseLenguaje = "Lenguaje" . $esteBloque ["nombre"];
-        $this->miLenguaje = new $nombreClaseLenguaje ();
+        $this->miFuncion = new Funcion ();
+        $this->miSql = new Sql ();
+        $this->miFrontera = new Frontera ();
+        $this->miLenguaje = new Lenguaje ();
     
     }
-		public 
-
-	
-    
-    function bloque() {
+    public function bloque() {
         
         if (isset ( $_REQUEST ['botonCancelar'] ) && $_REQUEST ['botonCancelar'] == "true") {
             $this->miFuncion->redireccionar ( "paginaPrincipal" );
@@ -102,19 +88,19 @@ class Bloque implements \Bloque {
 // @ Crear un objeto bloque especifico
 // El arreglo $unBloque está definido en el objeto de la clase ArmadorPagina o en la clase ProcesadorPagina
 
-if(isset($_REQUEST["procesarAjax"])){
-    $unBloque["nombre"]=$_REQUEST["bloqueNombre"];
-    $unBloque["grupo"]=$_REQUEST["bloqueGrupo"];
-}else{
-    $this->miConfigurador->setVariableConfiguracion("esteBloque",$unBloque);
+if (isset ( $_REQUEST ["procesarAjax"] )) {
+    $unBloque ["nombre"] = $_REQUEST ["bloqueNombre"];
+    $unBloque ["grupo"] = $_REQUEST ["bloqueGrupo"];
+} else {
+    $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
 }
 
 $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
 
 if (isset ( $lenguaje )) {
-	$esteBloque = new Bloque($unBloque, $lenguaje );
+    $esteBloque = new Bloque ( $unBloque, $lenguaje );
 } else {
-	$esteBloque = new Bloque( $unBloque );
+    $esteBloque = new Bloque ( $unBloque );
 }
 
 $esteBloque->bloque ();

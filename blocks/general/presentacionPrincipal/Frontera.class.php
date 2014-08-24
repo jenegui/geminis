@@ -1,6 +1,6 @@
 <?
 
-namespace <directorio\nombreBloque>;
+namespace general\presentacionPrincipal;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
@@ -69,21 +69,8 @@ function __construct() {
 		
 		$this->miFormulario=new \FormularioHtml();
 		
-		if(isset($_REQUEST['opcion'])){
-
-			switch($_REQUEST['opcion']){
-				
-				case "ejemplo":
-					include_once($this->ruta."/formulario/ejemplo.php");
-					break;
-
-				
-			}
-		}else{
-			$_REQUEST['opcion']="mostrar";
-			include_once($this->ruta."/formulario/mostrar.php");
-		}
-
+		include_once($this->ruta."/formulario/panelCentral.class.php");
+		
 
 	}
 

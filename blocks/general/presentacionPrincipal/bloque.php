@@ -1,8 +1,7 @@
 <?php
 
-namespace pruebas\notificador;
+namespace general\presentacionPrincipal;
 
-// Evitar un acceso directo a este archivo
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
     exit ();
@@ -19,7 +18,7 @@ include_once ("core/manager/Configurador.class.php");
 include_once ("Frontera.class.php");
 
 // Funciones de procesamiento de datos
-include_once ("Funcion.class.php");
+include_once ('Funcion.class.php');
 
 // Compilación de clausulas SQL utilizadas por el bloque
 include_once ("Sql.class.php");
@@ -37,8 +36,9 @@ class Bloque implements \Bloque {
     var $miFuncion;
     var $miSql;
     var $miConfigurador;
-    
-    public function __construct($esteBloque, $lenguaje = "") {
+    public 
+
+    function __construct($esteBloque, $lenguaje = "") {
         
         // El objeto de la clase Configurador debe ser único en toda la aplicación
         $this->miConfigurador = \Configurador::singleton ();
@@ -63,39 +63,24 @@ class Bloque implements \Bloque {
         $this->miLenguaje = new Lenguaje ();
     
     }
-    
     public function bloque() {
         
         if (isset ( $_REQUEST ['botonCancelar'] ) && $_REQUEST ['botonCancelar'] == "true") {
             $this->miFuncion->redireccionar ( "paginaPrincipal" );
         } else {
             
-            $this->miFrontera->setSql ( $this->miSql );
-            $this->miFrontera->setFuncion ( $this->miFuncion );
-            $this->miFrontera->setLenguaje ( $this->miLenguaje );
-            
-            $this->miFuncion->setSql ( $this->miSql );
-            $this->miFuncion->setFuncion ( $this->miFuncion );
-            $this->miFuncion->setLenguaje ( $this->miLenguaje );
-            
             if (! isset ( $_REQUEST ['action'] )) {
                 
+                $this->miFrontera->setSql ( $this->miSql );
+                $this->miFrontera->setFuncion ( $this->miFuncion );
+                $this->miFrontera->setLenguaje ( $this->miLenguaje );
                 $this->miFrontera->frontera ();
             } else {
                 
-                $respuesta = $this->miFuncion->action ();
-                
-                // Si $respuesta==false, entonces se debe recargar el formulario y mostrar un mensaje de error.
-                if (! $respuesta) {
-                    
-                    $miBloque = $this->miConfigurador->getVariableConfiguracion ( 'esteBloque' );
-                    $this->miConfigurador->setVariableConfiguracion ( 'errorFormulario', $miBloque ['nombre'] );
-                
-                }
-                if (! isset ( $_REQUEST ['procesarAjax'] )) {
-                    $this->miFrontera->frontera ();
-                }
-            
+                $this->miFuncion->setSql ( $this->miSql );
+                $this->miFuncion->setFuncion ( $this->miFuncion );
+                $this->miFuncion->setLenguaje ( $this->miLenguaje );
+                $this->miFuncion->action ();
             }
         }
     
@@ -107,6 +92,8 @@ class Bloque implements \Bloque {
 if (isset ( $_REQUEST ["procesarAjax"] )) {
     $unBloque ["nombre"] = $_REQUEST ["bloqueNombre"];
     $unBloque ["grupo"] = $_REQUEST ["bloqueGrupo"];
+} else {
+    $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );
 }
 
 $this->miConfigurador->setVariableConfiguracion ( "esteBloque", $unBloque );

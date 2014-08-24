@@ -1,5 +1,5 @@
 <?php
-namespace <directorio\nombreBloque>;
+namespace general\presentacionPrincipal;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
@@ -12,7 +12,7 @@ include_once ("core/connection/Sql.class.php");
 //Para evitar redefiniciones de clases el nombre de la clase del archivo sqle debe corresponder al nombre del bloque
 //en camel case precedida por la palabra sql
 
-class Sql extends /Sql {
+class Sql extends \Sql {
 	
 	
 	var 
