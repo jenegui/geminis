@@ -1,8 +1,14 @@
 <?php
 
-namespace development\registro\funcion;
+namespace pruebas\notificador;
 
-class RegistradorBloque {
+use component\Notificador;
+use component\Notificador\Componente;
+
+include_once('component/Notificador/Componente.php');
+
+
+class RegistradorNotificacion {
     
     var $miConfigurador;
     var $lenguaje;
@@ -21,38 +27,31 @@ class RegistradorBloque {
     
     function procesarFormulario() {
         
+        // 1. Invocar al componente Notificador
+        $miComponente=new Componente();
+        
+        //2. Preparar los datos conforme los espera la interfaz del componente
+        
+        $campos=array('idProceso','idRemitente','idDestinatario','asunto','descripcion','criticidad','tipoMecanismo');
+        
         $resultado=true;
-        // 1. Verificar la integridad de las variables        
-        if (! isset ( $_REQUEST ['nombreBloque'] ) || 
-                ! isset ( $_REQUEST ['descripcionBloque'] ) ||
-                ! isset ( $_REQUEST ['grupoBloque'] )|| 
-                $_REQUEST ['nombreBloque']=='')
-        {
-            $resultado = false;
-        }else        
-        {
-            $this->conexion = $this->miConfigurador->fabricaConexiones->getRecursoDB ( 'estructura' );
-            if (! $this->conexion) {
-                error_log ( "No se conectó" );
-                $resultado = false;
+        foreach ($campos as $clave=> $valor){
+        
+            if(!isset($_REQUEST[$valor])){
+                $resultado=false;
+                break;
+            }else{
+                $notificacion[$valor]=$_REQUEST[$valor];
             }
         }
         
-        if ($resultado == false) {
-            $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorDatos');
-            return $resultado;
-        } else {
-                    $resultado=$this->getBloque();
-                    if(!$resultado){
-                        $resultado=$this->setBloque();                        
-                    }else {
-                        $this->miConfigurador->setVariableConfiguracion('mostrarMensaje','errorNombre');
-                        $resultado=false;                        
-                    }
-                    
-                    return $resultado;
-            
-        }
+        
+        $notificacion=json_encode($notificacion);
+        $miComponente->datosNotificacionSistema($notificacion);
+        
+        
+        
+        
     
     }
     
@@ -96,7 +95,7 @@ class RegistradorBloque {
     
 }
 
-$miRegistrador = new RegistradorBloque ( $this->lenguaje, $this->sql );
+$miRegistrador = new RegistradorNotificacion( $this->lenguaje, $this->sql );
 
 $resultado= $miRegistrador->procesarFormulario ();
 

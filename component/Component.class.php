@@ -28,7 +28,7 @@ class Component{
      * Para definir las clases que serán 
      */
     
-    abstract function entryPoint(){
+    function entryPoint(){
         
     }
     

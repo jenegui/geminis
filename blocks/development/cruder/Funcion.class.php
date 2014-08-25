@@ -1,6 +1,6 @@
 <?php
 
-namespace pruebas\notificador;
+namespace development\cruder;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
@@ -46,13 +46,20 @@ class Funcion {
     
     }
     
-    function registrarNotificacion() {
+    function registrarPagina() {
         
-        include_once ($this->ruta . "funcion/RegistradorNotificacion.class.php");
+        include_once ($this->ruta . "funcion/RegistradorPagina.class.php");
         
         return $resultado;
     }
-        
+    
+    function registrarBloque() {
+    
+        include_once ($this->ruta . "funcion/RegistradorBloque.class.php");
+    
+        return $resultado;
+    }
+    
     function procesarAjax() {
         include_once ($this->ruta . "funcion/procesarAjax.php");
     }
@@ -66,13 +73,27 @@ class Funcion {
         // se recomienda que aqui solo sea el punto de entrada para incluir otros scripts que estarán
         // en la carpeta funcion
         
+        // Importante: Es adecuado que sea una variable llamada opcion o action la que guie el procesamiento:
         
         if (isset ( $_REQUEST ['procesarAjax'] )) {
             $this->procesarAjax ();
-        } else{
+        } elseif (isset ( $_REQUEST ['opcion'] )) {
             
-            $resultado = $this->registrarNotificacion();
-            
+            switch ($_REQUEST ['opcion']) {
+                
+                case 'registrarPagina' :
+                    
+                    $resultado = $this->registrarPagina ();
+                    break;
+                
+                case 'registrarBloque' :
+                    $resultado = $this->registrarBloque ();
+                    break;
+                
+                case 'armarPagina' :
+                    $resultado = $this->armarPagina ();
+                    break;
+            }
         
         }
         

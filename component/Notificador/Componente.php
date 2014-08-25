@@ -1,8 +1,14 @@
 <?php
 namespace component\Notificador;
+use component\Component;
+use component\Notificador\Clase\RegistradorNotificacion;
+use component\Notificador\interfaz\INotificador;
+require_once ('component/Component.class.php');
+require_once ('component/Notificador/Clase/RegistradorNotificacion.class.php');
 
 
-class Componente extends Component{
+
+class Componente extends Component implements INotificador{
     
     
     
@@ -12,17 +18,20 @@ class Componente extends Component{
     
     //El componente actua como Fachada
     
-    public function __construct(\INotificador $notificador)
+    /**
+     * 
+     * @param \INotificador $notificador Un objeto de una clase que implemente la interfaz INotificador
+     */
+    public function __construct()
     {
-        $this->miNotificador = $notificador;
+        
+        $this->miNotificador = new RegistradorNotificacion();
+    }
+    
+    public function datosNotificacionSistema($notificacion) {
+        return $this->miNotificador->datosNotificacionSistema($notificacion);
     }
     
     
-      
-    
-    
-    
 }
-
-$miComponente=new Componente();
 

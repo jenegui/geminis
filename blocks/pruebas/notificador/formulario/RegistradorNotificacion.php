@@ -1,6 +1,7 @@
 <?php
+namespace pruebas\notificador;
 
-class RegistradorPagina {
+class RegistradorNotificacion {
     
     var $miConfigurador;
     var $lenguaje;
@@ -18,7 +19,7 @@ class RegistradorPagina {
     
     }
     
-    function formRegistrarPagina() {
+    function formRegistrarNotificacion() {
         
         /**
          * IMPORTANTE: Este formulario está utilizando jquery.
@@ -68,9 +69,8 @@ class RegistradorPagina {
         echo $this->miFormulario->formulario ( $atributos );
         
         // ---------------- SECCION: Controles del Formulario -----------------------------------------------
-        
         // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-        $esteCampo = 'nombrePagina';
+        $esteCampo = 'idProceso';
         $atributos ['id'] = $esteCampo;
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = 'text';
@@ -97,9 +97,94 @@ class RegistradorPagina {
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTexto ( $atributos );
         // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+                
+        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+        $esteCampo = 'idRemitente';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = 'text';
+        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['marco'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['dobleLinea'] = false;
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['validar'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $atributos ['tamanno'] = 50;
+        $atributos ['maximoTamanno'] = '';
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        
+        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+        $esteCampo = 'idDestinatario';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = 'text';
+        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['marco'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['dobleLinea'] = false;
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['validar'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $atributos ['tamanno'] = 50;
+        $atributos ['maximoTamanno'] = '';
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        
+        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
+        $esteCampo = 'asunto';
+        $atributos ['id'] = $esteCampo;
+        $atributos ['nombre'] = $esteCampo;
+        $atributos ['tipo'] = 'text';
+        $atributos ['estilo'] = 'jqueryui';
+        $atributos ['marco'] = true;
+        $atributos ['columnas'] = 1;
+        $atributos ['dobleLinea'] = false;
+        $atributos ['tabIndex'] = $tab;
+        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
+        $atributos ['validar'] = '';
+        if (isset ( $_REQUEST [$esteCampo] )) {
+            $atributos ['valor'] = $_REQUEST [$esteCampo];
+        } else {
+            $atributos ['valor'] = '';
+        }
+        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
+        $atributos ['deshabilitado'] = false;
+        $atributos ['tamanno'] = 50;
+        $atributos ['maximoTamanno'] = '';
+        $tab ++;
+        
+        // Aplica atributos globales al control
+        $atributos = array_merge ( $atributos, $atributosGlobales );
+        echo $this->miFormulario->campoCuadroTexto ( $atributos );
+        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
         
         // ---------------- CONTROL: Área de Texto --------------------------------------------------------
-        $esteCampo = 'descripcionPagina';
+        
+        $esteCampo = 'descripcion';
         $atributos ['id'] = $esteCampo;
         $atributos ['nombre'] = $esteCampo;
         $atributos ['estilo'] = '';
@@ -122,7 +207,7 @@ class RegistradorPagina {
         // --------------- FIN CONTROL : Área de Texto --------------------------------------------------
         
         // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-        $esteCampo = 'moduloPagina';
+        $esteCampo = 'criticidad';
         $atributos ['id'] = $esteCampo;
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = 'text';
@@ -148,9 +233,10 @@ class RegistradorPagina {
         $atributos = array_merge ( $atributos, $atributosGlobales );
         echo $this->miFormulario->campoCuadroTexto ( $atributos );
         // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
+        
         
         // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-        $esteCampo = 'nivelPagina';
+        $esteCampo = 'tipoMecanismo';
         $atributos ['id'] = $esteCampo;
         $atributos ['nombre'] = $esteCampo;
         $atributos ['tipo'] = 'text';
@@ -177,33 +263,6 @@ class RegistradorPagina {
         echo $this->miFormulario->campoCuadroTexto ( $atributos );
         // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
         
-        // ---------------- CONTROL: Cuadro de Texto --------------------------------------------------------
-        $esteCampo = 'parametroPagina';
-        $atributos ['id'] = $esteCampo;
-        $atributos ['nombre'] = $esteCampo;
-        $atributos ['tipo'] = 'text';
-        $atributos ['estilo'] = 'jqueryui';
-        $atributos ['marco'] = true;
-        $atributos ['columnas'] = 1;
-        $atributos ['dobleLinea'] = false;
-        $atributos ['tabIndex'] = $tab;
-        $atributos ['etiqueta'] = $this->lenguaje->getCadena ( $esteCampo );
-        $atributos ['validar'] = '';
-        if (isset ( $_REQUEST [$esteCampo] )) {
-            $atributos ['valor'] = $_REQUEST [$esteCampo];
-        } else {
-            $atributos ['valor'] = '';
-        }
-        $atributos ['titulo'] = $this->lenguaje->getCadena ( $esteCampo . 'Titulo' );
-        $atributos ['deshabilitado'] = false;
-        $atributos ['tamanno'] = 50;
-        $atributos ['maximoTamanno'] = '';
-        $tab ++;
-        
-        // Aplica atributos globales al control
-        $atributos = array_merge ( $atributos, $atributosGlobales );
-        echo $this->miFormulario->campoCuadroTexto ( $atributos );
-        // --------------- FIN CONTROL : Cuadro de Texto --------------------------------------------------
         
         // ------------------Division para los botones-------------------------
         $atributos ["id"] = "botones";
@@ -345,10 +404,10 @@ class RegistradorPagina {
 
 }
 
-$miRegistrador = new RegistradorPagina ( $this->lenguaje, $this->miFormulario );
+$miRegistrador = new RegistradorNotificacion ( $this->lenguaje, $this->miFormulario );
 
 
-$miRegistrador->formRegistrarPagina ();
+$miRegistrador->formRegistrarNotificacion ();
 $miRegistrador->mensaje ();
 
 ?>

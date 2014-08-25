@@ -1,11 +1,9 @@
 <?php
-namespace component\Notificador\interfaz
-
-
+namespace component\Notificador\interfaz;
 
 interface INotificador{
     
-    function datosNotificacionSistema();
+    function datosNotificacionSistema($notificacion);
     
     
 }

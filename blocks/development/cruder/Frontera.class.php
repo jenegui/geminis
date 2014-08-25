@@ -1,6 +1,6 @@
 <?
 
-namespace pruebas\notificador;
+namespace development\cruder;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
@@ -63,7 +63,26 @@ class Frontera {
         $miBloque = $this->miConfigurador->getVariableConfiguracion ( 'esteBloque' );
         $resultado = $this->miConfigurador->getVariableConfiguracion ( 'errorFormulario' );
         
-        include_once ($this->ruta . "/formulario/RegistradorNotificacion.php");
+        if ($resultado && $resultado == $miBloque ['nombre']) {
+            
+            switch ($_REQUEST ['seleccionar']) {
+                
+                case '1' :
+                    include_once ($this->ruta . "/formulario/registrarPagina.php");
+                    break;
+                case '2' :
+                    include_once ($this->ruta . "/formulario/registrarBloque.php");
+                    break;
+                
+                case '3' :
+                    include_once ($this->ruta . "/formulario/armarPagina.php");
+                    break;
+            
+            }
+        
+        } else {
+            include_once ($this->ruta . "/formulario/registro.php");
+        }
     
     }
 
