@@ -19,11 +19,11 @@ class Sql extends \Sql {
     
     function __construct() {
         
-        $this->miConfigurador = Configurador::singleton ();
+        $this->miConfigurador = \Configurador::singleton ();
     
     }
     
-    function cadena_sql($tipo, $variable = "") {
+    function getCadenaSql($tipo, $variable = "") {
         
         /**
          * 1.

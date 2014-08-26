@@ -10,10 +10,15 @@ class RegistradorNotificacion implements INotificador {
     
     private $laNotificacion;
     var $miConfigurador;
+    var $miSql;
     
     function __construct() {
         
         $this->miConfigurador = \Configurador::singleton ();
+    }
+    
+    function setSql($sql){
+        $this->miSql=$sql;
     }
     
     function datosNotificacionSistema($notificacion) {
@@ -69,11 +74,15 @@ class RegistradorNotificacion implements INotificador {
         return $resultado;
     }
     
-    private function registrarTransaccion() {
+    private function registrarTransaccion($datos) {
         
-        $conexion='aplicativo'';
-        $esteRecursoDB=$this->miConfigurador->fabricaConexiones->getRecursoDB($conexion);
-        $esteRecursoDB->ejecutarAcceso($cadenaSql,"acceso");
+        $conexion = 'aplicativo';
+        $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
+        if ($esteRecursoDB) {
+            
+            $cadenaSql=$this->miSql->getCadenaSql('insertarRegistro',$datos );
+            $resultador=$esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'acceso' );
+        }
         
         return true;
     }
