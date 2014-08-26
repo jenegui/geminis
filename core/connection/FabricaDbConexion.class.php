@@ -99,7 +99,7 @@ class FabricaDbConexion {
      */
     private function recursoConfiguracion($nombre, $registro = "") {
         
-        if ($registro == "") {
+        if ($registro == '') {
             $gestorDb = new Dbms ( $this->configuracion );
         } else {
             $gestorDb = new Dbms ( $registro );
@@ -185,7 +185,7 @@ class FabricaDbConexion {
         } else {
             
             // Trata de crear la conexiòn
-            $this->setRecursoDB ( $name, "tabla" );
+            $this->setRecursoDB ( $name, 'tabla' );
             
             if (isset ( $this->misConexiones [$name] )) {
                 return $this->misConexiones [$name];

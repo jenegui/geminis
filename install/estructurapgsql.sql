@@ -26,10 +26,12 @@ DROP TABLE IF EXISTS <nombre>bloque_pagina;
 
 
 CREATE TABLE <nombre>bloque_pagina (
+  idrelacion SERIAL,	
   id_pagina integer NOT NULL DEFAULT '0',
   id_bloque integer NOT NULL DEFAULT '0',
   seccion char(1)  NOT NULL,
-  posicion integer NOT NULL DEFAULT '0'
+  posicion integer NOT NULL DEFAULT '0', 
+  PRIMARY KEY (idrelacion)
 );
 
 
@@ -61,6 +63,8 @@ DROP TABLE IF EXISTS <nombre>dbms;
 
 
 CREATE TABLE <nombre>dbms (
+
+  idconexion SERIAL,
   nombre char(50)  NOT NULL,
   dbms char(20)  NOT NULL,
   servidor char(50)  NOT NULL,
@@ -68,7 +72,8 @@ CREATE TABLE <nombre>dbms (
   conexionssh char(50)  NOT NULL,
   db char(100)  NOT NULL,
   usuario char(100)  NOT NULL,
-  password char(200)  NOT NULL
+  password char(200)  NOT NULL,
+  PRIMARY KEY (idconexion)
 );
 
 

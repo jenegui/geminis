@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS "<nombre>bloque" (
   "grupo" char(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY ("id_bloque"),
   KEY "id_bloque" ("id_bloque")
-) AUTO_INCREMENT=8 ;
+) ;
 
 -- --------------------------------------------------------
 
@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS "<nombre>bloque" (
 --
 
 CREATE TABLE IF NOT EXISTS "<nombre>bloque_pagina" (
+  "idrelacion" int(10) NOT NULL,
   "id_pagina" int(5) NOT NULL DEFAULT '0',
   "id_bloque" int(5) NOT NULL DEFAULT '0',
   "seccion" char(1) COLLATE utf8_unicode_ci NOT NULL,
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS "<nombre>configuracion" (
 --
 
 CREATE TABLE IF NOT EXISTS "<nombre>dbms" (
+  "idconexion" int(10) NOT NULL,
   "nombre" char(50) COLLATE utf8_unicode_ci NOT NULL,
   "dbms" char(20) COLLATE utf8_unicode_ci NOT NULL,
   "servidor" char(50) COLLATE utf8_unicode_ci NOT NULL,

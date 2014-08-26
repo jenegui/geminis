@@ -25,10 +25,13 @@ CREATE TABLE IF NOT EXISTS `<nombre>bloque` (
 --
 
 CREATE TABLE IF NOT EXISTS `<nombre>bloque_pagina` (
+
+  `idrelacion` int(10) NOT NULL auto_increment,	
   `id_pagina` int(5) NOT NULL default '0',
   `id_bloque` int(5) NOT NULL default '0',
   `seccion` char(1) collate utf8_unicode_ci NOT NULL,
-  `posicion` int(2) NOT NULL default '0'
+  `posicion` int(2) NOT NULL default '0',
+  PRIMARY KEY  (`idrelacion`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Estructura de bloques de las paginas en el aplicativo';
 
 -- --------------------------------------------------------
@@ -54,6 +57,8 @@ CREATE TABLE IF NOT EXISTS `<nombre>configuracion` (
 --
 
 CREATE TABLE IF NOT EXISTS `<nombre>dbms` (
+
+  `idconexion` int(10) NOT NULL auto_increment,
   `nombre` char(50) NOT NULL,
   `dbms` char(20) NOT NULL,
   `servidor` char(50) NOT NULL,
@@ -61,7 +66,8 @@ CREATE TABLE IF NOT EXISTS `<nombre>dbms` (
   `conexionssh` char(50) NOT NULL,
   `db` char(100) NOT NULL,
   `usuario` char(100) NOT NULL,
-  `password` char(200) NOT NULL
+  `password` char(200) NOT NULL,
+  PRIMARY KEY  (`idconexion`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ;
 
 -- --------------------------------------------------------
