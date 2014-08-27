@@ -8,7 +8,7 @@ require_once ('component/Notificador/Interfaz/INotificador.php');
 
 class RegistradorNotificacion implements INotificador {
     
-    private $laNotificacion;
+    private $miNotificacion;
     var $miConfigurador;
     var $miSql;
     
@@ -25,14 +25,14 @@ class RegistradorNotificacion implements INotificador {
         
         $respuesta = true;
         
-        $this->laNotificacion = json_decode ( $notificacion );
+        $this->miNotificacion = json_decode ( $notificacion );
         
-        if ($this->laNotificacion != NULL) {
+        if ($this->miNotificacion != NULL) {
             
             $respuesta = $this->revisarDatos ();
             
             if ($respuesta) {
-                $respuesta = $this->registrarTransaccion ( $this->laNotificacion );
+                $respuesta = $this->registrarTransaccion ();
             }
         } else {
             $respuesta = false;
@@ -56,16 +56,16 @@ class RegistradorNotificacion implements INotificador {
         $resultado = true;
         foreach ( $campos as $clave => $valor ) {
             
-            if (! isset ( $this->laNotificacion->$valor )) {
+            if (! isset ( $this->miNotificacion->$valor )) {
                 $resultado = false;
             }
         }
         
         if ($resultado) {
             
-            $tipoMecanismo = $this->laNotificacion->tipoMecanismo;
+            $tipoMecanismo = $this->miNotificacion->tipoMecanismo;
             
-            if (($tipoMecanismo == 2 && ! isset ( $this->laNotificacion ['email'] )) || ($tipoMecanismo == 3 && (! isset ( $this->laNotificacion ['celular'] ) || ! isset ( $this->laNotificacion ['textoSMS'] )))) {
+            if (($tipoMecanismo == 2 && ! isset ( $this->miNotificacion ['email'] )) || ($tipoMecanismo == 3 && (! isset ( $this->miNotificacion ['celular'] ) || ! isset ( $this->miNotificacion ['textoSMS'] )))) {
                 $resultado = false;
             }
         
@@ -74,17 +74,19 @@ class RegistradorNotificacion implements INotificador {
         return $resultado;
     }
     
-    private function registrarTransaccion($datos) {
+    private function registrarTransaccion() {
+        
+        $resultado=false;
         
         $conexion = 'aplicativo';
         $esteRecursoDB = $this->miConfigurador->fabricaConexiones->getRecursoDB ( $conexion );
         if ($esteRecursoDB) {
             
-            $cadenaSql=$this->miSql->getCadenaSql('insertarRegistro',$datos );
-            $resultador=$esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'acceso' );
+            $cadenaSql=$this->miSql->getCadenaSql('insertarRegistro',$this->miNotificacion);
+            $resultado=$esteRecursoDB->ejecutarAcceso ( $cadenaSql, 'acceso' );
         }
         
-        return true;
+        return $resultado;
     }
 
 }

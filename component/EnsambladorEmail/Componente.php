@@ -1,8 +1,8 @@
 <?php
-namespace component\Notificador;
+namespace component\EnsambladorEmail;
 use component\Component;
-use component\Notificador\Clase\RegistradorNotificacion;
-use component\Notificador\interfaz\INotificador;
+use component\EnsambladorEmail\Clase\RegistradorNotificacion;
+use component\EnsambladorEmail\interfaz\INotificador;
 require_once ('component/Component.class.php');
 require_once ('component/Notificador/Clase/RegistradorNotificacion.class.php');
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace component\Notificador;
+namespace component\EnsambladorEmail;
 
 if (! isset ( $GLOBALS ["autorizado"] )) {
     include ("../index.php");
